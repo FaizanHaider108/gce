@@ -55,7 +55,7 @@ export function CityFAQ({ city }: CityFAQProps) {
   const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
 
   return (
-    <section className="mt-12" aria-labelledby="city-faq-heading">
+    <section className="no-print mt-12" aria-labelledby="city-faq-heading">
       <h2
         id="city-faq-heading"
         className="text-xl font-semibold text-slate-900 sm:text-2xl"

@@ -14,7 +14,7 @@ export function RelatedCities({ city }: RelatedCitiesProps) {
   }
 
   return (
-    <aside className="mt-12 rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <aside className="no-print mt-12 rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
       <h2 className="text-lg font-semibold text-slate-900">
         Related Salary Calculators in {city.region}
       </h2>

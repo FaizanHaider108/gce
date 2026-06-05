@@ -30,7 +30,7 @@ export function MarketInsights({ city, grossSalary }: MarketInsightsProps) {
   const averageSalary = city.metadata?.averageSalary ?? DEFAULT_AVERAGE_SALARY;
 
   return (
-    <aside className="rounded-xl border border-blue-100 bg-blue-50/50 p-5 sm:p-6">
+    <aside className="no-print rounded-xl border border-blue-100 bg-blue-50/50 p-5 sm:p-6">
       <h2 className="text-sm font-semibold uppercase tracking-wider text-blue-700">
         Market Insights
       </h2>

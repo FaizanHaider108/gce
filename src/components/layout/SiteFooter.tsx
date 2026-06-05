@@ -1,6 +1,6 @@
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-slate-200 bg-white">
+    <footer className="no-print mt-auto border-t border-slate-200 bg-white">
       <div className="mx-auto max-w-5xl px-4 py-8 text-center text-sm text-slate-500 sm:px-6">
         <p>
           Estimates only. Not financial or tax advice. Tax rules change — verify
