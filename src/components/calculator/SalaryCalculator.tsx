@@ -27,8 +27,8 @@ export function SalaryCalculator({
 }: SalaryCalculatorProps) {
   const [grossSalary, setGrossSalary] = usePersistedSalary(initialSalary);
   const results = useMemo(
-    () => calculateUKSalary(grossSalary),
-    [grossSalary],
+    () => calculateUKSalary(grossSalary, city.region),
+    [grossSalary, city.region],
   );
 
   return (

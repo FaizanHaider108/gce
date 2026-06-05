@@ -1,4 +1,5 @@
 import type { UKSalaryCalculation } from "@/types/calculator";
+import { NI_PRIMARY_THRESHOLD, NI_UPPER_EARNINGS_LIMIT } from "@/lib/calculators/uk/constants";
 import { formatGBP } from "@/lib/format/currency";
 
 interface ResultsTableProps {
@@ -24,6 +25,15 @@ function toWeekly(yearly: number): number {
 }
 
 export function ResultsTable({ results }: ResultsTableProps) {
+  const incomeTaxRows: ResultRow[] = results.incomeTax.bands.map((band) => ({
+    label: band.label,
+    yearly: band.amount,
+    monthly: toMonthly(band.amount),
+    weekly: toWeekly(band.amount),
+    emphasis: "negative" as const,
+    hideIfZero: true,
+  }));
+
   const rows: ResultRow[] = [
     {
       label: "Gross Salary",
@@ -46,30 +56,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
       weekly: toWeekly(results.taxableIncome),
       emphasis: "neutral",
     },
-    {
-      label: "Income Tax — Basic Rate (20%)",
-      yearly: results.incomeTax.basicRate,
-      monthly: toMonthly(results.incomeTax.basicRate),
-      weekly: toWeekly(results.incomeTax.basicRate),
-      emphasis: "negative",
-      hideIfZero: true,
-    },
-    {
-      label: "Income Tax — Higher Rate (40%)",
-      yearly: results.incomeTax.higherRate,
-      monthly: toMonthly(results.incomeTax.higherRate),
-      weekly: toWeekly(results.incomeTax.higherRate),
-      emphasis: "negative",
-      hideIfZero: true,
-    },
-    {
-      label: "Income Tax — Additional Rate (45%)",
-      yearly: results.incomeTax.additionalRate,
-      monthly: toMonthly(results.incomeTax.additionalRate),
-      weekly: toWeekly(results.incomeTax.additionalRate),
-      emphasis: "negative",
-      hideIfZero: true,
-    },
+    ...incomeTaxRows,
     {
       label: "Total Income Tax",
       yearly: results.incomeTax.total,
@@ -78,7 +65,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
       emphasis: "negative",
     },
     {
-      label: "National Insurance — Main Rate (8%)",
+      label: `National Insurance — 8% on taxable earnings above ${formatGBP(NI_PRIMARY_THRESHOLD)}`,
       yearly: results.nationalInsurance.mainRate,
       monthly: toMonthly(results.nationalInsurance.mainRate),
       weekly: toWeekly(results.nationalInsurance.mainRate),
@@ -86,7 +73,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
       hideIfZero: true,
     },
     {
-      label: "National Insurance — Additional Rate (2%)",
+      label: `National Insurance — 2% on earnings above ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}`,
       yearly: results.nationalInsurance.additionalRate,
       monthly: toMonthly(results.nationalInsurance.additionalRate),
       weekly: toWeekly(results.nationalInsurance.additionalRate),
@@ -147,6 +134,11 @@ export function ResultsTable({ results }: ResultsTableProps) {
 
   return (
     <div className="rounded-xl border border-slate-100 bg-white shadow-sm">
+      {results.taxJurisdiction === "scotland" && (
+        <p className="border-b border-slate-100 bg-emerald-50/50 px-4 py-2.5 text-xs text-emerald-800 sm:px-4 sm:text-sm">
+          Scottish Income Tax rates applied. NI is calculated UK-wide.
+        </p>
+      )}
       <table className="w-full table-fixed text-left">
         <thead>
           <tr className="border-b border-slate-100 bg-slate-50/80">

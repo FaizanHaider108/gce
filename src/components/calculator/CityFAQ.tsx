@@ -25,7 +25,7 @@ interface FAQItem {
 
 function buildFAQItems(city: UKCity): FAQItem[] {
   const averageSalary = getCityAverageSalary(city);
-  const standardCalc = calculateUKSalary(averageSalary);
+  const standardCalc = calculateUKSalary(averageSalary, city.region);
 
   return [
     {
@@ -41,7 +41,7 @@ function buildFAQItems(city: UKCity): FAQItem[] {
     {
       id: "national-insurance",
       question: `Is National Insurance different in ${city.cityName}?`,
-      answer: `No — Class 1 Employee National Insurance is set nationally by HMRC and is identical in ${city.cityName}, ${city.region}, and across the UK. For ${UK_TAX_YEAR}, you pay 0% on the first ${formatGBP(NI_PRIMARY_THRESHOLD)}, ${NI_MAIN_RATE * 100}% on earnings between ${formatGBP(NI_PRIMARY_THRESHOLD)} and ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}, and ${NI_ADDITIONAL_RATE * 100}% on any earnings above ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}. Your actual contributions may vary with pension salary sacrifice, benefits in kind, and employment status.`,
+      answer: `No — Class 1 Employee National Insurance is set nationally by HMRC and is identical in ${city.cityName}, ${city.region}, and across the UK. For ${UK_TAX_YEAR}, you pay 0% on the first ${formatGBP(NI_PRIMARY_THRESHOLD)}, then ${NI_MAIN_RATE * 100}% on taxable earnings above ${formatGBP(NI_PRIMARY_THRESHOLD)} (up to ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}), and ${NI_ADDITIONAL_RATE * 100}% on any earnings above ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}. Your actual contributions may vary with pension salary sacrifice, benefits in kind, and employment status.`,
     },
   ];
 }

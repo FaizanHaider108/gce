@@ -1,4 +1,4 @@
-import { calculateUKSalary, UK_TAX_YEAR } from "@/lib/calculators/uk";
+import { calculateUKSalary, isScottishRegion, UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
 import type { UKCity } from "@/types/location";
@@ -13,7 +13,8 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
   const averageSalary = getCityAverageSalary(city);
   const costOfLivingIndex =
     city.metadata?.costOfLivingIndex ?? DEFAULT_COST_OF_LIVING_INDEX;
-  const avgCalc = calculateUKSalary(averageSalary);
+  const avgCalc = calculateUKSalary(averageSalary, city.region);
+  const isScotland = isScottishRegion(city.region);
   const population = city.metadata?.population;
 
   const colContext =
@@ -72,12 +73,22 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
           Tax &amp; Take-Home Pay in {city.region}
         </h2>
         <p className="mt-4 text-base leading-relaxed text-slate-500">
-          Income Tax and National Insurance in {city.cityName} follow the same{" "}
-          {UK_TAX_YEAR} UK-wide rules as every other city — there are no local
-          payroll tax variations within {city.region}. The Personal Allowance,
-          basic rate (20%), higher rate (40%), and Class 1 NI thresholds apply
-          identically, meaning your postcode does not change your statutory
-          deductions — only your gross salary and benefits do.
+          {isScotland ? (
+            <>
+              Calculated using the official Scottish Income Tax rates and
+              thresholds set by the Scottish Government for the {UK_TAX_YEAR}{" "}
+              tax year. National Insurance remains UK-wide under HMRC Class 1
+              rules — there are no local NI variations within {city.region}.
+            </>
+          ) : (
+            <>
+              Income Tax and National Insurance in {city.cityName} follow the
+              same {UK_TAX_YEAR} England &amp; Wales rules. The Personal
+              Allowance, basic rate (20%), higher rate (40%), and Class 1 NI
+              thresholds apply UK-wide — only your gross salary and benefits
+              determine your deductions.
+            </>
+          )}
         </p>
       </section>
     </article>

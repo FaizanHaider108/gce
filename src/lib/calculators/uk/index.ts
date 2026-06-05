@@ -1,4 +1,8 @@
-export { calculateUKSalary, calculatePersonalAllowance } from "./tax-engine";
+export {
+  calculateUKSalary,
+  calculatePersonalAllowance,
+  isScottishRegion,
+} from "./tax-engine";
 export {
   ADDITIONAL_RATE,
   BASIC_RATE,

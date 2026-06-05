@@ -1,13 +1,20 @@
+export type TaxJurisdiction = "scotland" | "ruk";
+
 export interface SalaryBreakdown {
   yearly: number;
   monthly: number;
   weekly: number;
 }
 
+export interface IncomeTaxBand {
+  id: string;
+  label: string;
+  amount: number;
+}
+
 export interface IncomeTaxBreakdown {
-  basicRate: number;
-  higherRate: number;
-  additionalRate: number;
+  jurisdiction: TaxJurisdiction;
+  bands: IncomeTaxBand[];
   total: number;
 }
 
@@ -21,6 +28,7 @@ export interface UKSalaryCalculation {
   grossSalary: number;
   personalAllowance: number;
   taxableIncome: number;
+  taxJurisdiction: TaxJurisdiction;
   incomeTax: IncomeTaxBreakdown;
   nationalInsurance: NationalInsuranceBreakdown;
   totalDeductions: number;

@@ -1,4 +1,4 @@
-import type { UKSalaryCalculation } from "@/types/calculator";
+import type { IncomeTaxBand, IncomeTaxBreakdown, UKSalaryCalculation } from "@/types/calculator";
 import {
   ADDITIONAL_RATE,
   BASIC_RATE,
@@ -13,6 +13,19 @@ import {
   PA_ZERO_THRESHOLD,
   PERSONAL_ALLOWANCE,
 } from "./constants";
+import {
+  SCOTTISH_ADVANCED_RATE,
+  SCOTTISH_ADVANCED_UPPER,
+  SCOTTISH_BASIC_RATE,
+  SCOTTISH_BASIC_UPPER,
+  SCOTTISH_HIGHER_RATE,
+  SCOTTISH_HIGHER_UPPER,
+  SCOTTISH_INTERMEDIATE_RATE,
+  SCOTTISH_INTERMEDIATE_UPPER,
+  SCOTTISH_STARTER_RATE,
+  SCOTTISH_STARTER_UPPER,
+  SCOTTISH_TOP_RATE,
+} from "./scottish-constants";
 
 function roundToPence(value: number): number {
   return Math.round(value * 100) / 100;
@@ -24,6 +37,10 @@ function toMonthly(yearly: number): number {
 
 function toWeekly(yearly: number): number {
   return roundToPence(yearly / 52);
+}
+
+export function isScottishRegion(region?: string): boolean {
+  return region === "Scotland";
 }
 
 /**
@@ -39,14 +56,19 @@ export function calculatePersonalAllowance(grossSalary: number): number {
   return roundToPence(Math.max(0, PERSONAL_ALLOWANCE - reduction));
 }
 
-/**
- * Income Tax on taxable income (gross minus personal allowance).
- * Bands: 20% up to £37,700 | 40% £37,701–£112,570 | 45% above £112,570.
- */
-function calculateIncomeTax(
+function bandIncome(
+  gross: number,
+  lower: number,
+  upper: number,
+): number {
+  return Math.max(0, Math.min(gross, upper) - lower);
+}
+
+/** England, Wales & Northern Ireland income tax (2025/26). */
+function calculateRUKIncomeTax(
   grossSalary: number,
   personalAllowance: number,
-): UKSalaryCalculation["incomeTax"] {
+): IncomeTaxBreakdown {
   const taxableIncome = Math.max(0, grossSalary - personalAllowance);
 
   const basicBandIncome = Math.min(taxableIncome, BASIC_RATE_BAND_WIDTH);
@@ -59,21 +81,98 @@ function calculateIncomeTax(
     taxableIncome - HIGHER_RATE_TAXABLE_UPPER,
   );
 
-  const basicRate = roundToPence(basicBandIncome * BASIC_RATE);
-  const higherRate = roundToPence(higherBandIncome * HIGHER_RATE);
-  const additionalRate = roundToPence(additionalBandIncome * ADDITIONAL_RATE);
+  const bands: IncomeTaxBand[] = [
+    {
+      id: "basic",
+      label: "Income Tax — Basic Rate (20%)",
+      amount: roundToPence(basicBandIncome * BASIC_RATE),
+    },
+    {
+      id: "higher",
+      label: "Income Tax — Higher Rate (40%)",
+      amount: roundToPence(higherBandIncome * HIGHER_RATE),
+    },
+    {
+      id: "additional",
+      label: "Income Tax — Additional Rate (45%)",
+      amount: roundToPence(additionalBandIncome * ADDITIONAL_RATE),
+    },
+  ];
 
-  return {
-    basicRate,
-    higherRate,
-    additionalRate,
-    total: roundToPence(basicRate + higherRate + additionalRate),
-  };
+  const total = roundToPence(bands.reduce((sum, b) => sum + b.amount, 0));
+
+  return { jurisdiction: "ruk", bands, total };
 }
 
 /**
- * Class 1 Employee National Insurance.
- * 0% ≤ £12,570 | 8% on £12,571–£50,270 | 2% above £50,270.
+ * Scottish Income Tax (2025/26) — official band thresholds on gross earnings.
+ * NI remains UK-wide Class 1.
+ */
+function calculateScottishIncomeTax(grossSalary: number): IncomeTaxBreakdown {
+  const bands: IncomeTaxBand[] = [
+    {
+      id: "starter",
+      label: "Income Tax — Starter Rate (19%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, PERSONAL_ALLOWANCE, SCOTTISH_STARTER_UPPER) *
+          SCOTTISH_STARTER_RATE,
+      ),
+    },
+    {
+      id: "basic",
+      label: "Income Tax — Basic Rate (20%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, SCOTTISH_STARTER_UPPER, SCOTTISH_BASIC_UPPER) *
+          SCOTTISH_BASIC_RATE,
+      ),
+    },
+    {
+      id: "intermediate",
+      label: "Income Tax — Intermediate Rate (21%)",
+      amount: roundToPence(
+        bandIncome(
+          grossSalary,
+          SCOTTISH_BASIC_UPPER,
+          SCOTTISH_INTERMEDIATE_UPPER,
+        ) * SCOTTISH_INTERMEDIATE_RATE,
+      ),
+    },
+    {
+      id: "higher",
+      label: "Income Tax — Higher Rate (42%)",
+      amount: roundToPence(
+        bandIncome(
+          grossSalary,
+          SCOTTISH_INTERMEDIATE_UPPER,
+          SCOTTISH_HIGHER_UPPER,
+        ) * SCOTTISH_HIGHER_RATE,
+      ),
+    },
+    {
+      id: "advanced",
+      label: "Income Tax — Advanced Rate (45%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, SCOTTISH_HIGHER_UPPER, SCOTTISH_ADVANCED_UPPER) *
+          SCOTTISH_ADVANCED_RATE,
+      ),
+    },
+    {
+      id: "top",
+      label: "Income Tax — Top Rate (48%)",
+      amount: roundToPence(
+        Math.max(0, grossSalary - SCOTTISH_ADVANCED_UPPER) * SCOTTISH_TOP_RATE,
+      ),
+    },
+  ];
+
+  const total = roundToPence(bands.reduce((sum, b) => sum + b.amount, 0));
+
+  return { jurisdiction: "scotland", bands, total };
+}
+
+/**
+ * Class 1 Employee National Insurance (UK-wide).
+ * 8% on earnings above £12,570 up to £50,270; 2% above £50,270.
  */
 function calculateNationalInsurance(
   grossSalary: number,
@@ -100,16 +199,24 @@ function calculateNationalInsurance(
 }
 
 /**
- * Core UK salary calculator. Accepts annual gross salary in GBP.
- * All figures rounded to the nearest penny.
+ * Core UK salary calculator. Pass `region` from city metadata — use "Scotland"
+ * for Scottish Income Tax bands; all other regions use England/Wales rules.
  */
-export function calculateUKSalary(grossSalary: number): UKSalaryCalculation {
+export function calculateUKSalary(
+  grossSalary: number,
+  region?: string,
+): UKSalaryCalculation {
   const normalizedGross = Math.max(0, grossSalary);
+  const scotland = isScottishRegion(region);
   const personalAllowance = calculatePersonalAllowance(normalizedGross);
   const taxableIncome = roundToPence(
     Math.max(0, normalizedGross - personalAllowance),
   );
-  const incomeTax = calculateIncomeTax(normalizedGross, personalAllowance);
+
+  const incomeTax = scotland
+    ? calculateScottishIncomeTax(normalizedGross)
+    : calculateRUKIncomeTax(normalizedGross, personalAllowance);
+
   const nationalInsurance = calculateNationalInsurance(normalizedGross);
   const totalDeductions = roundToPence(
     incomeTax.total + nationalInsurance.total,
@@ -120,6 +227,7 @@ export function calculateUKSalary(grossSalary: number): UKSalaryCalculation {
     grossSalary: normalizedGross,
     personalAllowance,
     taxableIncome,
+    taxJurisdiction: scotland ? "scotland" : "ruk",
     incomeTax,
     nationalInsurance,
     totalDeductions,

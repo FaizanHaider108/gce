@@ -25,11 +25,6 @@ export function RegionalSalaryComparison({
 }: RegionalSalaryComparisonProps) {
   const [grossSalary] = usePersistedSalary(DEFAULT_GROSS_SALARY);
 
-  const takeHome = useMemo(
-    () => calculateUKSalary(grossSalary).netSalary.yearly,
-    [grossSalary],
-  );
-
   const currentCityAverage = useMemo(
     () => getCityAverageSalary(currentCity),
     [currentCity],
@@ -104,7 +99,9 @@ export function RegionalSalaryComparison({
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-right text-sm font-medium tabular-nums text-slate-900 sm:px-6">
-                  {formatGBP(takeHome)}
+                  {formatGBP(
+                    calculateUKSalary(grossSalary, city.region).netSalary.yearly,
+                  )}
                 </td>
                 <td className="px-4 py-3 text-right text-sm font-medium tabular-nums text-slate-600 sm:px-6">
                   {formatGBP(getCityAverageSalary(city))}
