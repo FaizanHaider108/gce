@@ -24,12 +24,12 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
         : "relatively affordable living costs";
 
   return (
-    <article className="no-print mt-10 space-y-8 border-t border-slate-200 pt-10">
+    <article className="no-print mt-10 space-y-8 border-t border-slate-100 pt-10">
       <section>
         <h2 className="text-xl font-semibold text-slate-900 sm:text-2xl">
           Cost of Living &amp; Net Salary in {city.cityName}
         </h2>
-        <div className="mt-4 space-y-4 text-base leading-relaxed text-slate-600">
+        <div className="mt-4 space-y-4 text-base leading-relaxed text-slate-500">
           <p>
             Workers in {city.cityName}, {city.region}, typically take home around{" "}
             {formatGBP(avgCalc.netSalary.yearly)} per year ({formatGBP(avgCalc.netSalary.monthly)}{" "}
@@ -54,7 +54,7 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
         <h2 className="text-xl font-semibold text-slate-900 sm:text-2xl">
           Average Job Market Trends
         </h2>
-        <p className="mt-4 text-base leading-relaxed text-slate-600">
+        <p className="mt-4 text-base leading-relaxed text-slate-500">
           The typical average gross salary here is around{" "}
           <span className="font-medium text-slate-900">
             {formatGBP(averageSalary)}
@@ -71,7 +71,7 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
         <h2 className="text-xl font-semibold text-slate-900 sm:text-2xl">
           Tax &amp; Take-Home Pay in {city.region}
         </h2>
-        <p className="mt-4 text-base leading-relaxed text-slate-600">
+        <p className="mt-4 text-base leading-relaxed text-slate-500">
           Income Tax and National Insurance in {city.cityName} follow the same{" "}
           {UK_TAX_YEAR} UK-wide rules as every other city — there are no local
           payroll tax variations within {city.region}. The Personal Allowance,

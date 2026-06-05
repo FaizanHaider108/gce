@@ -1,3 +1,4 @@
+import { TrendingUpIcon } from "@/components/icons/FinanceIcons";
 import { formatGBP } from "@/lib/format/currency";
 import type { UKCity } from "@/types/location";
 
@@ -30,19 +31,26 @@ export function MarketInsights({ city, grossSalary }: MarketInsightsProps) {
   const averageSalary = city.metadata?.averageSalary ?? DEFAULT_AVERAGE_SALARY;
 
   return (
-    <aside className="no-print rounded-xl border border-blue-100 bg-blue-50/50 p-5 sm:p-6">
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-blue-700">
-        Market Insights
-      </h2>
-      <p className="mt-3 text-base leading-relaxed text-slate-700">
-        Did you know? The average salary in{" "}
-        <span className="font-medium text-slate-900">{city.cityName}</span> is
-        roughly{" "}
-        <span className="font-medium text-slate-900">
-          {formatGBP(averageSalary)}
+    <aside className="no-print rounded-xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
+      <div className="flex items-start gap-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+          <TrendingUpIcon className="h-4 w-4" />
         </span>
-        . {getComparisonText(grossSalary, averageSalary, city.region)}
-      </p>
+        <div>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-900">
+            Market Insights
+          </h2>
+          <p className="mt-2 text-base leading-relaxed text-slate-500">
+            Did you know? The average salary in{" "}
+            <span className="font-medium text-slate-800">{city.cityName}</span>{" "}
+            is roughly{" "}
+            <span className="font-medium text-emerald-600">
+              {formatGBP(averageSalary)}
+            </span>
+            . {getComparisonText(grossSalary, averageSalary, city.region)}
+          </p>
+        </div>
+      </div>
     </aside>
   );
 }

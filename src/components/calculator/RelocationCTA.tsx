@@ -4,7 +4,7 @@ import { PrintButton } from "./PrintButton";
 export function RelocationCTA() {
   return (
     <section
-      className="no-print mt-12 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-800 p-6 text-white shadow-lg sm:p-8"
+      className="no-print mt-12 overflow-hidden rounded-xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 text-white shadow-sm sm:p-8"
       aria-labelledby="relocation-cta-heading"
     >
       <h2
@@ -13,14 +13,14 @@ export function RelocationCTA() {
       >
         Planning a relocation or salary negotiation?
       </h2>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base">
         Compare your take-home pay against the UK&apos;s highest-paying city or
         save your personalised tax breakdown as a PDF for your records.
       </p>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <Link
           href="/salary/uk/salary-calculator-london"
-          className="inline-flex w-full items-center justify-center rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-400 sm:w-auto"
+          className="inline-flex w-full items-center justify-center rounded-lg bg-emerald-500 px-5 py-3 text-sm font-medium text-white transition hover:bg-emerald-400 sm:w-auto"
         >
           Compare with London Salary
         </Link>

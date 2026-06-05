@@ -146,10 +146,10 @@ export function ResultsTable({ results }: ResultsTableProps) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-x-auto rounded-xl border border-slate-100 bg-white shadow-sm">
       <table className="w-full min-w-[32rem] text-left">
         <thead>
-          <tr className="border-b border-slate-200 bg-slate-50">
+          <tr className="border-b border-slate-100 bg-slate-50/80">
             <th className="px-4 py-3 text-sm font-semibold text-slate-600 sm:px-6">
               Breakdown
             </th>

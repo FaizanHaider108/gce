@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronDownIcon } from "@/components/icons/FinanceIcons";
 import {
   calculateUKSalary,
   NI_ADDITIONAL_RATE,
@@ -62,43 +63,43 @@ export function CityFAQ({ city }: CityFAQProps) {
       >
         Frequently Asked Questions — {city.cityName}
       </h2>
-      <p className="mt-2 text-sm text-slate-600">
+      <p className="mt-2 text-sm text-slate-500">
         Common questions about salary, tax, and National Insurance in{" "}
         {city.region}.
       </p>
 
-      <div className="mt-6 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white shadow-sm">
-        {items.map((item) => {
+      <div className="mt-6 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
+        {items.map((item, index) => {
           const isOpen = openId === item.id;
 
           return (
-            <div key={item.id}>
+            <div
+              key={item.id}
+              className={index > 0 ? "border-t border-slate-100" : ""}
+            >
               <button
                 type="button"
                 id={`faq-button-${item.id}`}
                 aria-expanded={isOpen}
                 aria-controls={`faq-panel-${item.id}`}
                 onClick={() => setOpenId(isOpen ? null : item.id)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-slate-50 sm:px-6"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors duration-200 hover:bg-slate-50 sm:px-6"
               >
-                <span className="text-sm font-medium text-slate-900 sm:text-base">
+                <span className="text-sm font-medium text-slate-800 sm:text-base">
                   {item.question}
                 </span>
-                <span
-                  className={`shrink-0 text-slate-400 transition-transform duration-200 ${
-                    isOpen ? "rotate-180" : ""
+                <ChevronDownIcon
+                  className={`h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300 ease-in-out ${
+                    isOpen ? "rotate-180 text-emerald-500" : ""
                   }`}
-                  aria-hidden="true"
-                >
-                  ▾
-                </span>
+                />
               </button>
               <div
                 id={`faq-panel-${item.id}`}
                 role="region"
                 aria-labelledby={`faq-button-${item.id}`}
                 hidden={!isOpen}
-                className="px-5 pb-5 text-sm leading-relaxed text-slate-600 sm:px-6 sm:text-base"
+                className="border-t border-slate-50 bg-slate-50/50 px-5 pb-5 pt-4 text-sm leading-relaxed text-slate-500 sm:px-6 sm:text-base"
               >
                 {item.answer}
               </div>
