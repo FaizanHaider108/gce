@@ -2,10 +2,11 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
-import { getUKCities } from "@/lib/data/load-cities";
+import { getFeaturedUKCities, getUKCities } from "@/lib/data/load-cities";
 
 export default function HomePage() {
-  const cities = getUKCities();
+  const cities = getFeaturedUKCities();
+  const totalCities = getUKCities().length;
 
   return (
     <>
@@ -25,9 +26,18 @@ export default function HomePage() {
         </section>
 
         <section>
-          <h2 className="mb-6 text-xl font-semibold text-slate-900">
-            UK City Calculators
+          <h2 className="mb-2 text-xl font-semibold text-slate-900">
+            Featured UK City Calculators
           </h2>
+          <p className="mb-6 text-sm text-slate-500">
+            {totalCities}+ local salary calculators live across the UK. Browse
+            featured cities below or use{" "}
+            <a href="/sitemap.xml" className="font-medium text-blue-600 hover:underline">
+              sitemap.xml
+            </a>{" "}
+            for the full index. Every city page links to related nearby
+            calculators for deeper crawl coverage.
+          </p>
           <ul className="grid gap-4 sm:grid-cols-2">
             {cities.map((city) => (
               <li key={city.slug}>

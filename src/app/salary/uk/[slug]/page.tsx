@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { RelatedCities } from "@/components/calculator/RelatedCities";
 import { SalaryCalculator } from "@/components/calculator/SalaryCalculator";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -17,6 +18,8 @@ interface PageProps {
  * Reads uk-cities.json at build time and pre-renders one static HTML page
  * per city. Add a city to the JSON → it gets a new route on next deploy.
  */
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return getAllUKCitySlugs().map((slug) => ({ slug }));
 }
@@ -74,6 +77,7 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       <SiteHeader />
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <SalaryCalculator city={city} />
+        <RelatedCities city={city} />
       </main>
       <SiteFooter />
     </>

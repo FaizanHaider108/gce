@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:cities": "node scripts/generate-uk-cities.mjs"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "next": "16.2.7",
