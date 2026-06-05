@@ -33,9 +33,11 @@ export function SalaryCalculator({
   return (
     <section className="space-y-8">
       <header className="space-y-5">
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          {city.region} · United Kingdom
+        <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+          <span className="truncate">
+            {city.region} · United Kingdom
+          </span>
         </div>
 
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
@@ -48,19 +50,19 @@ export function SalaryCalculator({
           breakdowns for workers in {city.cityName}.
         </p>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <MetricBadge
-            icon={<BuildingIcon className="h-4 w-4" />}
+            icon={<BuildingIcon className="h-4 w-4 shrink-0" />}
             label="City / Region"
             value={`${city.cityName}, ${city.region}`}
           />
           <MetricBadge
-            icon={<PoundSterlingIcon className="h-4 w-4" />}
+            icon={<PoundSterlingIcon className="h-4 w-4 shrink-0" />}
             label="Gross Salary"
             value={formatGBP(grossSalary)}
           />
           <MetricBadge
-            icon={<ShieldCheckIcon className="h-4 w-4" />}
+            icon={<ShieldCheckIcon className="h-4 w-4 shrink-0" />}
             label="Total Deductions"
             value={formatGBP(results.totalDeductions)}
           />
@@ -74,8 +76,8 @@ export function SalaryCalculator({
       <MarketInsights city={city} grossSalary={grossSalary} />
 
       <div>
-        <div className="mb-4 flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+        <div className="mb-4 flex items-center space-x-2">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
             <ShieldCheckIcon className="h-4 w-4" />
           </span>
           <h2 className="text-lg font-semibold text-slate-900">

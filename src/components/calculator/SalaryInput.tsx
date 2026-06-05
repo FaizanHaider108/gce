@@ -17,12 +17,12 @@ export function SalaryInput({
     <div className="w-full">
       <label
         htmlFor="gross-salary"
-        className="mb-3 flex items-center gap-2 text-sm font-medium text-slate-700"
+        className="mb-3 flex items-center space-x-2 text-sm font-medium text-slate-700"
       >
-        <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-emerald-50 text-emerald-600">
           <PoundSterlingIcon className="h-3.5 w-3.5" />
         </span>
-        {label}
+        <span>{label}</span>
       </label>
       <div className="relative">
         <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-lg font-semibold text-slate-400">

@@ -6,21 +6,14 @@ import { CANONICAL_SITE_URL, getSiteUrl } from "@/lib/site/config";
  * ─────────────────────────────────────────────────────────────────────────────
  * SITEMAP BASE URL CONFIGURATION
  * ─────────────────────────────────────────────────────────────────────────────
- * All <loc> entries are built from getSiteUrl(), which resolves in this order:
+ * All <loc> entries resolve from getSiteUrl():
+ *   1. NEXT_PUBLIC_SITE_URL  (Vercel env var)
+ *   2. CANONICAL_SITE_URL    (src/lib/site/config.ts)
  *
- *   1. NEXT_PUBLIC_SITE_URL  (Vercel env var — preferred for production)
- *   2. CANONICAL_SITE_URL    (fallback constant in src/lib/site/config.ts)
+ * Production URL: https://globalcalculatorengine.vercel.app
  *
- * Current production URL:  https://gce-4ozu.vercel.app
- * Future custom domain:    https://globalcalculatorengine.com
- *
- * To switch to the custom domain in 3 days:
- *   → Vercel Dashboard → Settings → Environment Variables → Production
- *   → Add: NEXT_PUBLIC_SITE_URL = https://globalcalculatorengine.com
- *   → Redeploy (sitemap.xml will update automatically)
- *
- * Example output URL:
- *   https://gce-4ozu.vercel.app/salary/uk/salary-calculator-aberdeen
+ * Example:
+ *   https://globalcalculatorengine.vercel.app/salary/uk/salary-calculator-aberdeen
  * ─────────────────────────────────────────────────────────────────────────────
  */
 const SITEMAP_BASE_URL = getSiteUrl();
@@ -45,5 +38,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [homepage, ...cityPages];
 }
 
-// Exported for build-time verification / tests
 export { CANONICAL_SITE_URL, SITEMAP_BASE_URL };

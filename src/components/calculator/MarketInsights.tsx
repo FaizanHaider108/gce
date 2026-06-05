@@ -32,13 +32,13 @@ export function MarketInsights({ city, grossSalary }: MarketInsightsProps) {
 
   return (
     <aside className="no-print rounded-xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
-      <div className="flex items-start gap-3">
+      <div className="flex items-start space-x-3">
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
           <TrendingUpIcon className="h-4 w-4" />
         </span>
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-900">
-            Market Insights
+        <div className="min-w-0 flex-1">
+          <h2 className="flex items-center space-x-2 text-sm font-semibold uppercase tracking-wider text-slate-900">
+            <span>Market Insights</span>
           </h2>
           <p className="mt-2 text-base leading-relaxed text-slate-500">
             Did you know? The average salary in{" "}

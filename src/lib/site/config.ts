@@ -2,20 +2,15 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * CANONICAL PRODUCTION URL
  * ─────────────────────────────────────────────────────────────────────────────
- * This is the default base URL used in sitemaps, Open Graph tags, and any
- * absolute links when NEXT_PUBLIC_SITE_URL is not set.
+ * Default base URL for sitemaps, Open Graph tags, and absolute links.
  *
- * CURRENT (Vercel production):  https://gce-4ozu.vercel.app
+ * CURRENT (Vercel production):  https://globalcalculatorengine.vercel.app
  * FUTURE (custom domain):        https://globalcalculatorengine.com
  *
- * When the custom domain goes live (in ~3 days):
- *   1. Set NEXT_PUBLIC_SITE_URL=https://globalcalculatorengine.com
- *      in Vercel → Project Settings → Environment Variables (Production)
- *   2. Update CANONICAL_SITE_URL below to match
- *   3. Redeploy
+ * Override via NEXT_PUBLIC_SITE_URL in Vercel → Environment Variables.
  * ─────────────────────────────────────────────────────────────────────────────
  */
-export const CANONICAL_SITE_URL = "https://gce-4ozu.vercel.app";
+export const CANONICAL_SITE_URL = "https://globalcalculatorengine.vercel.app";
 
 /**
  * Returns the canonical site URL for SEO-critical output (sitemap, metadata).

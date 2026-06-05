@@ -5,8 +5,6 @@ import { CityFAQ } from "@/components/calculator/CityFAQ";
 import { RelatedCities } from "@/components/calculator/RelatedCities";
 import { RelocationCTA } from "@/components/calculator/RelocationCTA";
 import { SalaryCalculator } from "@/components/calculator/SalaryCalculator";
-import { SiteFooter } from "@/components/layout/SiteFooter";
-import { SiteHeader } from "@/components/layout/SiteHeader";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 import {
   getAllUKCitySlugs,
@@ -18,10 +16,6 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-/**
- * Reads uk-cities.json at build time and pre-renders one static HTML page
- * per city. Add a city to the JSON → it gets a new route on next deploy.
- */
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
@@ -83,16 +77,12 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
   }
 
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-        <SalaryCalculator city={city} />
-        <CityContentGuide city={city} />
-        <RelatedCities city={city} />
-        <CityFAQ city={city} />
-        <RelocationCTA />
-      </main>
-      <SiteFooter />
-    </>
+    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+      <SalaryCalculator city={city} />
+      <CityContentGuide city={city} />
+      <RelatedCities city={city} />
+      <CityFAQ city={city} />
+      <RelocationCTA />
+    </main>
   );
 }
