@@ -26,40 +26,57 @@ export function CitySearchGrid({ cities }: CitySearchGridProps) {
 
   return (
     <section id="cities" className="scroll-mt-24">
-      <div className="mb-6 space-y-4">
-        <div>
-          <h2 className="text-xl font-semibold text-slate-900 sm:text-2xl">
-            UK City Salary Calculators
-          </h2>
-          <p className="mt-1 text-sm text-slate-500">
-            Search {cities.length} cities and towns — filter by name or region.
-          </p>
-        </div>
-        <div className="relative">
-          <label htmlFor="city-search" className="sr-only">
-            Search UK cities
-          </label>
+      {/* Prominent search bar — directly below hero */}
+      <div className="mb-8 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
+        <label
+          htmlFor="city-search"
+          className="block text-sm font-semibold text-slate-900"
+        >
+          Find your city calculator
+        </label>
+        <p className="mt-1 text-sm text-slate-500">
+          Search {cities.length}+ UK cities and towns — results update as you
+          type.
+        </p>
+        <div className="relative mt-4">
+          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" strokeLinecap="round" />
+            </svg>
+          </span>
           <input
             id="city-search"
             type="search"
-            placeholder="Search e.g. Manchester, Scotland, Yorkshire…"
+            placeholder="Type a city name, e.g. Bristol, Leeds, Edinburgh…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-slate-100 bg-white py-3.5 pl-4 pr-4 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+            autoComplete="off"
+            className="w-full rounded-xl border border-slate-100 bg-slate-50/50 py-4 pl-12 pr-4 text-base text-slate-900 transition placeholder:text-slate-400 focus:border-emerald-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
           />
         </div>
-        {query && (
-          <p className="text-sm text-slate-500">
+        {query.trim() && filtered.length > 0 && (
+          <p className="mt-3 text-sm text-slate-500">
             Showing {filtered.length} of {cities.length} calculators
           </p>
         )}
       </div>
 
+      <h2 className="mb-4 text-xl font-semibold text-slate-900 sm:text-2xl">
+        UK City Salary Calculators
+      </h2>
+
       {filtered.length === 0 ? (
-        <div className="rounded-xl border border-slate-100 bg-white px-6 py-12 text-center shadow-sm">
-          <p className="text-sm text-slate-500">
-            No cities match &ldquo;{query}&rdquo;. Try a different name or
-            region.
+        <div className="rounded-xl border border-slate-100 bg-white px-6 py-14 text-center shadow-sm">
+          <p className="text-base text-slate-600">
+            No calculator found for this location. Try searching another city.
           </p>
         </div>
       ) : (
