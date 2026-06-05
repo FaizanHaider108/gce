@@ -1,6 +1,17 @@
-export { calculateUKSalary } from "./tax-engine";
+export { calculateUKSalary, calculatePersonalAllowance } from "./tax-engine";
 export {
+  ADDITIONAL_RATE,
+  BASIC_RATE,
+  BASIC_RATE_GROSS_UPPER,
   DEFAULT_GROSS_SALARY,
-  UK_TAX_YEAR,
+  HIGHER_RATE,
+  HIGHER_RATE_GROSS_UPPER,
+  NI_ADDITIONAL_RATE,
+  NI_MAIN_RATE,
+  NI_PRIMARY_THRESHOLD,
+  NI_UPPER_EARNINGS_LIMIT,
+  PA_TAPER_THRESHOLD,
+  PA_ZERO_THRESHOLD,
   PERSONAL_ALLOWANCE,
+  UK_TAX_YEAR,
 } from "./constants";

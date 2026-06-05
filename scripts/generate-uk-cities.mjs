@@ -460,7 +460,7 @@ for (const [cityName, region] of CITIES) {
 
 const dataset = {
   country: "UK",
-  taxYear: "2024/25",
+  taxYear: "2025/26",
   cities: cities.sort((a, b) => a.cityName.localeCompare(b.cityName)),
 };
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { CityFAQ } from "@/components/calculator/CityFAQ";
 import { RelatedCities } from "@/components/calculator/RelatedCities";
 import { SalaryCalculator } from "@/components/calculator/SalaryCalculator";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -78,6 +79,7 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
         <SalaryCalculator city={city} />
         <RelatedCities city={city} />
+        <CityFAQ city={city} />
       </main>
       <SiteFooter />
     </>

@@ -9,8 +9,18 @@ interface ResultRow {
   label: string;
   yearly: number;
   monthly: number;
+  weekly: number;
   highlight?: boolean;
-  emphasis?: "positive" | "negative";
+  emphasis?: "positive" | "negative" | "neutral";
+  hideIfZero?: boolean;
+}
+
+function toMonthly(yearly: number): number {
+  return Number.parseFloat((yearly / 12).toFixed(2));
+}
+
+function toWeekly(yearly: number): number {
+  return Number.parseFloat((yearly / 52).toFixed(2));
 }
 
 export function ResultsTable({ results }: ResultsTableProps) {
@@ -18,55 +28,102 @@ export function ResultsTable({ results }: ResultsTableProps) {
     {
       label: "Gross Salary",
       yearly: results.grossSalary,
-      monthly: results.grossSalary / 12,
+      monthly: toMonthly(results.grossSalary),
+      weekly: toWeekly(results.grossSalary),
+      emphasis: "neutral",
     },
     {
-      label: "Personal Allowance (0% tax)",
+      label: "Personal Allowance (tax-free)",
       yearly: results.personalAllowance,
-      monthly: results.personalAllowance / 12,
+      monthly: toMonthly(results.personalAllowance),
+      weekly: toWeekly(results.personalAllowance),
+      emphasis: "neutral",
     },
     {
-      label: "Income Tax (Basic 20%)",
+      label: "Taxable Income (after allowance)",
+      yearly: results.taxableIncome,
+      monthly: toMonthly(results.taxableIncome),
+      weekly: toWeekly(results.taxableIncome),
+      emphasis: "neutral",
+    },
+    {
+      label: "Income Tax — Basic Rate (20%)",
       yearly: results.incomeTax.basicRate,
-      monthly: results.incomeTax.basicRate / 12,
+      monthly: toMonthly(results.incomeTax.basicRate),
+      weekly: toWeekly(results.incomeTax.basicRate),
       emphasis: "negative",
+      hideIfZero: true,
     },
     {
-      label: "Income Tax (Higher 40%)",
+      label: "Income Tax — Higher Rate (40%)",
       yearly: results.incomeTax.higherRate,
-      monthly: results.incomeTax.higherRate / 12,
+      monthly: toMonthly(results.incomeTax.higherRate),
+      weekly: toWeekly(results.incomeTax.higherRate),
       emphasis: "negative",
+      hideIfZero: true,
+    },
+    {
+      label: "Income Tax — Additional Rate (45%)",
+      yearly: results.incomeTax.additionalRate,
+      monthly: toMonthly(results.incomeTax.additionalRate),
+      weekly: toWeekly(results.incomeTax.additionalRate),
+      emphasis: "negative",
+      hideIfZero: true,
     },
     {
       label: "Total Income Tax",
       yearly: results.incomeTax.total,
-      monthly: results.incomeTax.total / 12,
+      monthly: toMonthly(results.incomeTax.total),
+      weekly: toWeekly(results.incomeTax.total),
       emphasis: "negative",
     },
     {
-      label: "National Insurance (est. 8%)",
-      yearly: results.nationalInsurance,
-      monthly: results.nationalInsurance / 12,
+      label: "National Insurance — Main Rate (8%)",
+      yearly: results.nationalInsurance.mainRate,
+      monthly: toMonthly(results.nationalInsurance.mainRate),
+      weekly: toWeekly(results.nationalInsurance.mainRate),
+      emphasis: "negative",
+      hideIfZero: true,
+    },
+    {
+      label: "National Insurance — Additional Rate (2%)",
+      yearly: results.nationalInsurance.additionalRate,
+      monthly: toMonthly(results.nationalInsurance.additionalRate),
+      weekly: toWeekly(results.nationalInsurance.additionalRate),
+      emphasis: "negative",
+      hideIfZero: true,
+    },
+    {
+      label: "Total National Insurance",
+      yearly: results.nationalInsurance.total,
+      monthly: toMonthly(results.nationalInsurance.total),
+      weekly: toWeekly(results.nationalInsurance.total),
       emphasis: "negative",
     },
     {
       label: "Total Deductions",
       yearly: results.totalDeductions,
-      monthly: results.totalDeductions / 12,
+      monthly: toMonthly(results.totalDeductions),
+      weekly: toWeekly(results.totalDeductions),
       emphasis: "negative",
     },
     {
       label: "Net Take-Home Salary",
       yearly: results.netSalary.yearly,
       monthly: results.netSalary.monthly,
+      weekly: results.netSalary.weekly,
       highlight: true,
       emphasis: "positive",
     },
   ];
 
+  const visibleRows = rows.filter(
+    (row) => !row.hideIfZero || row.yearly > 0,
+  );
+
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-      <table className="w-full text-left">
+    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+      <table className="w-full min-w-[32rem] text-left">
         <thead>
           <tr className="border-b border-slate-200 bg-slate-50">
             <th className="px-4 py-3 text-sm font-semibold text-slate-600 sm:px-6">
@@ -78,10 +135,13 @@ export function ResultsTable({ results }: ResultsTableProps) {
             <th className="px-4 py-3 text-right text-sm font-semibold text-slate-600 sm:px-6">
               Monthly
             </th>
+            <th className="px-4 py-3 text-right text-sm font-semibold text-slate-600 sm:px-6">
+              Weekly
+            </th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
+          {visibleRows.map((row) => (
             <tr
               key={row.label}
               className={`border-b border-slate-100 last:border-b-0 ${
@@ -98,7 +158,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
                 {row.label}
               </td>
               <td
-                className={`px-4 py-3 text-right text-sm font-medium sm:px-6 ${
+                className={`px-4 py-3 text-right text-sm font-medium tabular-nums sm:px-6 ${
                   row.emphasis === "negative"
                     ? "text-red-600"
                     : row.emphasis === "positive"
@@ -110,7 +170,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
                 {formatGBP(row.yearly)}
               </td>
               <td
-                className={`px-4 py-3 text-right text-sm font-medium sm:px-6 ${
+                className={`px-4 py-3 text-right text-sm font-medium tabular-nums sm:px-6 ${
                   row.emphasis === "negative"
                     ? "text-red-600"
                     : row.emphasis === "positive"
@@ -120,6 +180,18 @@ export function ResultsTable({ results }: ResultsTableProps) {
               >
                 {row.emphasis === "negative" && row.monthly > 0 ? "−" : ""}
                 {formatGBP(row.monthly)}
+              </td>
+              <td
+                className={`px-4 py-3 text-right text-sm font-medium tabular-nums sm:px-6 ${
+                  row.emphasis === "negative"
+                    ? "text-red-600"
+                    : row.emphasis === "positive"
+                      ? "text-emerald-700"
+                      : "text-slate-900"
+                } ${row.highlight ? "font-bold" : ""}`}
+              >
+                {row.emphasis === "negative" && row.weekly > 0 ? "−" : ""}
+                {formatGBP(row.weekly)}
               </td>
             </tr>
           ))}

@@ -78,10 +78,11 @@ No changes to shared UI components are required.
 
 | Component | Rule |
 |-----------|------|
-| Personal Allowance | £12,570 at 0% |
-| Basic Rate | 20% on £12,571 – £50,270 |
-| Higher Rate | 40% on £50,271 – £125,140 |
-| National Insurance | 8% on earnings above £12,570 (estimate) |
+| Personal Allowance | £12,570 (tapers above £100,000, £0 at £125,140) |
+| Basic Rate | 20% on taxable income up to £37,700 |
+| Higher Rate | 40% on taxable income £37,701 – £112,570 |
+| Additional Rate | 45% on taxable income above £112,570 |
+| National Insurance | 0% ≤ £12,570 · 8% £12,571–£50,270 · 2% above £50,270 |
 
 Default calculator salary: **£35,000**.
 # gce

@@ -1,11 +1,19 @@
 export interface SalaryBreakdown {
   yearly: number;
   monthly: number;
+  weekly: number;
 }
 
 export interface IncomeTaxBreakdown {
   basicRate: number;
   higherRate: number;
+  additionalRate: number;
+  total: number;
+}
+
+export interface NationalInsuranceBreakdown {
+  mainRate: number;
+  additionalRate: number;
   total: number;
 }
 
@@ -14,7 +22,7 @@ export interface UKSalaryCalculation {
   personalAllowance: number;
   taxableIncome: number;
   incomeTax: IncomeTaxBreakdown;
-  nationalInsurance: number;
+  nationalInsurance: NationalInsuranceBreakdown;
   totalDeductions: number;
   netSalary: SalaryBreakdown;
 }

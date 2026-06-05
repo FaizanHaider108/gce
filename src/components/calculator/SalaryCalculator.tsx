@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { calculateUKSalary, DEFAULT_GROSS_SALARY } from "@/lib/calculators/uk";
+import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
 import type { UKCity } from "@/types/location";
+import { MarketInsights } from "./MarketInsights";
 import { ResultsTable } from "./ResultsTable";
 import { SalaryInput } from "./SalaryInput";
 
@@ -15,7 +17,7 @@ export function SalaryCalculator({
   city,
   initialSalary = DEFAULT_GROSS_SALARY,
 }: SalaryCalculatorProps) {
-  const [grossSalary, setGrossSalary] = useState(initialSalary);
+  const [grossSalary, setGrossSalary] = usePersistedSalary(initialSalary);
   const results = useMemo(
     () => calculateUKSalary(grossSalary),
     [grossSalary],
@@ -41,17 +43,9 @@ export function SalaryCalculator({
         <SalaryInput value={grossSalary} onChange={setGrossSalary} />
       </div>
 
-      <ResultsTable results={results} />
+      <MarketInsights city={city} grossSalary={grossSalary} />
 
-      {city.metadata?.averageSalary && (
-        <p className="text-sm text-slate-500">
-          Local context: average salary in {city.cityName} is approximately{" "}
-          <span className="font-medium text-slate-700">
-            £{city.metadata.averageSalary.toLocaleString("en-GB")}
-          </span>
-          .
-        </p>
-      )}
+      <ResultsTable results={results} />
     </section>
   );
 }
