@@ -121,6 +121,30 @@ export function ResultsTable({ results }: ResultsTableProps) {
     (row) => !row.hideIfZero || row.yearly > 0,
   );
 
+  const getRowStyles = (row: ResultRow) => {
+    if (row.highlight) {
+      return {
+        row: "border-b-0 bg-emerald-100 ring-1 ring-inset ring-emerald-200",
+        label: "py-4 text-base font-bold text-emerald-900",
+        value: "py-4 text-base font-bold text-emerald-700",
+      };
+    }
+
+    if (row.emphasis === "negative") {
+      return {
+        row: "bg-red-50/70",
+        label: "text-red-800/80",
+        value: "font-medium text-red-600/90",
+      };
+    }
+
+    return {
+      row: "",
+      label: "text-slate-700",
+      value: "font-medium text-slate-900",
+    };
+  };
+
   return (
     <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
       <table className="w-full min-w-[32rem] text-left">
@@ -141,60 +165,38 @@ export function ResultsTable({ results }: ResultsTableProps) {
           </tr>
         </thead>
         <tbody>
-          {visibleRows.map((row) => (
-            <tr
-              key={row.label}
-              className={`border-b border-slate-100 last:border-b-0 ${
-                row.highlight ? "bg-emerald-50/60" : ""
-              }`}
-            >
-              <td
-                className={`px-4 py-3 text-sm sm:px-6 ${
-                  row.highlight
-                    ? "font-semibold text-emerald-900"
-                    : "text-slate-700"
-                }`}
+          {visibleRows.map((row) => {
+            const styles = getRowStyles(row);
+
+            return (
+              <tr
+                key={row.label}
+                className={`border-b border-slate-100 last:border-b-0 ${styles.row}`}
               >
-                {row.label}
-              </td>
-              <td
-                className={`px-4 py-3 text-right text-sm font-medium tabular-nums sm:px-6 ${
-                  row.emphasis === "negative"
-                    ? "text-red-600"
-                    : row.emphasis === "positive"
-                      ? "text-emerald-700"
-                      : "text-slate-900"
-                } ${row.highlight ? "font-bold" : ""}`}
-              >
-                {row.emphasis === "negative" && row.yearly > 0 ? "−" : ""}
-                {formatGBP(row.yearly)}
-              </td>
-              <td
-                className={`px-4 py-3 text-right text-sm font-medium tabular-nums sm:px-6 ${
-                  row.emphasis === "negative"
-                    ? "text-red-600"
-                    : row.emphasis === "positive"
-                      ? "text-emerald-700"
-                      : "text-slate-900"
-                } ${row.highlight ? "font-bold" : ""}`}
-              >
-                {row.emphasis === "negative" && row.monthly > 0 ? "−" : ""}
-                {formatGBP(row.monthly)}
-              </td>
-              <td
-                className={`px-4 py-3 text-right text-sm font-medium tabular-nums sm:px-6 ${
-                  row.emphasis === "negative"
-                    ? "text-red-600"
-                    : row.emphasis === "positive"
-                      ? "text-emerald-700"
-                      : "text-slate-900"
-                } ${row.highlight ? "font-bold" : ""}`}
-              >
-                {row.emphasis === "negative" && row.weekly > 0 ? "−" : ""}
-                {formatGBP(row.weekly)}
-              </td>
-            </tr>
-          ))}
+                <td className={`px-4 py-3 text-sm sm:px-6 ${styles.label}`}>
+                  {row.label}
+                </td>
+                <td
+                  className={`px-4 py-3 text-right text-sm tabular-nums sm:px-6 ${styles.value}`}
+                >
+                  {row.emphasis === "negative" && row.yearly > 0 ? "−" : ""}
+                  {formatGBP(row.yearly)}
+                </td>
+                <td
+                  className={`px-4 py-3 text-right text-sm tabular-nums sm:px-6 ${styles.value}`}
+                >
+                  {row.emphasis === "negative" && row.monthly > 0 ? "−" : ""}
+                  {formatGBP(row.monthly)}
+                </td>
+                <td
+                  className={`px-4 py-3 text-right text-sm tabular-nums sm:px-6 ${styles.value}`}
+                >
+                  {row.emphasis === "negative" && row.weekly > 0 ? "−" : ""}
+                  {formatGBP(row.weekly)}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
