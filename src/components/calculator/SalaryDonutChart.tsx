@@ -23,11 +23,10 @@ const CY = 60;
 const RADIUS = 54;
 const STROKE = 14;
 const STROKE_HOVER = 16;
-/** ~2px visual gap between slices at this radius */
 const SEGMENT_GAP_DEG = 2.5;
 
 function buildSegments(results: UKSalaryCalculation): ChartSegment[] {
-  return [
+  const segments: ChartSegment[] = [
     {
       id: "net",
       label: "Net Take-Home Salary",
@@ -56,6 +55,32 @@ function buildSegments(results: UKSalaryCalculation): ChartSegment[] {
       legendHoverClass: "hover:border-blue-200 hover:bg-blue-50/60",
     },
   ];
+
+  if (results.pension.yearly > 0) {
+    segments.push({
+      id: "pension",
+      label: "Pension Contribution",
+      value: results.pension.yearly,
+      color: "#8b5cf6",
+      bgClass: "bg-violet-500",
+      textClass: "text-violet-600",
+      legendHoverClass: "hover:border-violet-200 hover:bg-violet-50/60",
+    });
+  }
+
+  if (results.studentLoan.yearly > 0) {
+    segments.push({
+      id: "studentLoan",
+      label: "Student Loan Repayment",
+      value: results.studentLoan.yearly,
+      color: "#f59e0b",
+      bgClass: "bg-amber-500",
+      textClass: "text-amber-600",
+      legendHoverClass: "hover:border-amber-200 hover:bg-amber-50/60",
+    });
+  }
+
+  return segments;
 }
 
 function polar(cx: number, cy: number, r: number, deg: number) {
@@ -108,6 +133,31 @@ function buildArcSegments(
   });
 }
 
+const SUMMARY_ITEMS = [
+  { id: "net", label: "Net", key: "netSalary" as const, className: "text-emerald-600" },
+  { id: "tax", label: "Tax", key: "incomeTax" as const, className: "text-rose-600" },
+  { id: "ni", label: "NI", key: "nationalInsurance" as const, className: "text-blue-600" },
+  { id: "pension", label: "Pension", key: "pension" as const, className: "text-violet-600" },
+  { id: "studentLoan", label: "Loan", key: "studentLoan" as const, className: "text-amber-600" },
+];
+
+function getSummaryValue(results: UKSalaryCalculation, key: string): number {
+  switch (key) {
+    case "netSalary":
+      return results.netSalary.yearly;
+    case "incomeTax":
+      return results.incomeTax.total;
+    case "nationalInsurance":
+      return results.nationalInsurance.total;
+    case "pension":
+      return results.pension.yearly;
+    case "studentLoan":
+      return results.studentLoan.yearly;
+    default:
+      return 0;
+  }
+}
+
 export function SalaryDonutChart({ results }: SalaryDonutChartProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -117,6 +167,12 @@ export function SalaryDonutChart({ results }: SalaryDonutChartProps) {
     () => buildArcSegments(allSegments, gross),
     [allSegments, gross],
   );
+
+  const visibleSummaryItems = SUMMARY_ITEMS.filter((item) => {
+    if (item.id === "pension") return results.pension.yearly > 0;
+    if (item.id === "studentLoan") return results.studentLoan.yearly > 0;
+    return true;
+  });
 
   const netSegment = allSegments.find((s) => s.id === "net");
   const hoveredSegment =
@@ -129,7 +185,7 @@ export function SalaryDonutChart({ results }: SalaryDonutChartProps) {
   const centerLabel =
     hoveredId === null
       ? "Take-Home Pay"
-      : hoveredSegment?.label ?? "Take-Home Pay";
+      : (hoveredSegment?.label ?? "Take-Home Pay");
 
   if (gross <= 0) {
     return (
@@ -147,7 +203,7 @@ export function SalaryDonutChart({ results }: SalaryDonutChartProps) {
         Salary Distribution
       </h3>
       <p className="mt-1 text-sm text-slate-500">
-        How your {formatGBP(gross)} gross salary is allocated
+        How your {formatGBP(gross)} gross salary is allocated ({results.taxYear})
       </p>
 
       <div className="mt-6 flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:justify-center">
@@ -207,7 +263,7 @@ export function SalaryDonutChart({ results }: SalaryDonutChartProps) {
           </div>
         </div>
 
-        <ul className="w-full min-w-0 space-y-2.5 sm:max-w-[220px]">
+        <ul className="w-full min-w-0 space-y-2.5 sm:max-w-[240px]">
           {allSegments.map((segment) => {
             const pct = (segment.value / gross) * 100;
             const isHovered = hoveredId === segment.id;
@@ -247,37 +303,28 @@ export function SalaryDonutChart({ results }: SalaryDonutChartProps) {
         </ul>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 text-center text-xs">
-        <div
-          className="rounded-lg py-1 transition-all duration-300 ease-in-out hover:scale-105"
-          onMouseEnter={() => setHoveredId("net")}
-          onMouseLeave={() => setHoveredId(null)}
-        >
-          <p className="font-semibold text-emerald-600">
-            {formatGBP(results.netSalary.yearly)}
-          </p>
-          <p className="text-slate-400">Net</p>
-        </div>
-        <div
-          className="rounded-lg py-1 transition-all duration-300 ease-in-out hover:scale-105"
-          onMouseEnter={() => setHoveredId("tax")}
-          onMouseLeave={() => setHoveredId(null)}
-        >
-          <p className="font-semibold text-rose-600">
-            {formatGBP(results.incomeTax.total)}
-          </p>
-          <p className="text-slate-400">Tax</p>
-        </div>
-        <div
-          className="rounded-lg py-1 transition-all duration-300 ease-in-out hover:scale-105"
-          onMouseEnter={() => setHoveredId("ni")}
-          onMouseLeave={() => setHoveredId(null)}
-        >
-          <p className="font-semibold text-blue-600">
-            {formatGBP(results.nationalInsurance.total)}
-          </p>
-          <p className="text-slate-400">NI</p>
-        </div>
+      <div
+        className={`mt-4 grid gap-2 border-t border-slate-100 pt-4 text-center text-xs ${
+          visibleSummaryItems.length <= 3
+            ? "grid-cols-3"
+            : visibleSummaryItems.length === 4
+              ? "grid-cols-2 sm:grid-cols-4"
+              : "grid-cols-2 sm:grid-cols-5"
+        }`}
+      >
+        {visibleSummaryItems.map((item) => (
+          <div
+            key={item.id}
+            className="rounded-lg py-1 transition-all duration-300 ease-in-out hover:scale-105"
+            onMouseEnter={() => setHoveredId(item.id)}
+            onMouseLeave={() => setHoveredId(null)}
+          >
+            <p className={`font-semibold tabular-nums ${item.className}`}>
+              {formatGBP(getSummaryValue(results, item.key))}
+            </p>
+            <p className="text-slate-400">{item.label}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

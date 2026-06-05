@@ -1,6 +1,6 @@
 export {
   calculateUKSalary,
-  calculatePersonalAllowance,
+  calculatePersonalAllowanceLegacy as calculatePersonalAllowance,
   isScottishRegion,
 } from "./tax-engine";
 export {
@@ -19,3 +19,9 @@ export {
   PERSONAL_ALLOWANCE,
   UK_TAX_YEAR,
 } from "./constants";
+export {
+  DEFAULT_TAX_YEAR,
+  getTaxYearConfig,
+  TAX_YEAR_CONFIGS,
+  TAX_YEAR_OPTIONS,
+} from "./tax-year-config";

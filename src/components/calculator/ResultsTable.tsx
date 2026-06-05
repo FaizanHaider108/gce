@@ -1,5 +1,4 @@
 import type { UKSalaryCalculation } from "@/types/calculator";
-import { NI_PRIMARY_THRESHOLD, NI_UPPER_EARNINGS_LIMIT } from "@/lib/calculators/uk/constants";
 import { formatGBP } from "@/lib/format/currency";
 
 interface ResultsTableProps {
@@ -14,6 +13,7 @@ interface ResultRow {
   highlight?: boolean;
   emphasis?: "positive" | "negative" | "neutral";
   hideIfZero?: boolean;
+  showWhen?: boolean;
 }
 
 function toMonthly(yearly: number): number {
@@ -43,6 +43,22 @@ export function ResultsTable({ results }: ResultsTableProps) {
       emphasis: "neutral",
     },
     {
+      label: `Pension Contribution${results.pension.percent > 0 ? ` (${results.pension.percent}%)` : ""}`,
+      yearly: results.pension.yearly,
+      monthly: results.pension.monthly,
+      weekly: results.pension.weekly,
+      emphasis: "negative",
+      hideIfZero: true,
+    },
+    {
+      label: "Salary after Pension Sacrifice",
+      yearly: results.adjustedGross,
+      monthly: toMonthly(results.adjustedGross),
+      weekly: toWeekly(results.adjustedGross),
+      emphasis: "neutral",
+      showWhen: results.pension.percent > 0,
+    },
+    {
       label: "Personal Allowance (tax-free)",
       yearly: results.personalAllowance,
       monthly: toMonthly(results.personalAllowance),
@@ -65,7 +81,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
       emphasis: "negative",
     },
     {
-      label: `National Insurance — 8% on taxable earnings above ${formatGBP(NI_PRIMARY_THRESHOLD)}`,
+      label: `National Insurance — 8% on taxable earnings above ${formatGBP(results.niPrimaryThreshold)}`,
       yearly: results.nationalInsurance.mainRate,
       monthly: toMonthly(results.nationalInsurance.mainRate),
       weekly: toWeekly(results.nationalInsurance.mainRate),
@@ -73,7 +89,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
       hideIfZero: true,
     },
     {
-      label: `National Insurance — 2% on earnings above ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}`,
+      label: `National Insurance — 2% on earnings above ${formatGBP(results.niUpperEarningsLimit)}`,
       yearly: results.nationalInsurance.additionalRate,
       monthly: toMonthly(results.nationalInsurance.additionalRate),
       weekly: toWeekly(results.nationalInsurance.additionalRate),
@@ -86,6 +102,14 @@ export function ResultsTable({ results }: ResultsTableProps) {
       monthly: toMonthly(results.nationalInsurance.total),
       weekly: toWeekly(results.nationalInsurance.total),
       emphasis: "negative",
+    },
+    {
+      label: `Student Loan Repayment${results.studentLoan.plan !== "none" ? ` (${results.studentLoan.label})` : ""}`,
+      yearly: results.studentLoan.yearly,
+      monthly: results.studentLoan.monthly,
+      weekly: results.studentLoan.weekly,
+      emphasis: "negative",
+      hideIfZero: true,
     },
     {
       label: "Total Deductions",
@@ -104,9 +128,10 @@ export function ResultsTable({ results }: ResultsTableProps) {
     },
   ];
 
-  const visibleRows = rows.filter(
-    (row) => !row.hideIfZero || row.yearly > 0,
-  );
+  const visibleRows = rows.filter((row) => {
+    if (row.showWhen === false) return false;
+    return !row.hideIfZero || row.yearly > 0;
+  });
 
   const getRowStyles = (row: ResultRow) => {
     if (row.highlight) {
@@ -136,7 +161,8 @@ export function ResultsTable({ results }: ResultsTableProps) {
     <div className="rounded-xl border border-slate-100 bg-white shadow-sm">
       {results.taxJurisdiction === "scotland" && (
         <p className="border-b border-slate-100 bg-emerald-50/50 px-4 py-2.5 text-xs text-emerald-800 sm:px-4 sm:text-sm">
-          Scottish Income Tax rates applied. NI is calculated UK-wide.
+          Scottish Income Tax rates applied ({results.taxYear}). NI is calculated
+          UK-wide.
         </p>
       )}
       <table className="w-full table-fixed text-left">
