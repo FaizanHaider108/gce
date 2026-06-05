@@ -146,20 +146,20 @@ export function ResultsTable({ results }: ResultsTableProps) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-100 bg-white shadow-sm">
-      <table className="w-full min-w-[32rem] text-left">
+    <div className="rounded-xl border border-slate-100 bg-white shadow-sm">
+      <table className="w-full table-fixed text-left">
         <thead>
           <tr className="border-b border-slate-100 bg-slate-50/80">
-            <th className="px-4 py-3 text-sm font-semibold text-slate-600 sm:px-6">
+            <th className="w-[40%] px-3 py-3 text-xs font-semibold text-slate-600 sm:px-4 sm:text-sm">
               Breakdown
             </th>
-            <th className="px-4 py-3 text-right text-sm font-semibold text-slate-600 sm:px-6">
+            <th className="px-2 py-3 text-right text-xs font-semibold text-slate-600 sm:px-3 sm:text-sm">
               Yearly
             </th>
-            <th className="px-4 py-3 text-right text-sm font-semibold text-slate-600 sm:px-6">
+            <th className="px-2 py-3 text-right text-xs font-semibold text-slate-600 sm:px-3 sm:text-sm">
               Monthly
             </th>
-            <th className="px-4 py-3 text-right text-sm font-semibold text-slate-600 sm:px-6">
+            <th className="px-2 py-3 text-right text-xs font-semibold text-slate-600 sm:px-3 sm:text-sm">
               Weekly
             </th>
           </tr>
@@ -173,23 +173,25 @@ export function ResultsTable({ results }: ResultsTableProps) {
                 key={row.label}
                 className={`border-b border-slate-100 last:border-b-0 ${styles.row}`}
               >
-                <td className={`px-4 py-3 text-sm sm:px-6 ${styles.label}`}>
+                <td
+                  className={`px-3 py-2.5 text-xs sm:px-4 sm:py-3 sm:text-sm ${styles.label}`}
+                >
                   {row.label}
                 </td>
                 <td
-                  className={`px-4 py-3 text-right text-sm tabular-nums sm:px-6 ${styles.value}`}
+                  className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
                 >
                   {row.emphasis === "negative" && row.yearly > 0 ? "−" : ""}
                   {formatGBP(row.yearly)}
                 </td>
                 <td
-                  className={`px-4 py-3 text-right text-sm tabular-nums sm:px-6 ${styles.value}`}
+                  className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
                 >
                   {row.emphasis === "negative" && row.monthly > 0 ? "−" : ""}
                   {formatGBP(row.monthly)}
                 </td>
                 <td
-                  className={`px-4 py-3 text-right text-sm tabular-nums sm:px-6 ${styles.value}`}
+                  className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
                 >
                   {row.emphasis === "negative" && row.weekly > 0 ? "−" : ""}
                   {formatGBP(row.weekly)}

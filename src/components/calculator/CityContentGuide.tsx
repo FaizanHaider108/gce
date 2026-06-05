@@ -1,8 +1,8 @@
 import { calculateUKSalary, UK_TAX_YEAR } from "@/lib/calculators/uk";
+import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
 import type { UKCity } from "@/types/location";
 
-const DEFAULT_AVERAGE_SALARY = 34_000;
 const DEFAULT_COST_OF_LIVING_INDEX = 65;
 
 interface CityContentGuideProps {
@@ -10,7 +10,7 @@ interface CityContentGuideProps {
 }
 
 export function CityContentGuide({ city }: CityContentGuideProps) {
-  const averageSalary = city.metadata?.averageSalary ?? DEFAULT_AVERAGE_SALARY;
+  const averageSalary = getCityAverageSalary(city);
   const costOfLivingIndex =
     city.metadata?.costOfLivingIndex ?? DEFAULT_COST_OF_LIVING_INDEX;
   const avgCalc = calculateUKSalary(averageSalary);
@@ -33,7 +33,7 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
           <p>
             Workers in {city.cityName}, {city.region}, typically take home around{" "}
             {formatGBP(avgCalc.netSalary.yearly)} per year ({formatGBP(avgCalc.netSalary.monthly)}{" "}
-            monthly) on an average gross salary of {formatGBP(averageSalary)} after
+            monthly) on a regional average gross salary of {formatGBP(averageSalary)} after
             {UK_TAX_YEAR} Income Tax and National Insurance deductions.
           </p>
           <p>
@@ -58,9 +58,9 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
           The typical average gross salary here is around{" "}
           <span className="font-medium text-slate-900">
             {formatGBP(averageSalary)}
-          </span>
-          . Earning above this threshold puts you in a strong financial position
-          within the local market.
+          </span>{" "}
+          based on current {city.region} labour market data. Earning above this
+          threshold puts you in a strong financial position within the local market.
           {population
             ? ` With a working population of roughly ${population.toLocaleString("en-GB")} residents, ${city.cityName} offers a competitive ${city.region} job market across public sector, healthcare, retail, and professional services.`
             : ` ${city.cityName} sits within a competitive ${city.region} job market spanning public sector, healthcare, retail, and professional services.`}

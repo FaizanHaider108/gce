@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { BuildingIcon } from "@/components/icons/FinanceIcons";
+import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import type { UKCity } from "@/types/location";
 
 interface CitySearchGridProps {
@@ -98,12 +99,10 @@ export function CitySearchGrid({ cities }: CitySearchGridProps) {
                     <p className="truncate text-sm text-slate-500">
                       {city.region}
                     </p>
-                    {city.metadata?.averageSalary && (
-                      <p className="mt-1 text-sm font-medium text-slate-600">
-                        Avg. £
-                        {city.metadata.averageSalary.toLocaleString("en-GB")}
-                      </p>
-                    )}
+                    <p className="mt-1 text-sm font-medium text-slate-600">
+                      Avg. £
+                      {getCityAverageSalary(city).toLocaleString("en-GB")}
+                    </p>
                   </div>
                 </div>
               </Link>

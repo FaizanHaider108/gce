@@ -1,8 +1,7 @@
 import { TrendingUpIcon } from "@/components/icons/FinanceIcons";
+import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
 import type { UKCity } from "@/types/location";
-
-const DEFAULT_AVERAGE_SALARY = 34_000;
 
 interface MarketInsightsProps {
   city: UKCity;
@@ -28,7 +27,7 @@ function getComparisonText(
 }
 
 export function MarketInsights({ city, grossSalary }: MarketInsightsProps) {
-  const averageSalary = city.metadata?.averageSalary ?? DEFAULT_AVERAGE_SALARY;
+  const averageSalary = getCityAverageSalary(city);
 
   return (
     <aside className="no-print rounded-xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
@@ -46,8 +45,9 @@ export function MarketInsights({ city, grossSalary }: MarketInsightsProps) {
             is roughly{" "}
             <span className="font-medium text-emerald-600">
               {formatGBP(averageSalary)}
-            </span>
-            . {getComparisonText(grossSalary, averageSalary, city.region)}
+            </span>{" "}
+            based on {city.region} regional economic data.{" "}
+            {getComparisonText(grossSalary, averageSalary, city.region)}
           </p>
         </div>
       </div>

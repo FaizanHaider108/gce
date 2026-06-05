@@ -24,6 +24,36 @@ export function getCitiesByRegion(region: string): UKCity[] {
   return getUKCities().filter((city) => city.region === region);
 }
 
+/**
+ * Returns 4–5 related cities for internal linking.
+ * Priority: same region → adjacent regions (from REGION_ADJACENCY).
+ */
+export function getRelatedCities(currentCity: UKCity, limit = RELATED_CITY_LIMIT): UKCity[] {
+  const allCities = getUKCities();
+  const related: UKCity[] = [];
+  const seen = new Set<string>([currentCity.slug]);
+
+  const addFromRegion = (region: string) => {
+    for (const city of allCities) {
+      if (related.length >= limit) return;
+      if (city.region !== region) continue;
+      if (seen.has(city.slug)) continue;
+      seen.add(city.slug);
+      related.push(city);
+    }
+  };
+
+  addFromRegion(currentCity.region);
+
+  const adjacentRegions = REGION_ADJACENCY[currentCity.region] ?? [];
+  for (const region of adjacentRegions) {
+    if (related.length >= limit) break;
+    addFromRegion(region);
+  }
+
+  return related.slice(0, limit);
+}
+
 const FEATURED_SLUGS = new Set([
   "salary-calculator-london",
   "salary-calculator-manchester",
@@ -58,39 +88,11 @@ export function getFeaturedUKCities(): UKCity[] {
 }
 
 /**
- * Returns 4–5 related cities for internal linking.
- * Priority: same region → adjacent regions (from REGION_ADJACENCY).
- */
-export function getRelatedCities(currentCity: UKCity, limit = RELATED_CITY_LIMIT): UKCity[] {
-  const allCities = getUKCities();
-  const related: UKCity[] = [];
-  const seen = new Set<string>([currentCity.slug]);
-
-  const addFromRegion = (region: string) => {
-    for (const city of allCities) {
-      if (related.length >= limit) return;
-      if (city.region !== region) continue;
-      if (seen.has(city.slug)) continue;
-      seen.add(city.slug);
-      related.push(city);
-    }
-  };
-
-  addFromRegion(currentCity.region);
-
-  const adjacentRegions = REGION_ADJACENCY[currentCity.region] ?? [];
-  for (const region of adjacentRegions) {
-    if (related.length >= limit) break;
-    addFromRegion(region);
-  }
-
-  return related.slice(0, limit);
-}
-
-/**
  * Country-agnostic loader pattern — extend with getUSCities(), etc.
  */
 export function getCitiesByCountry(countryCode: string): UKCity[] {
   const dataset = datasets[countryCode.toLowerCase()];
   return dataset?.cities ?? [];
 }
+
+export { getCityAverageSalary, getRegionalAverageSalary } from "./regional-salary";

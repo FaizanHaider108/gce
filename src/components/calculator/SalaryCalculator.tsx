@@ -86,12 +86,12 @@ export function SalaryCalculator({
           </h2>
         </div>
 
-        {/* Mobile: table → chart. Desktop: side-by-side dashboard */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
-          <div className="min-w-0">
+        {/* Mobile: stacked. Desktop: table 2/3 + chart 1/3 — no horizontal scroll */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
+          <div className="min-w-0 lg:col-span-2">
             <ResultsTable results={results} />
           </div>
-          <div className="min-w-0 lg:sticky lg:top-24">
+          <div className="min-w-0 lg:col-span-1 lg:sticky lg:top-24">
             <SalaryDonutChart results={results} />
           </div>
         </div>

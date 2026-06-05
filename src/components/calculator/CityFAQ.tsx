@@ -13,10 +13,9 @@ import {
   PERSONAL_ALLOWANCE,
   UK_TAX_YEAR,
 } from "@/lib/calculators/uk";
+import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
 import type { UKCity } from "@/types/location";
-
-const DEFAULT_AVERAGE_SALARY = 34_000;
 
 interface FAQItem {
   id: string;
@@ -25,7 +24,7 @@ interface FAQItem {
 }
 
 function buildFAQItems(city: UKCity): FAQItem[] {
-  const averageSalary = city.metadata?.averageSalary ?? DEFAULT_AVERAGE_SALARY;
+  const averageSalary = getCityAverageSalary(city);
   const standardCalc = calculateUKSalary(averageSalary);
 
   return [
