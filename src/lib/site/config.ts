@@ -24,3 +24,15 @@ export function getSiteUrl(): string {
 
   return CANONICAL_SITE_URL;
 }
+
+/**
+ * WhatsApp business number in international format without + or spaces.
+ * Override via NEXT_PUBLIC_WHATSAPP_NUMBER in environment variables.
+ */
+const DEFAULT_WHATSAPP_NUMBER = "447700900000";
+
+export function getWhatsAppNumber(): string {
+  const raw =
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? DEFAULT_WHATSAPP_NUMBER;
+  return raw.replace(/\D/g, "");
+}

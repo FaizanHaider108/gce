@@ -16,6 +16,7 @@ import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
 import type { StudentLoanPlan, TaxYearId } from "@/types/calculator";
 import type { UKCity } from "@/types/location";
+import { AccountantBanner } from "@/components/marketing/AccountantBanner";
 import { CalculatorOptions } from "./CalculatorOptions";
 import { MarketInsights } from "./MarketInsights";
 import { ResultsTable } from "./ResultsTable";
@@ -114,12 +115,9 @@ export function SalaryCalculator({
         </div>
 
         <div className="flex flex-col gap-6">
-          <div className="min-w-0">
-            <ResultsTable results={results} />
-          </div>
-          <div className="min-w-0">
-            <SalaryDonutChart results={results} />
-          </div>
+          <ResultsTable results={results} />
+          <SalaryDonutChart results={results} />
+          <AccountantBanner cityName={city.cityName} variant="inline" />
         </div>
       </div>
     </section>

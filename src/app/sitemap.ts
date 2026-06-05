@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getAllServiceSlugs } from "@/lib/data/services";
 import { getAllUKCitySlugs } from "@/lib/data/load-cities";
 import { CANONICAL_SITE_URL, getSiteUrl } from "@/lib/site/config";
 
@@ -35,7 +36,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [homepage, ...cityPages];
+  const servicePages: MetadataRoute.Sitemap = getAllServiceSlugs().map(
+    (slug) => ({
+      url: `${SITEMAP_BASE_URL}/services/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }),
+  );
+
+  return [homepage, ...cityPages, ...servicePages];
 }
 
 export { CANONICAL_SITE_URL, SITEMAP_BASE_URL };
