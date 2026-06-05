@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
 import { CityFAQ } from "@/components/calculator/CityFAQ";
+import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalaryComparison";
 import { RelatedCities } from "@/components/calculator/RelatedCities";
 import { RelocationCTA } from "@/components/calculator/RelocationCTA";
 import { SalaryCalculator } from "@/components/calculator/SalaryCalculator";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
+import { getBenchmarkCities } from "@/lib/data/benchmark-cities";
 import {
   getAllUKCitySlugs,
   getUKCityBySlug,
@@ -76,9 +78,15 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
     notFound();
   }
 
+  const benchmarkCities = getBenchmarkCities();
+
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
       <SalaryCalculator city={city} />
+      <RegionalSalaryComparison
+        currentCity={city}
+        benchmarkCities={benchmarkCities}
+      />
       <CityContentGuide city={city} />
       <RelatedCities city={city} />
       <CityFAQ city={city} />
