@@ -13,6 +13,7 @@ import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
 import type { UKCity } from "@/types/location";
 import { MarketInsights } from "./MarketInsights";
 import { ResultsTable } from "./ResultsTable";
+import { SalaryDonutChart } from "./SalaryDonutChart";
 import { SalaryInput } from "./SalaryInput";
 
 interface SalaryCalculatorProps {
@@ -84,7 +85,16 @@ export function SalaryCalculator({
             Tax &amp; Deductions Breakdown
           </h2>
         </div>
-        <ResultsTable results={results} />
+
+        {/* Mobile: table → chart. Desktop: side-by-side dashboard */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
+          <div className="min-w-0">
+            <ResultsTable results={results} />
+          </div>
+          <div className="min-w-0 lg:sticky lg:top-24">
+            <SalaryDonutChart results={results} />
+          </div>
+        </div>
       </div>
     </section>
   );
