@@ -34,14 +34,21 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
           <p>
             Workers in {city.cityName}, {city.region}, typically take home around{" "}
             {formatGBP(avgCalc.netSalary.yearly)} per year ({formatGBP(avgCalc.netSalary.monthly)}{" "}
-            monthly) on a regional average gross salary of {formatGBP(averageSalary)} after
-            {UK_TAX_YEAR} Income Tax and National Insurance deductions.
+            monthly) on an{" "}
+            <strong>official UK regional salary baseline</strong> of{" "}
+            {formatGBP(averageSalary)} after{" "}
+            <strong>{UK_TAX_YEAR} Income Tax</strong> and{" "}
+            <strong>National Insurance</strong> deductions calculated under{" "}
+            <strong>HMRC statutory guidelines</strong> and the{" "}
+            <strong>{UK_TAX_YEAR} national insurance thresholds</strong>.
           </p>
           <p>
             With a cost-of-living index of {costOfLivingIndex} (UK average = 100),{" "}
             {city.cityName} has {colContext} compared to the national baseline. Your
-            net salary should be weighed against local rent, transport, and household
-            expenses in {city.region} when assessing how far your pay goes.
+            net salary — derived from{" "}
+            <strong>HMRC statutory guidelines</strong> — should be weighed against
+            local rent, transport, and household expenses in {city.region} when
+            assessing how far your pay goes.
           </p>
           <p>
             Use the calculator above to model your exact take-home figure — weekly,
@@ -57,11 +64,14 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
         </h2>
         <p className="mt-4 text-base leading-relaxed text-slate-500">
           The typical average gross salary here is around{" "}
-          <span className="font-medium text-slate-900">
+          <strong className="font-medium text-slate-900">
             {formatGBP(averageSalary)}
-          </span>{" "}
-          based on current {city.region} labour market data. Earning above this
-          threshold puts you in a strong financial position within the local market.
+          </strong>{" "}
+          based on <strong>official UK regional salary baselines</strong> and
+          current {city.region} labour market data. Earning above this threshold
+          puts you in a strong financial position within the local market, with
+          take-home estimates aligned to the{" "}
+          <strong>{UK_TAX_YEAR} national insurance thresholds</strong>.
           {population
             ? ` With a working population of roughly ${population.toLocaleString("en-GB")} residents, ${city.cityName} offers a competitive ${city.region} job market across public sector, healthcare, retail, and professional services.`
             : ` ${city.cityName} sits within a competitive ${city.region} job market spanning public sector, healthcare, retail, and professional services.`}

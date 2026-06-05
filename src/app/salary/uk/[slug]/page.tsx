@@ -12,6 +12,7 @@ import {
   getAllUKCitySlugs,
   getUKCityBySlug,
 } from "@/lib/data/load-cities";
+import { buildCityFinancialProductJsonLd } from "@/lib/seo/city-json-ld";
 import { getSiteUrl } from "@/lib/site/config";
 
 interface PageProps {
@@ -79,9 +80,17 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
   }
 
   const benchmarkCities = getBenchmarkCities();
+  const financialProductJsonLd = buildCityFinancialProductJsonLd(city);
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(financialProductJsonLd),
+        }}
+      />
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
       <SalaryCalculator city={city} />
       <RegionalSalaryComparison
         currentCity={city}
@@ -92,5 +101,6 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       <CityFAQ city={city} />
       <RelocationCTA />
     </main>
+    </>
   );
 }
