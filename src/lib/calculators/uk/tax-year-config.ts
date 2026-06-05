@@ -89,7 +89,7 @@ const STUDENT_LOAN_2025_26: StudentLoanConfig = {
 
 const STUDENT_LOAN_2026_27: StudentLoanConfig = {
   plan1Threshold: 24_930,
-  plan2Threshold: 28_470,
+  plan2Threshold: 27_295,
   plan5Threshold: 25_000,
   postgraduateThreshold: 21_000,
   undergraduateRate: 0.09,

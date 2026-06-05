@@ -299,21 +299,29 @@ function calculateScottishIncomeTax(
   return calculateScottishIncomeTax2025_26(grossSalary, config);
 }
 
+/**
+ * Class 1 Employee NI — evaluated independently from Income Tax.
+ * Base = contractual gross minus pension sacrifice. HMRC Primary Threshold
+ * (£12,570) applies; Personal Allowance is never used in this loop.
+ */
 function calculateNationalInsurance(
-  grossSalary: number,
+  niBaseSalary: number,
   config: TaxYearConfig,
 ): UKSalaryCalculation["nationalInsurance"] {
-  const mainBandEarnings = Math.max(
+  const earningsBelowUpperLimit = Math.min(
+    Math.max(0, niBaseSalary),
+    config.niUpperEarningsLimit,
+  );
+  const niDeductibleEarnings = Math.max(
     0,
-    Math.min(grossSalary, config.niUpperEarningsLimit) -
-      config.niPrimaryThreshold,
+    earningsBelowUpperLimit - config.niPrimaryThreshold,
   );
   const additionalBandEarnings = Math.max(
     0,
-    grossSalary - config.niUpperEarningsLimit,
+    niBaseSalary - config.niUpperEarningsLimit,
   );
 
-  const mainRate = roundToPence(mainBandEarnings * config.niMainRate);
+  const mainRate = roundToPence(niDeductibleEarnings * config.niMainRate);
   const additionalRate = roundToPence(
     additionalBandEarnings * config.niAdditionalRate,
   );
@@ -388,6 +396,7 @@ export function calculateUKSalary(
     Math.max(0, normalizedGross - pensionYearly),
   );
 
+  // ── Income Tax loop (uses Personal Allowance on post-sacrifice earnings) ──
   const personalAllowance = calculatePersonalAllowance(adjustedGross, config);
   const taxableIncome = roundToPence(
     Math.max(0, adjustedGross - personalAllowance),
@@ -397,7 +406,11 @@ export function calculateUKSalary(
     ? calculateScottishIncomeTax(adjustedGross, config)
     : calculateRUKIncomeTax(adjustedGross, personalAllowance, config);
 
-  const nationalInsurance = calculateNationalInsurance(adjustedGross, config);
+  // ── NI loop (decoupled from PA — uses HMRC Primary Threshold only) ──
+  const niBaseSalary = adjustedGross;
+  const nationalInsurance = calculateNationalInsurance(niBaseSalary, config);
+
+  // ── Student loan (original contractual gross, before pension sacrifice) ──
   const studentLoanYearly = calculateStudentLoan(
     normalizedGross,
     resolved.studentLoan,
