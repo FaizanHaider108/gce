@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Global Calculator Engine (GCE)
 
-## Getting Started
+Programmatic SEO (pSEO) platform for hyper-local salary and tax calculators. MVP targets the United Kingdom with a modular architecture designed to plug in USA, Canada, Australia, and EU datasets later.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) and navigate to any city calculator, e.g.:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `/salary/uk/salary-calculator-london`
+- `/salary/uk/salary-calculator-manchester`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Build & Deploy
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+All city pages are statically generated at build time via `generateStaticParams()`. Deploy to Vercel or Netlify with zero server runtime cost.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+gce/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx                 # Root layout, fonts, metadata
+│   │   ├── page.tsx                   # UK city index (pSEO hub)
+│   │   ├── globals.css
+│   │   └── salary/
+│   │       └── uk/
+│   │           └── [slug]/
+│   │               ├── page.tsx       # Dynamic static city pages
+│   │               └── not-found.tsx
+│   ├── components/
+│   │   ├── calculator/
+│   │   │   ├── SalaryCalculator.tsx   # Client-side interactive calculator
+│   │   │   ├── SalaryInput.tsx
+│   │   │   └── ResultsTable.tsx
+│   │   └── layout/
+│   │       ├── SiteHeader.tsx
+│   │       └── SiteFooter.tsx
+│   ├── data/
+│   │   └── uk/
+│   │       └── uk-cities.json         # City dataset (extend for more countries)
+│   ├── lib/
+│   │   ├── calculators/
+│   │   │   └── uk/
+│   │   │       ├── constants.ts       # Tax thresholds & rates
+│   │   │       ├── tax-engine.ts      # Core UK calculation logic
+│   │   │       └── index.ts
+│   │   ├── data/
+│   │   │   └── load-cities.ts         # Dataset loader (country-agnostic pattern)
+│   │   └── format/
+│   │       └── currency.ts
+│   └── types/
+│       ├── calculator.ts
+│       └── location.ts
+├── package.json
+└── README.md
+```
 
-## Deploy on Vercel
+## Extending to New Countries
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Add `src/data/us/us-cities.json` (or similar).
+2. Add `src/lib/calculators/us/tax-engine.ts`.
+3. Create `src/app/salary/us/[slug]/page.tsx` mirroring the UK route.
+4. Register the dataset in `load-cities.ts`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+No changes to shared UI components are required.
+
+## UK Tax Logic (MVP)
+
+| Component | Rule |
+|-----------|------|
+| Personal Allowance | £12,570 at 0% |
+| Basic Rate | 20% on £12,571 – £50,270 |
+| Higher Rate | 40% on £50,271 – £125,140 |
+| National Insurance | 8% on earnings above £12,570 (estimate) |
+
+Default calculator salary: **£35,000**.

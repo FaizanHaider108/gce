@@ -1,0 +1,336 @@
+{
+  "country": "UK",
+  "taxYear": "2024/25",
+  "cities": [
+    {
+      "cityName": "London",
+      "slug": "salary-calculator-london",
+      "region": "Greater London",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 42000,
+        "costOfLivingIndex": 100,
+        "population": 9000000
+      }
+    },
+    {
+      "cityName": "Manchester",
+      "slug": "salary-calculator-manchester",
+      "region": "Greater Manchester",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 32000,
+        "costOfLivingIndex": 72,
+        "population": 552000
+      }
+    },
+    {
+      "cityName": "Birmingham",
+      "slug": "salary-calculator-birmingham",
+      "region": "West Midlands",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 31000,
+        "costOfLivingIndex": 70,
+        "population": 1141000
+      }
+    },
+    {
+      "cityName": "Leeds",
+      "slug": "salary-calculator-leeds",
+      "region": "West Yorkshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 30500,
+        "costOfLivingIndex": 68,
+        "population": 812000
+      }
+    },
+    {
+      "cityName": "Glasgow",
+      "slug": "salary-calculator-glasgow",
+      "region": "Scotland",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 30000,
+        "costOfLivingIndex": 65,
+        "population": 635000
+      }
+    },
+    {
+      "cityName": "Liverpool",
+      "slug": "salary-calculator-liverpool",
+      "region": "Merseyside",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 29500,
+        "costOfLivingIndex": 64,
+        "population": 498000
+      }
+    },
+    {
+      "cityName": "Bristol",
+      "slug": "salary-calculator-bristol",
+      "region": "Bristol",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 33500,
+        "costOfLivingIndex": 78,
+        "population": 472000
+      }
+    },
+    {
+      "cityName": "Sheffield",
+      "slug": "salary-calculator-sheffield",
+      "region": "South Yorkshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 29000,
+        "costOfLivingIndex": 63,
+        "population": 556000
+      }
+    },
+    {
+      "cityName": "Edinburgh",
+      "slug": "salary-calculator-edinburgh",
+      "region": "Scotland",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 36000,
+        "costOfLivingIndex": 78,
+        "population": 540000
+      }
+    },
+    {
+      "cityName": "Leicester",
+      "slug": "salary-calculator-leicester",
+      "region": "Leicestershire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 28500,
+        "costOfLivingIndex": 62,
+        "population": 373000
+      }
+    },
+    {
+      "cityName": "Coventry",
+      "slug": "salary-calculator-coventry",
+      "region": "West Midlands",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 28000,
+        "costOfLivingIndex": 61,
+        "population": 345000
+      }
+    },
+    {
+      "cityName": "Bradford",
+      "slug": "salary-calculator-bradford",
+      "region": "West Yorkshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 27000,
+        "costOfLivingIndex": 58,
+        "population": 366000
+      }
+    },
+    {
+      "cityName": "Cardiff",
+      "slug": "salary-calculator-cardiff",
+      "region": "Wales",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 30000,
+        "costOfLivingIndex": 66,
+        "population": 362000
+      }
+    },
+    {
+      "cityName": "Belfast",
+      "slug": "salary-calculator-belfast",
+      "region": "Northern Ireland",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 28500,
+        "costOfLivingIndex": 60,
+        "population": 345000
+      }
+    },
+    {
+      "cityName": "Nottingham",
+      "slug": "salary-calculator-nottingham",
+      "region": "Nottinghamshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 29000,
+        "costOfLivingIndex": 63,
+        "population": 337000
+      }
+    },
+    {
+      "cityName": "Newcastle upon Tyne",
+      "slug": "salary-calculator-newcastle-upon-tyne",
+      "region": "Tyne and Wear",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 29500,
+        "costOfLivingIndex": 64,
+        "population": 300000
+      }
+    },
+    {
+      "cityName": "Southampton",
+      "slug": "salary-calculator-southampton",
+      "region": "Hampshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 31000,
+        "costOfLivingIndex": 70,
+        "population": 269000
+      }
+    },
+    {
+      "cityName": "Portsmouth",
+      "slug": "salary-calculator-portsmouth",
+      "region": "Hampshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 28500,
+        "costOfLivingIndex": 62,
+        "population": 249000
+      }
+    },
+    {
+      "cityName": "Brighton",
+      "slug": "salary-calculator-brighton",
+      "region": "East Sussex",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 32000,
+        "costOfLivingIndex": 75,
+        "population": 290000
+      }
+    },
+    {
+      "cityName": "Plymouth",
+      "slug": "salary-calculator-plymouth",
+      "region": "Devon",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 27500,
+        "costOfLivingIndex": 59,
+        "population": 264000
+      }
+    },
+    {
+      "cityName": "Reading",
+      "slug": "salary-calculator-reading",
+      "region": "Berkshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 35000,
+        "costOfLivingIndex": 80,
+        "population": 174000
+      }
+    },
+    {
+      "cityName": "Derby",
+      "slug": "salary-calculator-derby",
+      "region": "Derbyshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 28000,
+        "costOfLivingIndex": 60,
+        "population": 264000
+      }
+    },
+    {
+      "cityName": "Wolverhampton",
+      "slug": "salary-calculator-wolverhampton",
+      "region": "West Midlands",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 27000,
+        "costOfLivingIndex": 58,
+        "population": 264000
+      }
+    },
+    {
+      "cityName": "Aberdeen",
+      "slug": "salary-calculator-aberdeen",
+      "region": "Scotland",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 34000,
+        "costOfLivingIndex": 67,
+        "population": 198000
+      }
+    },
+    {
+      "cityName": "Swansea",
+      "slug": "salary-calculator-swansea",
+      "region": "Wales",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 27500,
+        "costOfLivingIndex": 59,
+        "population": 246000
+      }
+    },
+    {
+      "cityName": "Oxford",
+      "slug": "salary-calculator-oxford",
+      "region": "Oxfordshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 36000,
+        "costOfLivingIndex": 82,
+        "population": 162000
+      }
+    },
+    {
+      "cityName": "Cambridge",
+      "slug": "salary-calculator-cambridge",
+      "region": "Cambridgeshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 37000,
+        "costOfLivingIndex": 83,
+        "population": 145000
+      }
+    },
+    {
+      "cityName": "York",
+      "slug": "salary-calculator-york",
+      "region": "North Yorkshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 30000,
+        "costOfLivingIndex": 66,
+        "population": 210000
+      }
+    },
+    {
+      "cityName": "Bournemouth",
+      "slug": "salary-calculator-bournemouth",
+      "region": "Dorset",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 29000,
+        "costOfLivingIndex": 65,
+        "population": 183000
+      }
+    },
+    {
+      "cityName": "Stoke-on-Trent",
+      "slug": "salary-calculator-stoke-on-trent",
+      "region": "Staffordshire",
+      "country": "UK",
+      "metadata": {
+        "averageSalary": 26500,
+        "costOfLivingIndex": 57,
+        "population": 258000
+      }
+    }
+  ]
+}
