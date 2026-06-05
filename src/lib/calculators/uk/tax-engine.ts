@@ -117,7 +117,8 @@ function calculateRUKIncomeTax(
   return { jurisdiction: "ruk", bands, total };
 }
 
-function calculateScottishIncomeTax(
+/** Scottish Income Tax 2025/26 — gross earnings band slicing. */
+function calculateScottishIncomeTax2025_26(
   grossSalary: number,
   config: TaxYearConfig,
 ): IncomeTaxBreakdown {
@@ -176,6 +177,128 @@ function calculateScottishIncomeTax(
   return { jurisdiction: "scotland", bands, total };
 }
 
+/**
+ * Scottish Income Tax 2026/27 — statutory gross bands with transitional rule:
+ * earnings above the basic upper threshold but still within the intermediate
+ * band width are taxed at the basic rate (20%) until the full intermediate
+ * band is entered on gross earnings.
+ */
+function calculateScottishIncomeTax2026_27(
+  grossSalary: number,
+  config: TaxYearConfig,
+): IncomeTaxBreakdown {
+  const { scottish: s, personalAllowance: pa } = config;
+  const intermediateBandWidth = s.intermediateUpper - s.basicUpper;
+  const overflowAboveBasic = Math.max(0, grossSalary - s.basicUpper);
+
+  const inTransitionalZone =
+    overflowAboveBasic > 0 && overflowAboveBasic < intermediateBandWidth;
+
+  if (grossSalary <= s.basicUpper || inTransitionalZone) {
+    const starterIncome = bandIncome(grossSalary, pa, s.starterUpper);
+    const basicIncome = Math.max(0, grossSalary - s.starterUpper);
+
+    const bands: IncomeTaxBand[] = [
+      {
+        id: "starter",
+        label: "Income Tax — Starter Rate (19%)",
+        amount: roundToPence(starterIncome * s.starterRate),
+      },
+      {
+        id: "basic",
+        label: "Income Tax — Basic Rate (20%)",
+        amount: roundToPence(basicIncome * s.basicRate),
+      },
+      {
+        id: "intermediate",
+        label: "Income Tax — Intermediate Rate (21%)",
+        amount: 0,
+      },
+      {
+        id: "higher",
+        label: "Income Tax — Higher Rate (42%)",
+        amount: 0,
+      },
+      {
+        id: "advanced",
+        label: "Income Tax — Advanced Rate (45%)",
+        amount: 0,
+      },
+      {
+        id: "top",
+        label: "Income Tax — Top Rate (48%)",
+        amount: 0,
+      },
+    ];
+
+    const total = roundToPence(bands.reduce((sum, b) => sum + b.amount, 0));
+    return { jurisdiction: "scotland", bands, total };
+  }
+
+  const bands: IncomeTaxBand[] = [
+    {
+      id: "starter",
+      label: "Income Tax — Starter Rate (19%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, pa, s.starterUpper) * s.starterRate,
+      ),
+    },
+    {
+      id: "basic",
+      label: "Income Tax — Basic Rate (20%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, s.starterUpper, s.basicUpper) * s.basicRate,
+      ),
+    },
+    {
+      id: "intermediate",
+      label: "Income Tax — Intermediate Rate (21%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, s.basicUpper, s.intermediateUpper) *
+          s.intermediateRate,
+      ),
+    },
+    {
+      id: "higher",
+      label: "Income Tax — Higher Rate (42%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, s.intermediateUpper, s.higherUpper) *
+          s.higherRate,
+      ),
+    },
+    {
+      id: "advanced",
+      label: "Income Tax — Advanced Rate (45%)",
+      amount: roundToPence(
+        bandIncome(grossSalary, s.higherUpper, s.advancedUpper) *
+          s.advancedRate,
+      ),
+    },
+    {
+      id: "top",
+      label: "Income Tax — Top Rate (48%)",
+      amount: roundToPence(
+        Math.max(0, grossSalary - s.advancedUpper) * s.topRate,
+      ),
+    },
+  ];
+
+  const total = roundToPence(bands.reduce((sum, b) => sum + b.amount, 0));
+
+  return { jurisdiction: "scotland", bands, total };
+}
+
+function calculateScottishIncomeTax(
+  grossSalary: number,
+  config: TaxYearConfig,
+): IncomeTaxBreakdown {
+  if (config.id === "2026/27") {
+    return calculateScottishIncomeTax2026_27(grossSalary, config);
+  }
+
+  return calculateScottishIncomeTax2025_26(grossSalary, config);
+}
+
 function calculateNationalInsurance(
   grossSalary: number,
   config: TaxYearConfig,
@@ -202,12 +325,16 @@ function calculateNationalInsurance(
   };
 }
 
+/**
+ * Student loan repayments use original contractual gross salary.
+ * Pension salary sacrifice does NOT reduce the student loan repayment base.
+ */
 function calculateStudentLoan(
-  repaymentIncome: number,
+  contractualGrossSalary: number,
   plan: StudentLoanPlan,
   config: TaxYearConfig,
 ): number {
-  if (plan === "none" || repaymentIncome <= 0) return 0;
+  if (plan === "none" || contractualGrossSalary <= 0) return 0;
 
   const { studentLoan: sl } = config;
   let threshold = 0;
@@ -231,7 +358,9 @@ function calculateStudentLoan(
       return 0;
   }
 
-  return roundToPence(Math.max(0, repaymentIncome - threshold) * rate);
+  return roundToPence(
+    Math.max(0, contractualGrossSalary - threshold) * rate,
+  );
 }
 
 /**
@@ -239,7 +368,8 @@ function calculateStudentLoan(
  * for Scottish Income Tax bands; all other regions use England/Wales rules.
  *
  * Pension uses pre-tax salary sacrifice (deducted before Income Tax and NI).
- * Student loan repayments apply to post-sacrifice earnings.
+ * Student loan repayments use original contractual gross (HMRC — sacrifice
+ * does not reduce student loan liability).
  */
 export function calculateUKSalary(
   grossSalary: number,
@@ -269,7 +399,7 @@ export function calculateUKSalary(
 
   const nationalInsurance = calculateNationalInsurance(adjustedGross, config);
   const studentLoanYearly = calculateStudentLoan(
-    adjustedGross,
+    normalizedGross,
     resolved.studentLoan,
     config,
   );

@@ -115,7 +115,8 @@ export function CalculatorOptions({
             />
           </div>
           <p className="mt-1.5 text-xs text-slate-400">
-            Pre-tax salary sacrifice — deducted before Income Tax and NI
+            Pre-tax salary sacrifice — deducted before Income Tax and NI. Student
+            loan repayments always use your original contractual gross salary.
           </p>
         </div>
       </div>

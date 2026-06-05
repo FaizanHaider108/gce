@@ -43,6 +43,7 @@ export interface TaxYearConfig {
   studentLoan: StudentLoanConfig;
 }
 
+/** Scottish Income Tax 2025/26 — gross earnings upper thresholds. */
 const SCOTTISH_2025_26: ScottishTaxConfig = {
   starterUpper: 15_397,
   basicUpper: 27_491,
@@ -57,9 +58,38 @@ const SCOTTISH_2025_26: ScottishTaxConfig = {
   topRate: 0.48,
 };
 
+/**
+ * Scottish Income Tax 2026/27 — statutory gross earnings upper thresholds.
+ * Starter £12,571–£16,537 (£3,967) | Basic £16,538–£29,526 (£12,988)
+ * | Intermediate £29,527–£43,662 | Higher £43,663–£75,000
+ * | Advanced £75,001–£125,140 | Top above £125,140.
+ */
+const SCOTTISH_2026_27: ScottishTaxConfig = {
+  starterUpper: 16_537,
+  basicUpper: 29_526,
+  intermediateUpper: 43_662,
+  higherUpper: 75_000,
+  advancedUpper: 125_140,
+  starterRate: 0.19,
+  basicRate: 0.2,
+  intermediateRate: 0.21,
+  higherRate: 0.42,
+  advancedRate: 0.45,
+  topRate: 0.48,
+};
+
 const STUDENT_LOAN_2025_26: StudentLoanConfig = {
   plan1Threshold: 24_930,
   plan2Threshold: 27_295,
+  plan5Threshold: 25_000,
+  postgraduateThreshold: 21_000,
+  undergraduateRate: 0.09,
+  postgraduateRate: 0.06,
+};
+
+const STUDENT_LOAN_2026_27: StudentLoanConfig = {
+  plan1Threshold: 24_930,
+  plan2Threshold: 28_470,
   plan5Threshold: 25_000,
   postgraduateThreshold: 21_000,
   undergraduateRate: 0.09,
@@ -95,8 +125,8 @@ export const TAX_YEAR_CONFIGS: Record<TaxYearId, TaxYearConfig> = {
     label: "2026/27 (Current)",
     isCurrent: true,
     ...BASE_THRESHOLDS,
-    scottish: SCOTTISH_2025_26,
-    studentLoan: STUDENT_LOAN_2025_26,
+    scottish: SCOTTISH_2026_27,
+    studentLoan: STUDENT_LOAN_2026_27,
   },
 };
 
