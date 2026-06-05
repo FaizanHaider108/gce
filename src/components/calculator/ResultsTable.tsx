@@ -1,8 +1,21 @@
+import {
+  annualToHourly,
+  formatHourlyConversionLabel,
+  type HoursPerWeek,
+  type SalaryInputMode,
+} from "@/lib/calculators/uk/salary-converter";
 import type { UKSalaryCalculation } from "@/types/calculator";
 import { formatGBP } from "@/lib/format/currency";
 
+export interface SalaryConversionMeta {
+  inputMode: SalaryInputMode;
+  hourlyRate: number;
+  hoursPerWeek: HoursPerWeek;
+}
+
 interface ResultsTableProps {
   results: UKSalaryCalculation;
+  salaryConversion: SalaryConversionMeta;
 }
 
 interface ResultRow {
@@ -11,9 +24,11 @@ interface ResultRow {
   monthly: number;
   weekly: number;
   highlight?: boolean;
-  emphasis?: "positive" | "negative" | "neutral";
+  emphasis?: "positive" | "negative" | "neutral" | "metadata";
   hideIfZero?: boolean;
   showWhen?: boolean;
+  isMetadata?: boolean;
+  metadataText?: string;
 }
 
 function toMonthly(yearly: number): number {
@@ -24,7 +39,22 @@ function toWeekly(yearly: number): number {
   return Number.parseFloat((yearly / 52).toFixed(2));
 }
 
-export function ResultsTable({ results }: ResultsTableProps) {
+export function ResultsTable({
+  results,
+  salaryConversion,
+}: ResultsTableProps) {
+  const displayHourlyRate =
+    salaryConversion.inputMode === "hourly"
+      ? salaryConversion.hourlyRate
+      : annualToHourly(
+          results.grossSalary,
+          salaryConversion.hoursPerWeek,
+        );
+
+  const hourlyConversionLabel = formatHourlyConversionLabel(
+    displayHourlyRate,
+    salaryConversion.hoursPerWeek,
+  );
   const incomeTaxRows: ResultRow[] = results.incomeTax.bands.map((band) => ({
     label: band.label,
     yearly: band.amount,
@@ -41,6 +71,15 @@ export function ResultsTable({ results }: ResultsTableProps) {
       monthly: toMonthly(results.grossSalary),
       weekly: toWeekly(results.grossSalary),
       emphasis: "neutral",
+    },
+    {
+      label: "Equivalent Hourly Base Rate",
+      yearly: 0,
+      monthly: 0,
+      weekly: 0,
+      emphasis: "metadata",
+      isMetadata: true,
+      metadataText: hourlyConversionLabel,
     },
     {
       label: `Pension Contribution${results.pension.percent > 0 ? ` (${results.pension.percent}%)` : ""}`,
@@ -142,6 +181,14 @@ export function ResultsTable({ results }: ResultsTableProps) {
       };
     }
 
+    if (row.emphasis === "metadata") {
+      return {
+        row: "bg-slate-50/60",
+        label: "text-slate-600",
+        value: "font-medium text-slate-700",
+      };
+    }
+
     if (row.emphasis === "negative") {
       return {
         row: "bg-red-50/70",
@@ -196,24 +243,37 @@ export function ResultsTable({ results }: ResultsTableProps) {
                 >
                   {row.label}
                 </td>
-                <td
-                  className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
-                >
-                  {row.emphasis === "negative" && row.yearly > 0 ? "−" : ""}
-                  {formatGBP(row.yearly)}
-                </td>
-                <td
-                  className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
-                >
-                  {row.emphasis === "negative" && row.monthly > 0 ? "−" : ""}
-                  {formatGBP(row.monthly)}
-                </td>
-                <td
-                  className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
-                >
-                  {row.emphasis === "negative" && row.weekly > 0 ? "−" : ""}
-                  {formatGBP(row.weekly)}
-                </td>
+                {row.isMetadata ? (
+                  <td
+                    colSpan={3}
+                    className={`px-2 py-2.5 text-right text-xs sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
+                  >
+                    {row.metadataText}
+                  </td>
+                ) : (
+                  <>
+                    <td
+                      className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
+                    >
+                      {row.emphasis === "negative" && row.yearly > 0 ? "−" : ""}
+                      {formatGBP(row.yearly)}
+                    </td>
+                    <td
+                      className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
+                    >
+                      {row.emphasis === "negative" && row.monthly > 0
+                        ? "−"
+                        : ""}
+                      {formatGBP(row.monthly)}
+                    </td>
+                    <td
+                      className={`px-2 py-2.5 text-right text-xs tabular-nums sm:px-3 sm:py-3 sm:text-sm ${styles.value}`}
+                    >
+                      {row.emphasis === "negative" && row.weekly > 0 ? "−" : ""}
+                      {formatGBP(row.weekly)}
+                    </td>
+                  </>
+                )}
               </tr>
             );
           })}

@@ -25,3 +25,14 @@ export {
   TAX_YEAR_CONFIGS,
   TAX_YEAR_OPTIONS,
 } from "./tax-year-config";
+export {
+  annualToHourly,
+  DEFAULT_HOURS_PER_WEEK,
+  formatHourlyConversionLabel,
+  formatHourlyRate,
+  hourlyToAnnual,
+  HOURS_PER_WEEK_OPTIONS,
+  type HoursPerWeek,
+  type SalaryInputMode,
+  WEEKS_PER_YEAR,
+} from "./salary-converter";

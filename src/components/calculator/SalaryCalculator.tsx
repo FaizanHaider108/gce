@@ -8,9 +8,13 @@ import {
 } from "@/components/icons/FinanceIcons";
 import { MetricBadge } from "@/components/ui/MetricBadge";
 import {
+  annualToHourly,
   calculateUKSalary,
   DEFAULT_GROSS_SALARY,
+  DEFAULT_HOURS_PER_WEEK,
   DEFAULT_TAX_YEAR,
+  type HoursPerWeek,
+  type SalaryInputMode,
 } from "@/lib/calculators/uk";
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
@@ -20,7 +24,7 @@ import { CalculatorOptions } from "./CalculatorOptions";
 import { MarketInsights } from "./MarketInsights";
 import { ResultsTable } from "./ResultsTable";
 import { SalaryDonutChart } from "./SalaryDonutChart";
-import { SalaryInput } from "./SalaryInput";
+import { SalaryInputPanel } from "./SalaryInputPanel";
 
 interface SalaryCalculatorProps {
   city: UKCity;
@@ -32,6 +36,12 @@ export function SalaryCalculator({
   initialSalary = DEFAULT_GROSS_SALARY,
 }: SalaryCalculatorProps) {
   const [grossSalary, setGrossSalary] = usePersistedSalary(initialSalary);
+  const [inputMode, setInputMode] = useState<SalaryInputMode>("annual");
+  const [hourlyRate, setHourlyRate] = useState(() =>
+    annualToHourly(initialSalary, DEFAULT_HOURS_PER_WEEK),
+  );
+  const [hoursPerWeek, setHoursPerWeek] =
+    useState<HoursPerWeek>(DEFAULT_HOURS_PER_WEEK);
   const [taxYear, setTaxYear] = useState<TaxYearId>(DEFAULT_TAX_YEAR);
   const [pensionPercent, setPensionPercent] = useState(0);
   const [studentLoan, setStudentLoan] = useState<StudentLoanPlan>("none");
@@ -44,6 +54,15 @@ export function SalaryCalculator({
         studentLoan,
       }),
     [grossSalary, city.region, taxYear, pensionPercent, studentLoan],
+  );
+
+  const salaryConversion = useMemo(
+    () => ({
+      inputMode,
+      hourlyRate,
+      hoursPerWeek,
+    }),
+    [inputMode, hourlyRate, hoursPerWeek],
   );
 
   return (
@@ -63,8 +82,8 @@ export function SalaryCalculator({
         <p className="max-w-2xl text-base leading-relaxed text-slate-500 sm:text-lg">
           Estimate your UK take-home pay after Income Tax, National Insurance,
           pension contributions, and student loan repayments. Enter your annual
-          gross salary below to see yearly, monthly, and weekly breakdowns for
-          workers in {city.cityName}.
+          or hourly gross salary below to see yearly, monthly, and weekly
+          breakdowns for workers in {city.cityName}.
         </p>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -95,7 +114,16 @@ export function SalaryCalculator({
           studentLoan={studentLoan}
           onStudentLoanChange={setStudentLoan}
         />
-        <SalaryInput value={grossSalary} onChange={setGrossSalary} />
+        <SalaryInputPanel
+          inputMode={inputMode}
+          onInputModeChange={setInputMode}
+          annualSalary={grossSalary}
+          onAnnualSalaryChange={setGrossSalary}
+          hourlyRate={hourlyRate}
+          onHourlyRateChange={setHourlyRate}
+          hoursPerWeek={hoursPerWeek}
+          onHoursPerWeekChange={setHoursPerWeek}
+        />
       </div>
 
       <MarketInsights city={city} grossSalary={grossSalary} />
@@ -115,7 +143,10 @@ export function SalaryCalculator({
 
         <div className="flex flex-col gap-6">
           <div className="min-w-0">
-            <ResultsTable results={results} />
+            <ResultsTable
+              results={results}
+              salaryConversion={salaryConversion}
+            />
           </div>
           <div className="min-w-0">
             <SalaryDonutChart results={results} />
