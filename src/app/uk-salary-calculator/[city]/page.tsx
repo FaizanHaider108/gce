@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
+import { CityEconomicSnapshot } from "@/components/calculator/CityEconomicSnapshot";
 import { CityLocalInsight } from "@/components/calculator/CityLocalInsight";
 import { CityTaxBreakdownSummary } from "@/components/calculator/CityTaxBreakdownSummary";
 import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalaryComparison";
@@ -130,6 +131,7 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
       <SalaryCalculator city={city} />
       <div className="mt-8 space-y-8">
+        <CityEconomicSnapshot city={city} />
         <CityTaxBreakdownSummary city={city} />
         <CityLocalInsight city={city} />
       </div>

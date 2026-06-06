@@ -2,18 +2,21 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { CORPORATE_EMAIL, getSiteUrl } from "@/lib/site/config";
+import { LEAD_FINANCIAL_ARCHITECT } from "@/lib/site/trust-profile";
 import { LegalPageLayout } from "@/components/legal/LegalPageLayout";
 
 export const metadata: Metadata = {
   title: "About Global Calculator Engine | UK Chartered Tax Professionals",
   description:
-    "About Global Calculator Engine — ACCA-aligned UK tax professionals, HMRC 2026/27 salary calculators, and chartered accounting services.",
+    "About Global Calculator Engine — ACCA-aligned UK tax professionals, HMRC 2026/27 salary calculators, and chartered accounting services led by qualified financial architects.",
   alternates: {
     canonical: `${getSiteUrl()}/about`,
   },
 };
 
 export default function AboutPage() {
+  const architect = LEAD_FINANCIAL_ARCHITECT;
+
   return (
     <LegalPageLayout title="About Global Calculator Engine">
       <p>
@@ -23,6 +26,56 @@ export default function AboutPage() {
         every major city and region in the United Kingdom.
       </p>
 
+      <section className="rounded-xl border border-emerald-100 bg-emerald-50/40 p-6">
+        <h2 className="mb-3 text-lg font-semibold text-slate-900">
+          Lead financial authority &amp; editorial oversight
+        </h2>
+        <div className="space-y-4 text-base leading-relaxed text-slate-600">
+          <p>
+            <strong className="font-semibold text-slate-900">
+              {architect.name}
+            </strong>{" "}
+            — {architect.role}
+          </p>
+          <ul className="flex flex-wrap gap-2">
+            {architect.certifications.map((badge) => (
+              <li
+                key={badge}
+                className="rounded-full border border-emerald-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-800"
+              >
+                {badge}
+              </li>
+            ))}
+          </ul>
+          <p>{architect.bio}</p>
+          <dl className="grid gap-3 text-sm sm:grid-cols-2">
+            <div>
+              <dt className="font-medium text-slate-500">
+                Firm registration
+              </dt>
+              <dd className="mt-0.5 font-mono text-slate-800">
+                {architect.firmRegistrationNumber}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-medium text-slate-500">
+                Professional verification
+              </dt>
+              <dd className="mt-0.5">
+                <a
+                  href={architect.linkedInUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-emerald-600 hover:underline"
+                >
+                  LinkedIn profile verification →
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
       <section>
         <h2 className="mb-2 text-lg font-semibold text-slate-900">
           Chartered credentials &amp; professional standards
@@ -30,7 +83,7 @@ export default function AboutPage() {
         <p>
           Our accounting service routes are delivered by qualified UK tax
           professionals operating under chartered accounting membership
-          frameworks including ACCA guidelines. We maintain continuous
+          frameworks including ACCA and ACA guidelines. We maintain continuous
           professional development sweeps against HMRC manual updates, Finance
           Act revisions, and Scottish Income Tax band changes to ensure every
           calculator and advisory output reflects current statutory law.

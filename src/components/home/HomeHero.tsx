@@ -1,12 +1,15 @@
 import { ShieldCheckIcon } from "@/components/icons/FinanceIcons";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { HOME_H1 } from "@/lib/seo/home-metadata";
+import type { UKCity } from "@/types/location";
+import { HomeSalaryWidget } from "./HomeSalaryWidget";
 
 interface HomeHeroProps {
   totalCities: number;
+  defaultCity: UKCity;
 }
 
-export function HomeHero({ totalCities }: HomeHeroProps) {
+export function HomeHero({ totalCities, defaultCity }: HomeHeroProps) {
   return (
     <section className="relative overflow-hidden rounded-2xl border border-slate-100 bg-white px-6 py-10 shadow-sm sm:px-10 sm:py-14">
       <div
@@ -27,6 +30,8 @@ export function HomeHero({ totalCities }: HomeHeroProps) {
           National Insurance, and net pay — built for professionals, relocators,
           and anyone negotiating their next offer.
         </p>
+
+        <HomeSalaryWidget defaultCity={defaultCity} />
       </div>
     </section>
   );
