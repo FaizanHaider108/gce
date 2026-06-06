@@ -5,15 +5,14 @@ import { HomeHero } from "@/components/home/HomeHero";
 import { HomeValueCards } from "@/components/home/HomeValueCards";
 import { AccountantBanner } from "@/components/marketing/AccountantBanner";
 import { getUKCities } from "@/lib/data/load-cities";
+import {
+  HOME_DESCRIPTION,
+  HOME_TITLE,
+} from "@/lib/seo/home-metadata";
 import { getSiteUrl } from "@/lib/site/config";
 
 const SITE_URL = getSiteUrl();
 const OG_IMAGE = `${SITE_URL}/web-app-manifest-512x512.png`;
-
-const HOME_TITLE =
-  "UK Salary Calculator 2026/27 | Free Income Tax & Take-Home Pay Tool";
-const HOME_DESCRIPTION =
-  "Calculate your exact take-home pay with our HMRC-aligned UK salary calculator. Estimate your 2026/27 income tax, national insurance deductions, and net monthly breakdown instantly across 254+ cities.";
 
 export const metadata: Metadata = {
   title: {
