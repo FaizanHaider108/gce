@@ -27,14 +27,18 @@ import { SalaryInput } from "./SalaryInput";
 
 interface SalaryCalculatorProps {
   city: UKCity;
+  /** Annual gross from URL or server — overrides stale localStorage when provided. */
   initialSalary?: number;
 }
 
 export function SalaryCalculator({
   city,
-  initialSalary = DEFAULT_GROSS_SALARY,
+  initialSalary,
 }: SalaryCalculatorProps) {
-  const [grossSalary, setGrossSalary] = usePersistedSalary(initialSalary);
+  const [grossSalary, setGrossSalary] = usePersistedSalary(
+    initialSalary ?? DEFAULT_GROSS_SALARY,
+    initialSalary,
+  );
   const [taxYear, setTaxYear] = useState<TaxYearId>(DEFAULT_TAX_YEAR);
   const [pensionPercent, setPensionPercent] = useState(0);
   const [studentLoan, setStudentLoan] = useState<StudentLoanPlan>("none");

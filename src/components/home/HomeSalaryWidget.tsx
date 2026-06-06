@@ -1,25 +1,23 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
   calculateUKSalary,
   DEFAULT_GROSS_SALARY,
   DEFAULT_TAX_YEAR,
 } from "@/lib/calculators/uk";
+import {
+  buildFullReportPath,
+  getJurisdictionDefaultCity,
+  JURISDICTION_REGION,
+  type TaxJurisdiction,
+} from "@/lib/data/home-jurisdiction";
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
 import type { UKCity } from "@/types/location";
 
 type PayFrequency = "annual" | "monthly";
-
-type TaxJurisdiction = "England" | "Scotland" | "Wales" | "Northern Ireland";
-
-const JURISDICTION_REGION: Record<TaxJurisdiction, string> = {
-  England: "Kent",
-  Scotland: "Scotland",
-  Wales: "Wales",
-  "Northern Ireland": "Northern Ireland",
-};
 
 interface HomeSalaryWidgetProps {
   defaultCity: UKCity;
@@ -32,6 +30,8 @@ export function HomeSalaryWidget({ defaultCity }: HomeSalaryWidgetProps) {
   const [showResults, setShowResults] = useState(true);
 
   const region = JURISDICTION_REGION[jurisdiction];
+  const reportCity = getJurisdictionDefaultCity(jurisdiction);
+  const fullReportPath = buildFullReportPath(jurisdiction, annualGross);
 
   const results = useMemo(
     () => calculateUKSalary(annualGross, region, { taxYear: DEFAULT_TAX_YEAR }),
@@ -163,35 +163,50 @@ export function HomeSalaryWidget({ defaultCity }: HomeSalaryWidgetProps) {
       </div>
 
       {showResults && annualGross > 0 && (
-        <div
-          id="home-calc-results"
-          className="grid grid-cols-1 gap-3 sm:grid-cols-3"
-          aria-live="polite"
-        >
-          <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
-              Net Take-Home ({payFrequency})
-            </p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-emerald-900">
-              {formatGBP(netDisplay)}
-            </p>
+        <div id="home-calc-results" className="space-y-4" aria-live="polite">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-4 py-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
+                Net Take-Home ({payFrequency})
+              </p>
+              <p className="mt-1 text-2xl font-bold tabular-nums text-emerald-900">
+                {formatGBP(netDisplay)}
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                Income Tax ({payFrequency})
+              </p>
+              <p className="mt-1 text-2xl font-bold tabular-nums text-slate-900">
+                {formatGBP(taxDisplay)}
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                National Insurance ({payFrequency})
+              </p>
+              <p className="mt-1 text-2xl font-bold tabular-nums text-slate-900">
+                {formatGBP(niDisplay)}
+              </p>
+            </div>
           </div>
-          <div className="rounded-xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Income Tax ({payFrequency})
-            </p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-slate-900">
-              {formatGBP(taxDisplay)}
-            </p>
-          </div>
-          <div className="rounded-xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              National Insurance ({payFrequency})
-            </p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-slate-900">
-              {formatGBP(niDisplay)}
-            </p>
-          </div>
+
+          {fullReportPath && reportCity && (
+            <div className="flex flex-col items-stretch gap-2 sm:items-center">
+              <Link
+                href={fullReportPath}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-center text-sm font-semibold text-slate-900 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-800 sm:w-auto"
+              >
+                View Complete {jurisdiction} Tax Breakdown
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className="text-center text-xs text-slate-400">
+                Opens your full {formatGBP(annualGross)} report for{" "}
+                {reportCity.cityName} with {jurisdiction} tax bands, pension
+                options, and local economic data
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>
