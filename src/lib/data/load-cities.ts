@@ -24,6 +24,30 @@ export function getCitiesByRegion(region: string): UKCity[] {
   return getUKCities().filter((city) => city.region === region);
 }
 
+/** All unique regions sorted alphabetically. */
+export function getUKRegions(): string[] {
+  const regions = new Set(getUKCities().map((city) => city.region));
+  return [...regions].sort((a, b) => a.localeCompare(b, "en-GB"));
+}
+
+/** Cities grouped by region for directory hub pages. */
+export function getCitiesGroupedByRegion(): Map<string, UKCity[]> {
+  const grouped = new Map<string, UKCity[]>();
+
+  for (const city of getUKCities()) {
+    const list = grouped.get(city.region) ?? [];
+    list.push(city);
+    grouped.set(city.region, list);
+  }
+
+  for (const [region, cities] of grouped) {
+    cities.sort((a, b) => a.cityName.localeCompare(b.cityName, "en-GB"));
+    grouped.set(region, cities);
+  }
+
+  return grouped;
+}
+
 /**
  * Returns 4–5 related cities for internal linking.
  * Priority: same region → adjacent regions (from REGION_ADJACENCY).

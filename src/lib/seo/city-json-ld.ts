@@ -31,3 +31,26 @@ export function buildCityFinancialProductJsonLd(city: UKCity) {
     },
   };
 }
+
+export function buildCityPlaceJsonLd(city: UKCity) {
+  const siteUrl = getSiteUrl();
+  const pageUrl = `${siteUrl}/salary/uk/${city.slug}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Place",
+    name: `Salary & Income Tax Calculator for ${city.cityName}`,
+    url: pageUrl,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: city.cityName,
+      addressRegion: city.region,
+      addressCountry: "GB",
+    },
+    description: `Calculate take-home pay and tax deductions for professionals working in ${city.cityName}, ${city.region}, United Kingdom.`,
+    containedInPlace: {
+      "@type": "AdministrativeArea",
+      name: city.region,
+    },
+  };
+}

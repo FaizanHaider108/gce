@@ -103,7 +103,7 @@ export function ServicesDropdown({
 
       <div
         id={panelId}
-        className={`absolute right-0 top-full z-50 mt-2 w-[min(36rem,calc(100vw-2rem))] origin-top-right rounded-xl border border-slate-100 bg-white p-4 shadow-xl transition-all duration-300 ${open ? "pointer-events-auto translate-y-0 scale-100 opacity-100" : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0"}`}
+        className={`absolute right-0 top-full z-50 mt-2 w-[90vw] max-w-4xl origin-top-right rounded-xl border border-slate-100 bg-white p-4 shadow-xl transition-all duration-300 ${open ? "pointer-events-auto translate-y-0 scale-100 opacity-100" : "pointer-events-none -translate-y-1 scale-[0.98] opacity-0"}`}
         role="menu"
         aria-hidden={!open}
       >

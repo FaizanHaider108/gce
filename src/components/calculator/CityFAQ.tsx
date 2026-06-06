@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronDownIcon } from "@/components/icons/FinanceIcons";
 import {
   calculateUKSalary,
@@ -15,6 +15,12 @@ import {
 } from "@/lib/calculators/uk";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
+import {
+  FAQ_HEADING_VARIATIONS,
+  FAQ_INTRO_VARIATIONS,
+  getCityVariationIndex,
+  pickVariation,
+} from "@/lib/seo/content-variations";
 import type { UKCity } from "@/types/location";
 
 interface FAQItem {
@@ -23,24 +29,53 @@ interface FAQItem {
   answer: string;
 }
 
+const TAX_QUESTION_VARIATIONS = [
+  (city: UKCity) =>
+    `How much tax do I pay on a standard salary in ${city.cityName}?`,
+  (city: UKCity) =>
+    `What are typical PAYE deductions for ${city.cityName} workers?`,
+  (city: UKCity) =>
+    `How much Income Tax and NI apply on average earnings in ${city.cityName}?`,
+] as const;
+
+const PA_QUESTION_VARIATIONS = [
+  (city: UKCity) =>
+    `What is the Personal Allowance for the ${UK_TAX_YEAR} tax year in ${city.region}?`,
+  (city: UKCity) =>
+    `How does the ${UK_TAX_YEAR} Personal Allowance work in ${city.region}?`,
+  (city: UKCity) =>
+    `What tax-free allowance applies in ${city.cityName} for ${UK_TAX_YEAR}?`,
+] as const;
+
+const NI_QUESTION_VARIATIONS = [
+  (city: UKCity) => `Is National Insurance different in ${city.cityName}?`,
+  (city: UKCity) =>
+    `Do ${city.cityName} employees pay different NI rates than elsewhere in the UK?`,
+  (city: UKCity) =>
+    `How is Class 1 National Insurance calculated in ${city.region}?`,
+] as const;
+
 function buildFAQItems(city: UKCity): FAQItem[] {
   const averageSalary = getCityAverageSalary(city);
   const standardCalc = calculateUKSalary(averageSalary, city.region);
+  const v = (n: number) => getCityVariationIndex(city, n);
 
   return [
     {
       id: "tax-standard",
-      question: `How much tax do I pay on a standard salary in ${city.cityName}?`,
+      question: TAX_QUESTION_VARIATIONS[v(TAX_QUESTION_VARIATIONS.length)](
+        city,
+      ),
       answer: `On a typical gross salary of ${formatGBP(averageSalary)} in ${city.cityName}, you would pay approximately ${formatGBP(standardCalc.incomeTax.total)} in Income Tax and ${formatGBP(standardCalc.nationalInsurance.total)} in National Insurance (${UK_TAX_YEAR} estimates). That leaves a net take-home pay of around ${formatGBP(standardCalc.netSalary.yearly)} per year, or ${formatGBP(standardCalc.netSalary.monthly)} per month.`,
     },
     {
       id: "personal-allowance",
-      question: `What is the Personal Allowance for the ${UK_TAX_YEAR} tax year in ${city.region}?`,
+      question: PA_QUESTION_VARIATIONS[v(PA_QUESTION_VARIATIONS.length)](city),
       answer: `The standard UK Personal Allowance for ${UK_TAX_YEAR} is ${formatGBP(PERSONAL_ALLOWANCE)} per year across ${city.region} and the entire UK. If your gross income exceeds ${formatGBP(PA_TAPER_THRESHOLD)}, the allowance tapers by £1 for every £2 earned above that threshold, reaching £0 at ${formatGBP(PA_ZERO_THRESHOLD)}. Income above your remaining allowance is taxed at 20% (basic), 40% (higher), and 45% (additional) depending on your total earnings.`,
     },
     {
       id: "national-insurance",
-      question: `Is National Insurance different in ${city.cityName}?`,
+      question: NI_QUESTION_VARIATIONS[v(NI_QUESTION_VARIATIONS.length)](city),
       answer: `No — Class 1 Employee National Insurance is set nationally by HMRC and is identical in ${city.cityName}, ${city.region}, and across the UK. For ${UK_TAX_YEAR}, you pay 0% on the first ${formatGBP(NI_PRIMARY_THRESHOLD)}, then ${NI_MAIN_RATE * 100}% on taxable earnings above ${formatGBP(NI_PRIMARY_THRESHOLD)} (up to ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}), and ${NI_ADDITIONAL_RATE * 100}% on any earnings above ${formatGBP(NI_UPPER_EARNINGS_LIMIT)}. Your actual contributions may vary with pension salary sacrifice, benefits in kind, and employment status.`,
     },
   ];
@@ -51,8 +86,10 @@ interface CityFAQProps {
 }
 
 export function CityFAQ({ city }: CityFAQProps) {
-  const items = buildFAQItems(city);
+  const items = useMemo(() => buildFAQItems(city), [city]);
   const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
+  const faqHeading = pickVariation(city, FAQ_HEADING_VARIATIONS)(city);
+  const faqIntro = pickVariation(city, FAQ_INTRO_VARIATIONS)(city);
 
   return (
     <section className="no-print mt-12" aria-labelledby="city-faq-heading">
@@ -60,12 +97,9 @@ export function CityFAQ({ city }: CityFAQProps) {
         id="city-faq-heading"
         className="text-xl font-semibold text-slate-900 sm:text-2xl"
       >
-        Frequently Asked Questions — {city.cityName}
+        {faqHeading}
       </h2>
-      <p className="mt-2 text-sm text-slate-500">
-        Common questions about salary, tax, and National Insurance in{" "}
-        {city.region}.
-      </p>
+      <p className="mt-2 text-sm text-slate-500">{faqIntro}</p>
 
       <div className="mt-6 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm">
         {items.map((item, index) => {

@@ -9,7 +9,7 @@ import { ServicesDropdown } from "./ServicesDropdown";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/#cities", label: "UK Calculators" },
+  { href: "/salary/uk", label: "UK Calculators" },
   { href: "/contact", label: "Contact" },
 ] as const;
 

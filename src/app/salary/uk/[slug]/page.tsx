@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
 import { CityFAQ } from "@/components/calculator/CityFAQ";
+import { CityLocalInsight } from "@/components/calculator/CityLocalInsight";
 import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalaryComparison";
 import { RelatedCities } from "@/components/calculator/RelatedCities";
 import { RelocationCTA } from "@/components/calculator/RelocationCTA";
@@ -12,7 +13,11 @@ import {
   getAllUKCitySlugs,
   getUKCityBySlug,
 } from "@/lib/data/load-cities";
-import { buildCityFinancialProductJsonLd } from "@/lib/seo/city-json-ld";
+import {
+  buildCityFinancialProductJsonLd,
+  buildCityPlaceJsonLd,
+} from "@/lib/seo/city-json-ld";
+import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
 import { getSiteUrl } from "@/lib/site/config";
 
 interface PageProps {
@@ -36,7 +41,8 @@ export async function generateMetadata({
   }
 
   const title = `Salary & Income Tax Calculator for ${city.cityName}`;
-  const description = `Calculate your ${UK_TAX_YEAR} take-home pay in ${city.cityName}, ${city.region}. Free UK salary calculator with Income Tax, National Insurance, and net monthly pay breakdown.`;
+  const metrics = getCityLocalMetrics(city);
+  const description = `Calculate your ${UK_TAX_YEAR} take-home pay in ${city.cityName}, ${city.region}. Average local salary ${metrics.avgSalary.toLocaleString("en-GB")} — rent typically ${metrics.rentPercent}% of net pay. Free Income Tax & NI calculator.`;
   const pageUrl = `${getSiteUrl()}/salary/uk/${slug}`;
 
   return {
@@ -81,6 +87,7 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
 
   const benchmarkCities = getBenchmarkCities();
   const financialProductJsonLd = buildCityFinancialProductJsonLd(city);
+  const placeJsonLd = buildCityPlaceJsonLd(city);
 
   return (
     <>
@@ -90,8 +97,17 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
           __html: JSON.stringify(financialProductJsonLd),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(placeJsonLd),
+        }}
+      />
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
       <SalaryCalculator city={city} />
+      <div className="mt-8">
+        <CityLocalInsight city={city} />
+      </div>
       <RegionalSalaryComparison
         currentCity={city}
         benchmarkCities={benchmarkCities}

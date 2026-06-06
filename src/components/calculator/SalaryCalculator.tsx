@@ -14,6 +14,10 @@ import {
 } from "@/lib/calculators/uk";
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
+import {
+  INTRO_HOOK_VARIATIONS,
+  pickVariation,
+} from "@/lib/seo/content-variations";
 import type { StudentLoanPlan, TaxYearId } from "@/types/calculator";
 import type { UKCity } from "@/types/location";
 import { AccountantBanner } from "@/components/marketing/AccountantBanner";
@@ -47,6 +51,11 @@ export function SalaryCalculator({
     [grossSalary, city.region, taxYear, pensionPercent, studentLoan],
   );
 
+  const introCopy = useMemo(
+    () => pickVariation(city, INTRO_HOOK_VARIATIONS)(city),
+    [city],
+  );
+
   return (
     <section className="space-y-8">
       <header className="space-y-5">
@@ -62,10 +71,7 @@ export function SalaryCalculator({
         </h1>
 
         <p className="max-w-2xl text-base leading-relaxed text-slate-500 sm:text-lg">
-          Estimate your UK take-home pay after Income Tax, National Insurance,
-          pension contributions, and student loan repayments. Enter your annual
-          gross salary below to see yearly, monthly, and weekly breakdowns for
-          workers in {city.cityName}.
+          {introCopy}
         </p>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

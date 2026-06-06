@@ -22,12 +22,20 @@ const SITEMAP_BASE_URL = getSiteUrl();
 export default function sitemap(): MetadataRoute.Sitemap {
   const citySlugs = getAllUKCitySlugs();
 
-  const homepage: MetadataRoute.Sitemap[number] = {
-    url: SITEMAP_BASE_URL,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 1,
-  };
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: SITEMAP_BASE_URL,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 1,
+    },
+    {
+      url: `${SITEMAP_BASE_URL}/salary/uk`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+  ];
 
   const cityPages: MetadataRoute.Sitemap = citySlugs.map((slug) => ({
     url: `${SITEMAP_BASE_URL}/salary/uk/${slug}`,
@@ -45,7 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  return [homepage, ...cityPages, ...servicePages];
+  return [...staticPages, ...cityPages, ...servicePages];
 }
 
 export { CANONICAL_SITE_URL, SITEMAP_BASE_URL };
