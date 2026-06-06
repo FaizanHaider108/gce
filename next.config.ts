@@ -39,6 +39,16 @@ const nextConfig: NextConfig = {
         destination: "/uk-calculator-directory",
         permanent: true,
       },
+      {
+        source: "/services/bookkeeping-bank-reconciliations",
+        destination: "/services/bookkeeping",
+        permanent: true,
+      },
+      {
+        source: "/services/self-assessment-tax-returns",
+        destination: "/services/self-assessment",
+        permanent: true,
+      },
       ...cityRedirects,
     ];
   },

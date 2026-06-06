@@ -50,6 +50,11 @@ export function buildCityDualJsonLd(city: UKCity) {
 
 /** FAQPage schema for city landing pages — mirrors accordion Q&A content. */
 export function buildCityFaqJsonLd(city: UKCity) {
+  return generateFAQSchema(city);
+}
+
+/** FAQPage JSON-LD generator — identical text block to UI accordion. */
+export function generateFAQSchema(city: UKCity) {
   const items = buildCityFaqItems(city);
 
   return {
