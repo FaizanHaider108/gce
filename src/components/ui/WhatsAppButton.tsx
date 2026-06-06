@@ -3,6 +3,7 @@ import { buildWhatsAppUrl, type WhatsAppContext } from "@/lib/whatsapp";
 
 interface WhatsAppButtonProps {
   serviceName?: string;
+  cityName?: string;
   context?: WhatsAppContext;
   label?: string;
   className?: string;
@@ -24,13 +25,14 @@ const ICON_SIZES = {
 
 export function WhatsAppButton({
   serviceName,
+  cityName,
   context = "general",
   label = "Contact via WhatsApp",
   className = "",
   size = "md",
   pulse = false,
 }: WhatsAppButtonProps) {
-  const href = buildWhatsAppUrl({ serviceName, context });
+  const href = buildWhatsAppUrl({ serviceName, cityName, context });
 
   return (
     <a

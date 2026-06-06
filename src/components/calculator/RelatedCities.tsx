@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BuildingIcon } from "@/components/icons/FinanceIcons";
+import { getCityLinkLabel, getCitySalaryPath } from "@/lib/data/city-routes";
 import { getRelatedCities } from "@/lib/data/load-cities";
 import type { UKCity } from "@/types/location";
 
@@ -32,10 +33,10 @@ export function RelatedCities({ city }: RelatedCitiesProps) {
         {related.map((relatedCity) => (
           <li key={relatedCity.slug}>
             <Link
-              href={`/salary/uk/${relatedCity.slug}`}
+              href={getCitySalaryPath(relatedCity)}
               className="inline-block rounded-lg border border-slate-100 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700"
             >
-              {relatedCity.cityName}
+              {getCityLinkLabel(relatedCity)}
             </Link>
           </li>
         ))}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import { calculateUKSalary, DEFAULT_GROSS_SALARY } from "@/lib/calculators/uk";
+import { getCitySalaryPath } from "@/lib/data/city-routes";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
@@ -92,7 +93,7 @@ export function RegionalSalaryComparison({
               >
                 <td className="px-4 py-3 text-sm sm:px-6">
                   <Link
-                    href={`/salary/uk/${city.slug}`}
+                    href={getCitySalaryPath(city)}
                     className="font-medium text-emerald-600 hover:text-emerald-700 hover:underline"
                   >
                     {city.cityName}

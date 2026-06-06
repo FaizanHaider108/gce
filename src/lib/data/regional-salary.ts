@@ -71,6 +71,22 @@ export function getRegionalAverageSalary(region: string): number {
   return BASELINE_AVERAGE;
 }
 
+/**
+ * Deterministic micro-variance per city name — breaks regional salary bucketing
+ * so adjacent cities never share an identical pound figure.
+ */
+export function getNaturalizedSalary(
+  baseSalary: number,
+  cityName: string,
+): number {
+  const charSum = cityName
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const offset = (charSum % 450) - 225;
+  return Math.floor((baseSalary + offset) / 10) * 10;
+}
+
 export function getCityAverageSalary(city: UKCity): number {
-  return getRegionalAverageSalary(city.region);
+  const base = getRegionalAverageSalary(city.region);
+  return getNaturalizedSalary(base, city.cityName);
 }

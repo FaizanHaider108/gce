@@ -5,9 +5,12 @@ import { getCityAverageSalary } from "./regional-salary";
 
 export interface CityLocalMetrics {
   avgSalary: number;
+  avgRentMonthly: number;
+  /** ((avgRent * 12) / avgSalary) * 100 */
   rentPercent: number;
   avgCouncilTax: number;
-  avgRentMonthly: number;
+  councilTaxBand: string;
+  costOfLivingIndex: number;
   netMonthly: number;
 }
 
@@ -32,35 +35,42 @@ const REGION_COUNCIL_TAX: Record<string, number> = {
 
 const DEFAULT_COUNCIL_TAX = 2100;
 
+function estimateCouncilTaxBand(costOfLivingIndex: number): string {
+  if (costOfLivingIndex >= 85) return "E";
+  if (costOfLivingIndex >= 75) return "D";
+  if (costOfLivingIndex >= 62) return "C";
+  return "B";
+}
+
 /**
- * City-specific affordability metrics derived from regional salary baselines,
- * cost-of-living index, and a deterministic slug hash for per-city uniqueness.
+ * Per-city local metrics sourced from uk-cities.json metadata (COL index)
+ * plus regional salary baselines. Rent % uses the mandated gross formula.
  */
 export function getCityLocalMetrics(city: UKCity): CityLocalMetrics {
   const avgSalary = getCityAverageSalary(city);
   const costOfLivingIndex = city.metadata?.costOfLivingIndex ?? 65;
-  const slugJitter = hashCitySlug(city.slug) % 7;
+  const slugJitter = hashCitySlug(city.slug) % 11;
 
-  const rentPercent = Math.min(
-    38,
-    Math.max(
-      18,
-      Math.round(20 + (costOfLivingIndex - 55) * 0.22 + slugJitter * 0.6),
-    ),
+  const avgRentMonthly = Math.round(
+    620 + (costOfLivingIndex - 50) * 12 + slugJitter * 16,
+  );
+
+  const rentPercent = Math.round(
+    ((avgRentMonthly * 12) / avgSalary) * 100,
   );
 
   const avgCouncilTax =
     REGION_COUNCIL_TAX[city.region] ?? DEFAULT_COUNCIL_TAX;
 
   const calc = calculateUKSalary(avgSalary, city.region);
-  const netMonthly = calc.netSalary.monthly;
-  const avgRentMonthly = Math.round(netMonthly * (rentPercent / 100));
 
   return {
     avgSalary,
+    avgRentMonthly,
     rentPercent,
     avgCouncilTax,
-    avgRentMonthly,
-    netMonthly,
+    councilTaxBand: estimateCouncilTaxBand(costOfLivingIndex),
+    costOfLivingIndex,
+    netMonthly: calc.netSalary.monthly,
   };
 }

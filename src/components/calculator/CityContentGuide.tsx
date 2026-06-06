@@ -58,9 +58,11 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
           <p>
             With a cost-of-living index of {costOfLivingIndex} (UK average =
             100), {city.cityName} has {colContext}. At the local baseline,
-            rent absorbs roughly {metrics.rentPercent}% of net pay (
-            {formatGBP(metrics.avgRentMonthly)}/month), while council tax in{" "}
-            {city.region} averages {formatGBP(metrics.avgCouncilTax)} annually.
+            rent at {formatGBP(metrics.avgRentMonthly)}/month equates to{" "}
+            {metrics.rentPercent}% of the {formatGBP(metrics.avgSalary)} gross
+            baseline, while Band{" "}
+            {metrics.councilTaxBand} council tax in {city.region} averages{" "}
+            {formatGBP(metrics.avgCouncilTax)} per year.
           </p>
           <p>
             Use the calculator above to model your exact take-home figure —

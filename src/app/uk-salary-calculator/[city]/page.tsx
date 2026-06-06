@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
 import { CityFAQ } from "@/components/calculator/CityFAQ";
 import { CityLocalInsight } from "@/components/calculator/CityLocalInsight";
+import { CityTaxBreakdownSummary } from "@/components/calculator/CityTaxBreakdownSummary";
 import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalaryComparison";
 import { RelatedCities } from "@/components/calculator/RelatedCities";
 import { RelocationCTA } from "@/components/calculator/RelocationCTA";
@@ -10,31 +11,28 @@ import { SalaryCalculator } from "@/components/calculator/SalaryCalculator";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { getBenchmarkCities } from "@/lib/data/benchmark-cities";
 import {
-  getAllUKCitySlugs,
-  getUKCityBySlug,
-} from "@/lib/data/load-cities";
-import {
-  buildCityFinancialProductJsonLd,
-  buildCityPlaceJsonLd,
-} from "@/lib/seo/city-json-ld";
+  getAllUKCityRouteIds,
+  getCitySalaryPath,
+  getUKCityByRouteId,
+} from "@/lib/data/city-routes";
 import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
 import { getSiteUrl } from "@/lib/site/config";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ city: string }>;
 }
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return getAllUKCitySlugs().map((slug) => ({ slug }));
+  return getAllUKCityRouteIds().map((city) => ({ city }));
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const city = getUKCityBySlug(slug);
+  const { city: routeId } = await params;
+  const city = getUKCityByRouteId(routeId);
 
   if (!city) {
     return { title: "Calculator Not Found" };
@@ -42,8 +40,8 @@ export async function generateMetadata({
 
   const title = `Salary & Income Tax Calculator for ${city.cityName}`;
   const metrics = getCityLocalMetrics(city);
-  const description = `Calculate your ${UK_TAX_YEAR} take-home pay in ${city.cityName}, ${city.region}. Average local salary ${metrics.avgSalary.toLocaleString("en-GB")} — rent typically ${metrics.rentPercent}% of net pay. Free Income Tax & NI calculator.`;
-  const pageUrl = `${getSiteUrl()}/salary/uk/${slug}`;
+  const description = `Calculate your ${UK_TAX_YEAR} take-home pay in ${city.cityName}, ${city.region}. Avg salary £${metrics.avgSalary.toLocaleString("en-GB")}, rent ${metrics.rentPercent}% of gross, COL index ${metrics.costOfLivingIndex}. Free Income Tax & NI calculator.`;
+  const pageUrl = `${getSiteUrl()}${getCitySalaryPath(city)}`;
 
   return {
     title: {
@@ -78,34 +76,20 @@ export async function generateMetadata({
 }
 
 export default async function UKCitySalaryPage({ params }: PageProps) {
-  const { slug } = await params;
-  const city = getUKCityBySlug(slug);
+  const { city: routeId } = await params;
+  const city = getUKCityByRouteId(routeId);
 
   if (!city) {
     notFound();
   }
 
   const benchmarkCities = getBenchmarkCities();
-  const financialProductJsonLd = buildCityFinancialProductJsonLd(city);
-  const placeJsonLd = buildCityPlaceJsonLd(city);
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(financialProductJsonLd),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(placeJsonLd),
-        }}
-      />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
       <SalaryCalculator city={city} />
-      <div className="mt-8">
+      <div className="mt-8 space-y-8">
+        <CityTaxBreakdownSummary city={city} />
         <CityLocalInsight city={city} />
       </div>
       <RegionalSalaryComparison
@@ -117,6 +101,5 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       <CityFAQ city={city} />
       <RelocationCTA />
     </main>
-    </>
   );
 }

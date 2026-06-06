@@ -1,7 +1,10 @@
 import { CheckCircle2 } from "lucide-react";
+import { getSpunCtaHook } from "@/lib/seo/city-page-content";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import type { UKCity } from "@/types/location";
 
 interface AccountantBannerProps {
+  city?: UKCity;
   cityName?: string;
   variant?: "default" | "inline";
 }
@@ -13,10 +16,15 @@ const BULLETS = [
 ] as const;
 
 export function AccountantBanner({
+  city,
   cityName,
   variant = "default",
 }: AccountantBannerProps) {
-  const locationHint = cityName ? ` in ${cityName}` : "";
+  const resolvedCityName = city?.cityName ?? cityName;
+  const locationHint = resolvedCityName ? ` in ${resolvedCityName}` : "";
+  const ctaHook = city
+    ? getSpunCtaHook(city)
+    : `From Year-End Accounts to Strategic Tax Planning, we maximise your take-home pay${locationHint} and ensure 100% HMRC compliance.`;
 
   if (variant === "inline") {
     return (
@@ -36,8 +44,7 @@ export function AccountantBanner({
               Paying Too Much Tax? Let Our UK Accountants Handle It.
             </h2>
             <p className="max-w-xl text-xs leading-relaxed text-slate-300">
-              Year-end accounts to tax planning — maximise take-home pay
-              {locationHint} with 100% HMRC compliance.
+              {ctaHook}
             </p>
             <ul className="flex flex-wrap gap-x-4 gap-y-1">
               {BULLETS.map((bullet) => (
@@ -55,7 +62,8 @@ export function AccountantBanner({
             </ul>
           </div>
           <WhatsAppButton
-            context="banner"
+            context={resolvedCityName ? "city" : "banner"}
+            cityName={resolvedCityName}
             label="Chat on WhatsApp"
             size="sm"
             pulse
@@ -84,8 +92,7 @@ export function AccountantBanner({
             Paying Too Much Tax? Let Our Dedicated UK Accountants Handle It.
           </h2>
           <p className="max-w-2xl text-sm leading-relaxed text-slate-300">
-            From Year-End Accounts to Strategic Tax Planning, we maximise your
-            take-home pay{locationHint} and ensure 100% HMRC compliance.
+            {ctaHook}
           </p>
         </div>
 
@@ -105,7 +112,8 @@ export function AccountantBanner({
         </ul>
 
         <WhatsAppButton
-          context="banner"
+          context={resolvedCityName ? "city" : "banner"}
+          cityName={resolvedCityName}
           label="Chat with an Accountant on WhatsApp"
           size="md"
           pulse

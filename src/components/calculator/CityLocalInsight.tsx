@@ -30,17 +30,15 @@ export function CityLocalInsight({ city }: CityLocalInsightProps) {
         <strong className="font-medium text-slate-800">
           {formatGBP(metrics.avgSalary)}
         </strong>{" "}
-        average salary in {city.cityName}, typical rent consumes{" "}
+        average salary in {city.cityName}, annual rent (
+        {formatGBP(metrics.avgRentMonthly)}/mo) consumes{" "}
         <strong className="font-medium text-slate-800">
           {metrics.rentPercent}%
         </strong>{" "}
-        of your take-home pay — roughly{" "}
-        <strong className="font-medium text-slate-800">
-          {formatGBP(metrics.avgRentMonthly)}
-        </strong>{" "}
-        per month against an estimated net income of{" "}
-        {formatGBP(metrics.netMonthly)}. The local Band D council tax baseline
-        in {city.region} is around{" "}
+        of gross earnings — with a cost-of-living index of{" "}
+        {metrics.costOfLivingIndex} and indicative net monthly pay of{" "}
+        {formatGBP(metrics.netMonthly)}. Band {metrics.councilTaxBand} council
+        tax in {city.region} averages{" "}
         <strong className="font-medium text-slate-800">
           {formatGBP(metrics.avgCouncilTax)}
         </strong>{" "}

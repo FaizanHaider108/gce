@@ -15,9 +15,9 @@ import {
 } from "@/lib/calculators/uk";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
+import { getSpunFaqIntro } from "@/lib/seo/city-page-content";
 import {
   FAQ_HEADING_VARIATIONS,
-  FAQ_INTRO_VARIATIONS,
   getCityVariationIndex,
   pickVariation,
 } from "@/lib/seo/content-variations";
@@ -89,7 +89,7 @@ export function CityFAQ({ city }: CityFAQProps) {
   const items = useMemo(() => buildFAQItems(city), [city]);
   const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
   const faqHeading = pickVariation(city, FAQ_HEADING_VARIATIONS)(city);
-  const faqIntro = pickVariation(city, FAQ_INTRO_VARIATIONS)(city);
+  const faqIntro = getSpunFaqIntro(city);
 
   return (
     <section className="no-print mt-12" aria-labelledby="city-faq-heading">

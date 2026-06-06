@@ -8,7 +8,7 @@ export default function CityNotFound() {
         This calculator page does not exist in our UK dataset.
       </p>
       <Link
-        href="/"
+        href="/salary/uk"
         className="mt-6 rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-400"
       >
         Browse UK calculators

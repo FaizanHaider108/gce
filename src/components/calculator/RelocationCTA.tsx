@@ -19,7 +19,7 @@ export function RelocationCTA() {
       </p>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <Link
-          href="/salary/uk/salary-calculator-london"
+          href="/uk-salary-calculator/salary-calculator-london"
           className="inline-flex w-full items-center justify-center rounded-lg bg-emerald-500 px-5 py-3 text-sm font-medium text-white transition hover:bg-emerald-400 sm:w-auto"
         >
           Compare with London Salary

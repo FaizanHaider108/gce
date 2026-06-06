@@ -14,12 +14,10 @@ import {
 } from "@/lib/calculators/uk";
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
-import {
-  INTRO_HOOK_VARIATIONS,
-  pickVariation,
-} from "@/lib/seo/content-variations";
+import { getSpunIntro } from "@/lib/seo/city-page-content";
 import type { StudentLoanPlan, TaxYearId } from "@/types/calculator";
 import type { UKCity } from "@/types/location";
+import { FinancialDisclaimer } from "@/components/legal/FinancialDisclaimer";
 import { AccountantBanner } from "@/components/marketing/AccountantBanner";
 import { CalculatorOptions } from "./CalculatorOptions";
 import { MarketInsights } from "./MarketInsights";
@@ -51,10 +49,7 @@ export function SalaryCalculator({
     [grossSalary, city.region, taxYear, pensionPercent, studentLoan],
   );
 
-  const introCopy = useMemo(
-    () => pickVariation(city, INTRO_HOOK_VARIATIONS)(city),
-    [city],
-  );
+  const introCopy = useMemo(() => getSpunIntro(city), [city]);
 
   return (
     <section className="space-y-8">
@@ -123,9 +118,11 @@ export function SalaryCalculator({
         <div className="flex flex-col gap-6">
           <ResultsTable results={results} />
           <SalaryDonutChart results={results} />
-          <AccountantBanner cityName={city.cityName} variant="inline" />
+          <AccountantBanner city={city} variant="inline" />
         </div>
       </div>
+
+      <FinancialDisclaimer />
     </section>
   );
 }
