@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getUKCityByRouteId } from "@/lib/data/city-routes";
 import { buildCityDualJsonLd } from "@/lib/seo/city-json-ld";
+import { buildCitySupplementalJsonLd } from "@/lib/seo/city-page-schema";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export default async function CitySalaryLayout({
   }
 
   const dualJsonLd = buildCityDualJsonLd(city);
+  const supplementalJsonLd = buildCitySupplementalJsonLd(city);
 
   return (
     <>
@@ -26,6 +28,12 @@ export default async function CitySalaryLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(dualJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(supplementalJsonLd),
         }}
       />
       {children}

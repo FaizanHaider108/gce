@@ -40,13 +40,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/services/bookkeeping-bank-reconciliations",
-        destination: "/services/bookkeeping",
+        source: "/services/bookkeeping",
+        destination: "/services/bookkeeping-bank-reconciliations",
         permanent: true,
       },
       {
-        source: "/services/self-assessment-tax-returns",
-        destination: "/services/self-assessment",
+        source: "/services/self-assessment",
+        destination: "/services/self-assessment-tax-returns",
         permanent: true,
       },
       ...cityRedirects,

@@ -3,10 +3,15 @@ import type { ReactNode } from "react";
 
 interface LegalPageLayoutProps {
   title: string;
+  lastUpdated?: string;
   children: ReactNode;
 }
 
-export function LegalPageLayout({ title, children }: LegalPageLayoutProps) {
+export function LegalPageLayout({
+  title,
+  lastUpdated,
+  children,
+}: LegalPageLayoutProps) {
   return (
     <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-12 sm:px-6 sm:py-16">
       <Link
@@ -30,6 +35,11 @@ export function LegalPageLayout({ title, children }: LegalPageLayoutProps) {
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">
           {title}
         </h1>
+        {lastUpdated && (
+          <p className="mt-3 text-sm font-medium text-slate-400">
+            Last updated: {lastUpdated}
+          </p>
+        )}
         <div className="mt-8 space-y-6 text-base leading-relaxed text-slate-600">
           {children}
         </div>

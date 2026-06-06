@@ -13,7 +13,10 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPageLayout title="Privacy Policy for Global Calculator Engine">
+    <LegalPageLayout
+      title="Privacy Policy for Global Calculator Engine"
+      lastUpdated="June 2026"
+    >
       <p>
         Global Calculator Engine (&quot;GCE&quot;, &quot;we&quot;, &quot;us&quot;)
         operates the website at globalcalculatorengine.vercel.app and
@@ -66,7 +69,8 @@ export default function PrivacyPage() {
         <p>
           We may use first-party and third-party analytics cookies (including
           Google Analytics) to understand aggregate traffic patterns, improve
-          calculator performance, and measure directory navigation. You can
+          calculator performance, and measure directory navigation. Cookie
+          consent preferences are stored locally in your browser. You can
           disable cookies through your browser settings.
         </p>
       </section>
@@ -106,9 +110,8 @@ export default function PrivacyPage() {
         </h2>
         <p>
           Global Calculator Engine may update this policy to reflect regulatory
-          or operational changes. The effective date of the current version is
-          displayed at the top of this page. Continued use of our services
-          constitutes acceptance of the updated policy.
+          or operational changes. Continued use of our services constitutes
+          acceptance of the updated policy.
         </p>
       </section>
     </LegalPageLayout>

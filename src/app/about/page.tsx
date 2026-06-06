@@ -5,9 +5,9 @@ import { CORPORATE_EMAIL, getSiteUrl } from "@/lib/site/config";
 import { LegalPageLayout } from "@/components/legal/LegalPageLayout";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "About Global Calculator Engine | UK Chartered Tax Professionals",
   description:
-    "About Global Calculator Engine — UK tax professionals, HMRC-aligned salary calculators, and chartered accounting services for businesses and professionals.",
+    "About Global Calculator Engine — ACCA-aligned UK tax professionals, HMRC 2026/27 salary calculators, and chartered accounting services.",
   alternates: {
     canonical: `${getSiteUrl()}/about`,
   },
@@ -25,15 +25,30 @@ export default function AboutPage() {
 
       <section>
         <h2 className="mb-2 text-lg font-semibold text-slate-900">
-          Our expertise
+          Chartered credentials &amp; professional standards
+        </h2>
+        <p>
+          Our accounting service routes are delivered by qualified UK tax
+          professionals operating under chartered accounting membership
+          frameworks including ACCA guidelines. We maintain continuous
+          professional development sweeps against HMRC manual updates, Finance
+          Act revisions, and Scottish Income Tax band changes to ensure every
+          calculator and advisory output reflects current statutory law.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="mb-2 text-lg font-semibold text-slate-900">
+          Technical expertise &amp; tax engine integrity
         </h2>
         <p>
           Our calculation engine is maintained against published HMRC thresholds
           for the {UK_TAX_YEAR} tax year, including Personal Allowance tapering,
           Class 1 National Insurance bands, Scottish Income Tax rates, and
-          student loan repayment thresholds. Each city calculator applies the
-          correct regional tax framework automatically based on localized
-          geographic metadata.
+          student loan repayment thresholds. Each of our 254+ city calculators
+          applies the correct regional tax framework automatically based on
+          localized geographic metadata — with jurisdictional FAQ copy and
+          schema adjusted per nation.
         </p>
       </section>
 
@@ -53,14 +68,15 @@ export default function AboutPage() {
 
       <section>
         <h2 className="mb-2 text-lg font-semibold text-slate-900">
-          Trust &amp; compliance standards
+          Trust, transparency &amp; YMYL compliance
         </h2>
         <p>
           All calculators on this platform are mapped to absolute HMRC{" "}
           {UK_TAX_YEAR} standards. We do not store personal salary inputs, and
           every estimate is accompanied by a clear YMYL financial disclaimer.
-          For binding advice, formal filings, or accounts sign-off, we recommend
-          engaging our qualified accounting team directly.
+          Our privacy policy is reviewed continuously with a published
+          validation timestamp, and cookie consent is enforced site-wide for
+          regulatory compliance.
         </p>
       </section>
 

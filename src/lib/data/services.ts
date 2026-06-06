@@ -20,7 +20,7 @@ export interface AccountingService {
 
 export const ACCOUNTING_SERVICES: AccountingService[] = [
   {
-    slug: "bookkeeping",
+    slug: "bookkeeping-bank-reconciliations",
     title: "Bookkeeping & Bank Reconciliations",
     shortDescription:
       "Accurate day-to-day records and reconciled bank statements so your books stay audit-ready.",
@@ -62,7 +62,7 @@ export const ACCOUNTING_SERVICES: AccountingService[] = [
     icon: Users,
   },
   {
-    slug: "self-assessment",
+    slug: "self-assessment-tax-returns",
     title: "Self-Assessment Tax Returns",
     shortDescription:
       "Personal tax returns filed accurately — sole traders, directors, and landlords covered.",
