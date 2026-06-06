@@ -1,5 +1,6 @@
 import { getCitySalaryPath } from "@/lib/data/city-routes";
 import { getCityCounty } from "@/lib/data/city-location";
+import { buildCityFaqItems } from "@/lib/seo/city-faq-content";
 import { getSiteUrl } from "@/lib/site/config";
 import type { UKCity } from "@/types/location";
 
@@ -45,4 +46,22 @@ export function buildCityDualJsonLd(city: UKCity) {
       priceRange: "££",
     },
   ];
+}
+
+/** FAQPage schema for city landing pages — mirrors accordion Q&A content. */
+export function buildCityFaqJsonLd(city: UKCity) {
+  const items = buildCityFaqItems(city);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
 }
