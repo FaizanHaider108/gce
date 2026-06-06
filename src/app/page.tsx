@@ -10,20 +10,22 @@ import { getSiteUrl } from "@/lib/site/config";
 const SITE_URL = getSiteUrl();
 const OG_IMAGE = `${SITE_URL}/web-app-manifest-512x512.png`;
 
+const HOME_TITLE =
+  "UK Salary Calculator 2026/27 | Free Income Tax & Take-Home Pay Tool";
+const HOME_DESCRIPTION =
+  "Calculate your exact take-home pay with our HMRC-aligned UK salary calculator. Estimate your 2026/27 income tax, national insurance deductions, and net monthly breakdown instantly across 254+ cities.";
+
 export const metadata: Metadata = {
   title: {
-    absolute:
-      "UK Salary Calculator 2026/27 | Free Income Tax & Take-Home Pay Tool",
+    absolute: HOME_TITLE,
   },
-  description:
-    "Calculate your 2026/27 UK take-home pay across 254+ cities in England, Scotland, Wales, and Northern Ireland. Free HMRC-aligned Income Tax, National Insurance, and Scottish band calculator.",
+  description: HOME_DESCRIPTION,
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "UK Salary Calculator 2026/27 | Free Income Tax & Take-Home Pay Tool",
-    description:
-      "254+ hyper-local UK salary calculators with 2026/27 HMRC tax, NI, and net pay estimates.",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     url: SITE_URL,
     siteName: "Global Calculator Engine",
     locale: "en_GB",
@@ -39,9 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "UK Salary Calculator 2026/27 | Free Take-Home Pay Tool",
-    description:
-      "Free HMRC-aligned salary calculator for 254+ UK cities. Income Tax, NI, and net pay.",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     images: [OG_IMAGE],
   },
 };

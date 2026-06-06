@@ -18,7 +18,8 @@ export function HomeHero({ totalCities }: HomeHeroProps) {
           <span>100% Accurate · {UK_TAX_YEAR} Tax Rules</span>
         </div>
         <h1 className="max-w-3xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl lg:leading-tight">
-          Global Utility Tools for Salary, Tax &amp; Take-Home Pay
+          UK Salary Calculator 2026/27 — Free Income Tax &amp; Take-Home Pay
+          Tool
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-slate-500 sm:text-lg">
           Global Calculator Engine delivers hyper-local, HMRC-accurate salary
