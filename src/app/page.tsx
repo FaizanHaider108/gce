@@ -13,9 +13,9 @@ export default function HomePage() {
       <div className="space-y-12">
         <HomeHero totalCities={cities.length} />
         <HomeValueCards totalCities={cities.length} />
-        <AccountantBanner />
-        <HomeCalculationGuide />
         <CitySearchGrid cities={cities} />
+        <HomeCalculationGuide />
+        <AccountantBanner />
       </div>
     </main>
   );

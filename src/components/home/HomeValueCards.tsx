@@ -35,7 +35,7 @@ export function HomeValueCards({ totalCities = 254 }: HomeValueCardsProps) {
   return (
     <section
       aria-label="Platform value highlights"
-      className="my-8 grid grid-cols-1 gap-6 md:grid-cols-3"
+      className="mx-auto my-8 grid max-w-5xl grid-cols-1 gap-6 px-4 md:grid-cols-3"
     >
       {cards.map((card) => (
         <article
