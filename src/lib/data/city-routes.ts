@@ -18,6 +18,10 @@ export function getCityLinkLabel(city: UKCity): string {
   return `Calculate Net Pay in ${city.cityName}`;
 }
 
+export function isLondonCity(city: UKCity): boolean {
+  return getCityRouteId(city) === "london";
+}
+
 export const CITY_LINK_CLASS =
   "text-blue-600 hover:underline font-medium block py-1";
 

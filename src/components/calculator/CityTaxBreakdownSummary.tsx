@@ -1,5 +1,5 @@
 import { calculateUKTax } from "@/lib/calculators/uk/tax-summary";
-import { UK_TAX_YEAR } from "@/lib/calculators/uk";
+import { isScottishRegion, UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
@@ -13,7 +13,7 @@ interface CityTaxBreakdownSummaryProps {
 export function CityTaxBreakdownSummary({ city }: CityTaxBreakdownSummaryProps) {
   const avgSalary = getCityAverageSalary(city);
   const metrics = getCityLocalMetrics(city);
-  const isScotland = city.region === "Scotland";
+  const isScotland = isScottishRegion(city.region);
   const breakdown = calculateUKTax(avgSalary, isScotland);
 
   const heading = pickCityContent(city, metrics, TAX_REGION_HEADINGS)(city);

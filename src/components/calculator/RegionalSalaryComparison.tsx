@@ -7,6 +7,7 @@ import { getCitySalaryPath } from "@/lib/data/city-routes";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
+import { buildRegionalSalaryComparisonCopy } from "@/lib/seo/regional-comparison-copy";
 import type { UKCity } from "@/types/location";
 
 const BENCHMARK_SLUGS = [
@@ -14,6 +15,13 @@ const BENCHMARK_SLUGS = [
   "salary-calculator-manchester",
   "salary-calculator-edinburgh",
 ] as const;
+
+const LONDON_FALLBACK: UKCity = {
+  cityName: "London",
+  slug: "salary-calculator-london",
+  region: "Greater London",
+  country: "UK",
+};
 
 interface RegionalSalaryComparisonProps {
   currentCity: UKCity;
@@ -31,17 +39,27 @@ export function RegionalSalaryComparison({
     [currentCity],
   );
 
-  const londonAverage = useMemo(
+  const londonCity = useMemo(
     () =>
-      getCityAverageSalary(
-        benchmarkCities.find((c) => c.slug === "salary-calculator-london") ?? {
-          cityName: "London",
-          slug: "salary-calculator-london",
-          region: "Greater London",
-          country: "UK",
-        },
-      ),
+      benchmarkCities.find((c) => c.slug === "salary-calculator-london") ??
+      LONDON_FALLBACK,
     [benchmarkCities],
+  );
+
+  const londonAverage = useMemo(
+    () => getCityAverageSalary(londonCity),
+    [londonCity],
+  );
+
+  const comparisonCopy = useMemo(
+    () =>
+      buildRegionalSalaryComparisonCopy(
+        currentCity,
+        currentCityAverage,
+        londonAverage,
+        grossSalary,
+      ),
+    [currentCity, currentCityAverage, londonAverage, grossSalary],
   );
 
   const orderedBenchmarks = useMemo(() => {
@@ -114,18 +132,7 @@ export function RegionalSalaryComparison({
       </div>
 
       <p className="mt-4 rounded-xl border border-slate-100 bg-slate-50/80 px-5 py-4 text-sm leading-relaxed text-slate-600">
-        Earning {formatGBP(grossSalary)} in {currentCity.cityName} leaves you
-        with the same baseline statutory deductions as other UK locations, but
-        your purchasing power depends on the regional baseline. For instance,
-        the average income threshold in London is around{" "}
-        <span className="font-medium text-slate-800">
-          {formatGBP(londonAverage)}
-        </span>{" "}
-        compared to{" "}
-        <span className="font-medium text-slate-800">
-          {formatGBP(currentCityAverage)}
-        </span>{" "}
-        in {currentCity.cityName}.
+        {comparisonCopy}
       </p>
     </section>
   );

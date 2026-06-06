@@ -12,6 +12,9 @@ const MID_TIER_AVERAGE = 35_800;
 /** Wales, Yorkshire, and all other UK regional baselines */
 const BASELINE_AVERAGE = 34_600;
 
+/** UK-wide national comparison baseline for metro salary copy (non-London pages). */
+export const UK_NATIONAL_BASELINE_SALARY = MID_TIER_AVERAGE;
+
 const LONDON_REGIONS = new Set(["Greater London", "London"]);
 
 const SOUTH_EAST_REGIONS = new Set([

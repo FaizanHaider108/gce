@@ -99,16 +99,33 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
             <>
               Calculated using the official Scottish Income Tax rates and
               thresholds set by the Scottish Government for the {UK_TAX_YEAR}{" "}
-              tax year. National Insurance remains UK-wide under HMRC Class 1
-              rules — there are no local NI variations within {city.region}.
+              tax year — including Starter (19%), Basic (20%), Intermediate
+              (21%), Higher (42%), and Top (48%) bands. National Insurance
+              remains UK-wide under HMRC Class 1 rules with no Scottish
+              variation.
+            </>
+          ) : city.region === "Northern Ireland" ? (
+            <>
+              Income Tax and National Insurance in {city.cityName} follow UK-wide
+              HMRC {UK_TAX_YEAR} rules shared with England and Wales — not the
+              separate Scottish band structure. Personal Allowance, basic rate
+              (20%), higher rate (40%), and Class 1 NI thresholds apply
+              identically across Northern Ireland.
+            </>
+          ) : city.region === "Wales" ? (
+            <>
+              Income Tax and National Insurance in {city.cityName} follow UK-wide
+              HMRC {UK_TAX_YEAR} rules. Wales uses the same Income Tax bands as
+              England — Personal Allowance, 20% basic rate, 40% higher rate, and
+              standard Class 1 NI thresholds — with no devolved Welsh Income Tax
+              variation.
             </>
           ) : (
             <>
-              Income Tax and National Insurance in {city.cityName} follow the
-              same {UK_TAX_YEAR} England &amp; Wales rules. The Personal
-              Allowance, basic rate (20%), higher rate (40%), and Class 1 NI
-              thresholds apply UK-wide — only your gross salary and benefits
-              determine your deductions.
+              Income Tax and National Insurance in {city.cityName} follow
+              standard {UK_TAX_YEAR} England HMRC rules. The Personal Allowance,
+              basic rate (20%), higher rate (40%), and Class 1 NI thresholds are
+              applied under UK-wide statutory guidelines for {city.region}.
             </>
           )}
         </p>
