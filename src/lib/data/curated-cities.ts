@@ -1,5 +1,5 @@
 import type { UKCity } from "@/types/location";
-import type { UKNation } from "./uk-nation";
+import { UK_NATIONS, type UKNation } from "./uk-nation";
 import { getUKCities } from "./load-cities";
 
 /** High-traffic curated cities — homepage & footer (max 4–6 per nation). */
@@ -62,4 +62,11 @@ export function isCuratedCity(city: UKCity): boolean {
 
 export function nationToAnchorId(nation: UKNation): string {
   return nation.toLowerCase().replace(/\s+/g, "-");
+}
+
+export function anchorIdToNation(anchorId: string): UKNation | null {
+  const normalised = anchorId.toLowerCase().trim();
+  return (
+    UK_NATIONS.find((nation) => nationToAnchorId(nation) === normalised) ?? null
+  );
 }

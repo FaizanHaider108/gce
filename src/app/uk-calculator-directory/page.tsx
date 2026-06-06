@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CityFullDirectory } from "@/components/home/CityFullDirectory";
+import { CityDirectoryExplorer } from "@/components/home/CityDirectoryExplorer";
 import { getUKCities } from "@/lib/data/load-cities";
 import { getSiteUrl } from "@/lib/site/config";
 
@@ -24,7 +24,8 @@ export default function UKCalculatorDirectoryPage() {
         </h1>
         <p className="text-base leading-relaxed text-slate-500">
           Global Calculator Engine hosts {cities.length} localized HMRC-aligned
-          salary calculators. Browse the complete A–Z index by nation below.
+          salary calculators. Search by city name or switch between nation tabs
+          to browse the complete A–Z index.
         </p>
         <p className="text-sm text-slate-400">
           <Link href="/" className="font-medium text-emerald-600 hover:underline">
@@ -33,26 +34,7 @@ export default function UKCalculatorDirectoryPage() {
         </p>
       </header>
 
-      <nav
-        aria-label="Jump to nation"
-        className="mt-8 flex flex-wrap gap-2 rounded-xl border border-slate-100 bg-white p-3 shadow-sm"
-      >
-        {(["England", "Scotland", "Wales", "Northern Ireland"] as const).map(
-          (nation) => (
-            <a
-              key={nation}
-              href={`#${nation.toLowerCase().replace(/\s+/g, "-")}`}
-              className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-emerald-700"
-            >
-              {nation}
-            </a>
-          ),
-        )}
-      </nav>
-
-      <div className="mt-10">
-        <CityFullDirectory cities={cities} />
-      </div>
+      <CityDirectoryExplorer cities={cities} />
     </main>
   );
 }

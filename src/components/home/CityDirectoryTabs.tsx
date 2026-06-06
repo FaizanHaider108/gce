@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
+  anchorIdToNation,
   getCuratedNationCities,
   nationToAnchorId,
 } from "@/lib/data/curated-cities";
@@ -26,16 +27,40 @@ interface CityDirectoryTabsProps {
   variant?: "grid" | "cards";
   /** Homepage shows curated cities only; directory hub shows full A–Z lists */
   scope?: "curated" | "full";
+  /** Sync active nation tab with URL hash (directory page deep links) */
+  syncHash?: boolean;
 }
 
 export function CityDirectoryTabs({
   cities,
   variant = "grid",
   scope = "full",
+  syncHash = false,
 }: CityDirectoryTabsProps) {
   const grouped = useMemo(() => groupCitiesByNation(cities), [cities]);
   const curated = useMemo(() => getCuratedNationCities(), []);
   const [activeNation, setActiveNation] = useState<UKNation>("England");
+
+  useEffect(() => {
+    if (!syncHash) return;
+
+    const applyHash = () => {
+      const nation = anchorIdToNation(window.location.hash.slice(1));
+      if (nation) setActiveNation(nation);
+    };
+
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, [syncHash]);
+
+  const selectNation = (nation: UKNation) => {
+    setActiveNation(nation);
+    if (syncHash) {
+      const anchor = nationToAnchorId(nation);
+      window.history.replaceState(null, "", `#${anchor}`);
+    }
+  };
 
   const displayCities = (nation: UKNation): UKCity[] =>
     scope === "curated" ? curated[nation] : grouped[nation];
@@ -62,7 +87,7 @@ export function CityDirectoryTabs({
               aria-selected={isActive}
               aria-controls={`panel-${nation}`}
               id={`tab-${nation}`}
-              onClick={() => setActiveNation(nation)}
+              onClick={() => selectNation(nation)}
               className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
                 isActive
                   ? "bg-slate-900 text-white shadow-sm"
