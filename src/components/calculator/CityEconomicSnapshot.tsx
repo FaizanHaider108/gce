@@ -1,5 +1,6 @@
 import { getCityNationalBenchmark } from "@/lib/data/city-national-benchmark";
 import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
+import { costOfLivingIndexPhrase } from "@/lib/format/col-index";
 import { formatGBP } from "@/lib/format/currency";
 import { hashCitySlug } from "@/lib/seo/content-variations";
 import type { UKCity } from "@/types/location";
@@ -14,7 +15,7 @@ const SNAPSHOT_OPENERS = [
   (city: UKCity, benchmark: ReturnType<typeof getCityNationalBenchmark>) =>
     `${city.cityName} professionals on the local ${formatGBP(benchmark.cityAvgSalary)} baseline retain approximately ${formatGBP(benchmark.cityNetMonthly)} net per month after ${city.region} tax rules — a ${benchmark.netDeltaMonthly >= 0 ? "+" : ""}${formatGBP(benchmark.netDeltaMonthly)} (${benchmark.netDeltaPercent >= 0 ? "+" : ""}${benchmark.netDeltaPercent}%) variance versus the ${formatGBP(benchmark.nationalNetMonthly)} UK national monthly average.`,
   (city: UKCity, benchmark: ReturnType<typeof getCityNationalBenchmark>) =>
-    `Economic modelling for ${city.cityName} (${city.region}) maps a cost-of-living index of ${benchmark.costOfLivingIndex}, Band ${benchmark.councilTaxBand} council tax near ${formatGBP(benchmark.avgCouncilTax)}/year, and housing costs absorbing ${benchmark.rentPercent}% of the ${formatGBP(benchmark.cityAvgSalary)} gross baseline.`,
+    `Economic modelling for ${city.cityName} (${city.region}) maps ${costOfLivingIndexPhrase(benchmark.costOfLivingIndex)}, Band ${benchmark.councilTaxBand} council tax near ${formatGBP(benchmark.avgCouncilTax)}/year, and housing costs absorbing ${benchmark.rentPercent}% of the ${formatGBP(benchmark.cityAvgSalary)} gross baseline.`,
 ];
 
 function pickSnapshotOpener(city: UKCity) {
@@ -99,8 +100,9 @@ export function CityEconomicSnapshot({ city }: CityEconomicSnapshotProps) {
       <p className="mt-5 text-sm leading-relaxed text-slate-600 sm:text-base">
         At the {city.cityName} baseline, take-home pay is {netComparison}. Gross
         earnings sit {salaryComparison}, while monthly rent at{" "}
-        {formatGBP(metrics.avgRentMonthly)} and a cost-of-living index of{" "}
-        {benchmark.costOfLivingIndex} shape real disposable income for
+        {formatGBP(metrics.avgRentMonthly)} and{" "}
+        {costOfLivingIndexPhrase(benchmark.costOfLivingIndex)} shape real
+        disposable income for
         professionals relocating to {city.region}.
       </p>
     </section>

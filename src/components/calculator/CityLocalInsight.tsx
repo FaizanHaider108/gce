@@ -1,4 +1,5 @@
 import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
+import { costOfLivingIndexWithBaseline } from "@/lib/format/col-index";
 import { formatGBP } from "@/lib/format/currency";
 import {
   HOUSING_INSIGHT_HEADINGS,
@@ -38,8 +39,8 @@ export function CityLocalInsight({ city }: CityLocalInsightProps) {
         <strong className="font-medium text-slate-800">
           {metrics.rentPercent}%
         </strong>{" "}
-        of gross earnings — with a cost-of-living index of{" "}
-        {metrics.costOfLivingIndex} and indicative net monthly pay of{" "}
+        of gross earnings — with {costOfLivingIndexWithBaseline(metrics.costOfLivingIndex)}{" "}
+        and indicative net monthly pay of{" "}
         {formatGBP(metrics.netMonthly)}. Band {metrics.councilTaxBand} council
         tax in {city.region} averages{" "}
         <strong className="font-medium text-slate-800">
