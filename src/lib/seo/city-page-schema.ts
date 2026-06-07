@@ -43,7 +43,7 @@ export function buildCityWebPageJsonLd(city: UKCity) {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `Salary & Income Tax Calculator for ${city.cityName}`,
+    name: `UK Salary Calculator 2026/27 — Live Net Pay Breakdown for ${city.cityName}`,
     url: cityUrl,
     inLanguage: "en-GB",
     datePublished: PUBLISHED_DATE,
@@ -52,6 +52,24 @@ export function buildCityWebPageJsonLd(city: UKCity) {
       "@type": "WebSite",
       name: "Global Calculator Engine",
       url: siteUrl,
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "UK Calculator Directory",
+          item: `${siteUrl}/uk-calculator-directory`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: `${city.cityName} Salary Calculator`,
+          item: cityUrl,
+        },
+      ],
     },
     about: {
       "@type": "Place",
@@ -62,6 +80,12 @@ export function buildCityWebPageJsonLd(city: UKCity) {
         addressRegion: city.region,
         addressCountry: "UK",
       },
+    },
+    mainEntity: {
+      "@type": "FinancialProduct",
+      name: `${city.cityName} UK Salary & Take-Home Pay Calculator`,
+      description:
+        "Mathematical net pay simulation aligned to HMRC 2026/27 Tax Code Guidelines.",
     },
   };
 }

@@ -85,11 +85,63 @@ export function buildPlatformFinancialServiceJsonLd() {
   };
 }
 
+/** Platform ProfessionalService — YMYL trust signal in root layout head. */
+export function buildPlatformProfessionalServiceJsonLd() {
+  const siteUrl = getSiteUrl();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "Global Calculator Engine — HMRC-Aligned Financial Tools",
+    url: siteUrl,
+    description:
+      "YMYL compliant UK salary calculators aligned to HMRC 2026/27 Tax Code Guidelines.",
+    areaServed: {
+      "@type": "Country",
+      name: "United Kingdom",
+    },
+    knowsAbout: [
+      "HMRC 2026/27 Tax Code Guidelines",
+      "UK Income Tax",
+      "National Insurance",
+      "Chartered Accounting",
+    ],
+  };
+}
+
+/** Platform FinancialProduct — calculator product schema for financial crawlers. */
+export function buildPlatformFinancialProductJsonLd() {
+  const siteUrl = getSiteUrl();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    name: "UK Salary Calculator 2026/27",
+    url: siteUrl,
+    description:
+      "Free take-home pay calculator aligned to HMRC 2026/27 Tax Code Guidelines.",
+    category: "Tax Calculator",
+    provider: {
+      "@type": "Organization",
+      name: "Global Calculator Engine",
+      url: siteUrl,
+    },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "GBP",
+      availability: "https://schema.org/InStock",
+    },
+  };
+}
+
 export function buildSiteWideJsonLd() {
   return [
     buildOrganizationJsonLd(),
     buildWebSiteJsonLd(),
     buildPlatformFinancialServiceJsonLd(),
+    buildPlatformProfessionalServiceJsonLd(),
+    buildPlatformFinancialProductJsonLd(),
   ];
 }
 

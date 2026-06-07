@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import { CityCalculatorHero } from "@/components/calculator/CityCalculatorHero";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
 import { CityEconomicSnapshot } from "@/components/calculator/CityEconomicSnapshot";
+import { CityPostCalculatorNarrative } from "@/components/calculator/CityPostCalculatorNarrative";
 import { CityProfessionalLandscape } from "@/components/calculator/CityProfessionalLandscape";
+import { CityServerTaxBreakdown } from "@/components/calculator/CityServerTaxBreakdown";
 import { EducationalResources } from "@/components/calculator/EducationalResources";
 import { RegionalBenchmarksSection } from "@/components/calculator/RegionalBenchmarksSection";
 import { CityLocalInsight } from "@/components/calculator/CityLocalInsight";
@@ -11,7 +13,7 @@ import { CityTaxBreakdownSummary } from "@/components/calculator/CityTaxBreakdow
 import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalaryComparison";
 import { NearbyCities } from "@/components/calculator/NearbyCities";
 import { RelocationCTA } from "@/components/calculator/RelocationCTA";
-import { SalaryCalculatorLoader } from "@/components/calculator/SalaryCalculatorLoader";
+import { SalaryCalculator } from "@/components/calculator/SalaryCalculator";
 import { TrustComplianceRibbon } from "@/components/legal/TrustComplianceRibbon";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { getBenchmarkCities } from "@/lib/data/benchmark-cities";
@@ -21,10 +23,14 @@ import {
   getUKCityByRouteId,
 } from "@/lib/data/city-routes";
 import { getSiteUrl } from "@/lib/site/config";
+import { buildCityFaqData } from "@/lib/seo/city-faq-content";
+import { buildCityFaqJsonLd } from "@/lib/seo/city-json-ld";
 import { buildCitySeoCluster } from "@/lib/seo/city-page-seo";
+import { resolveServerSalaryState } from "@/lib/url/resolve-server-salary";
 
 interface PageProps {
   params: Promise<{ city: string }>;
+  searchParams: Promise<{ salary?: string }>;
 }
 
 export const dynamicParams = false;
@@ -35,6 +41,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: PageProps): Promise<Metadata> {
   const { city: routeId } = await params;
   const city = getUKCityByRouteId(routeId);
@@ -43,7 +50,12 @@ export async function generateMetadata({
     return { title: "Calculator Not Found" };
   }
 
-  const seo = buildCitySeoCluster(city.cityName, { taxYear: UK_TAX_YEAR });
+  const salaryState = resolveServerSalaryState(await searchParams);
+  const seo = buildCitySeoCluster(city.cityName, {
+    taxYear: UK_TAX_YEAR,
+    grossSalary: salaryState.grossSalary,
+    isExplicitSalary: salaryState.isExplicitSalary,
+  });
   const title = seo.title;
   const description = seo.description;
   const pageUrl = `${getSiteUrl()}${getCitySalaryPath(city)}`;
@@ -80,7 +92,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function UKCitySalaryPage({ params }: PageProps) {
+export default async function UKCitySalaryPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { city: routeId } = await params;
   const city = getUKCityByRouteId(routeId);
 
@@ -88,59 +103,36 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
     notFound();
   }
 
+  const salaryState = resolveServerSalaryState(await searchParams);
   const benchmarkCities = getBenchmarkCities();
-
-  // Absolute jurisdictional filter — county maps from region metadata
-  const cityData = {
-    cityName: city.cityName?.trim() || "your city",
-    county: city.region?.trim() || "the UK",
-  };
-  const isScotland = cityData.county.toLowerCase() === "scotland";
-
-  const faqQ1 = `How accurate is the 2026/27 salary calculator for ${cityData.cityName}?`;
-  const faqA1 = isScotland
-    ? `Our engine is completely synchronized with the latest HMRC tax thresholds for the 2026/27 fiscal year. For professionals in ${cityData.cityName}, it dynamically computes localized parameters, including precise Scottish tax bands, to ensure your estimated net projection is highly accurate.`
-    : `Our engine is completely synchronized with the latest HMRC tax thresholds for the 2026/27 fiscal year. For professionals in ${cityData.cityName}, it computes your exact localized allowance brackets to ensure your estimated net projection is highly accurate.`;
-
-  const faqQ2 = `Does this calculator account for regional variables in ${cityData.cityName}?`;
-  const faqA2 = isScotland
-    ? `Yes. The system automatically cross-references your earnings with local financial baselines in the Scotland region, parsing specific localized tax bands, regional council tax metrics, and updated National Insurance thresholds to ensure absolute compliance.`
-    : `Yes. The system automatically cross-references your earnings with local financial baselines in the ${cityData.county} region, parsing standard UK tax thresholds, regional cost variations, and updated National Insurance thresholds to ensure absolute compliance.`;
-
-  const faqQ3 = `Can businesses in ${cityData.cityName} use this tool for payroll planning?`;
-  const faqA3 = `Absolutely. Local enterprises, freelancers, and remote payroll managers across ${cityData.cityName} utilize this calculation layout to estimate monthly employer liabilities, baseline gross contractor values, statutory pension parameters, and accurate net employee metrics before corporate submissions.`;
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: faqQ1,
-        acceptedAnswer: { "@type": "Answer", text: faqA1 },
-      },
-      {
-        "@type": "Question",
-        name: faqQ2,
-        acceptedAnswer: { "@type": "Answer", text: faqA2 },
-      },
-      {
-        "@type": "Question",
-        name: faqQ3,
-        acceptedAnswer: { "@type": "Answer", text: faqA3 },
-      },
-    ],
-  };
+  const faq = buildCityFaqData(city);
+  const faqJsonLd = buildCityFaqJsonLd(city);
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
-      <Suspense
-        fallback={
-          <div className="h-48 animate-pulse rounded-xl border border-slate-100 bg-white" />
-        }
-      >
-        <SalaryCalculatorLoader city={city} />
-      </Suspense>
+      <section className="space-y-8">
+        <CityCalculatorHero
+          city={city}
+          grossSalary={salaryState.grossSalary}
+          isExplicitSalary={salaryState.isExplicitSalary}
+        />
+
+        <CityServerTaxBreakdown
+          city={city}
+          grossSalary={salaryState.grossSalary}
+        />
+
+        <SalaryCalculator
+          city={city}
+          initialSalary={salaryState.urlSalary}
+        />
+
+        <CityPostCalculatorNarrative
+          city={city}
+          grossSalary={salaryState.grossSalary}
+          isExplicitSalary={salaryState.isExplicitSalary}
+        />
+      </section>
 
       <div className="mt-6">
         <TrustComplianceRibbon />
@@ -155,6 +147,7 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       <RegionalSalaryComparison
         currentCity={city}
         benchmarkCities={benchmarkCities}
+        initialSalary={salaryState.urlSalary}
       />
       <CityContentGuide city={city} />
       <NearbyCities city={city} />
@@ -168,23 +161,23 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
         <div className="space-y-6">
           <div className="border-b border-slate-100 pb-4">
             <h4 className="mb-2 text-lg font-semibold text-slate-800">
-              {faqQ1}
+              {faq.q1}
             </h4>
-            <p className="text-sm leading-relaxed text-slate-600">{faqA1}</p>
+            <p className="text-sm leading-relaxed text-slate-600">{faq.a1}</p>
           </div>
 
           <div className="border-b border-slate-100 pb-4">
             <h4 className="mb-2 text-lg font-semibold text-slate-800">
-              {faqQ2}
+              {faq.q2}
             </h4>
-            <p className="text-sm leading-relaxed text-slate-600">{faqA2}</p>
+            <p className="text-sm leading-relaxed text-slate-600">{faq.a2}</p>
           </div>
 
           <div className="pb-2">
             <h4 className="mb-2 text-lg font-semibold text-slate-800">
-              {faqQ3}
+              {faq.q3}
             </h4>
-            <p className="text-sm leading-relaxed text-slate-600">{faqA3}</p>
+            <p className="text-sm leading-relaxed text-slate-600">{faq.a3}</p>
           </div>
         </div>
 

@@ -26,13 +26,19 @@ const LONDON_FALLBACK: UKCity = {
 interface RegionalSalaryComparisonProps {
   currentCity: UKCity;
   benchmarkCities: UKCity[];
+  /** Server-resolved URL salary — keeps comparison table aligned with SSR hero. */
+  initialSalary?: number;
 }
 
 export function RegionalSalaryComparison({
   currentCity,
   benchmarkCities,
+  initialSalary,
 }: RegionalSalaryComparisonProps) {
-  const { salary: grossSalary } = usePersistedSalary(DEFAULT_GROSS_SALARY);
+  const { salary: grossSalary } = usePersistedSalary(
+    initialSalary ?? DEFAULT_GROSS_SALARY,
+    initialSalary,
+  );
 
   const currentCityAverage = useMemo(
     () => getCityAverageSalary(currentCity),
