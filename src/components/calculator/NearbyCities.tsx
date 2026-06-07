@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { BuildingIcon } from "@/components/icons/FinanceIcons";
 import { getCityLinkLabel, getCitySalaryPath } from "@/lib/data/city-routes";
 import { getNearbyCities } from "@/lib/data/nearby-cities";
@@ -46,12 +45,12 @@ export function NearbyCities({ city }: NearbyCitiesProps) {
         ))}
       </ul>
       <p className="mt-5 text-sm">
-        <Link
-          href="/uk-calculator-directory/regions"
+        <a
+          href="/uk-calculator-directory"
           className="font-semibold text-emerald-600 hover:underline"
         >
           Browse all UK regions &amp; 254+ city calculators →
-        </Link>
+        </a>
       </p>
     </aside>
   );

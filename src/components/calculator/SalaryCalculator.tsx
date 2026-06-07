@@ -26,6 +26,7 @@ import { MarketInsights } from "./MarketInsights";
 import { ResultsTable } from "./ResultsTable";
 import { SalaryDonutChart } from "./SalaryDonutChart";
 import { SalaryInput } from "./SalaryInput";
+import { UserSalaryLandscape } from "./UserSalaryLandscape";
 
 interface SalaryCalculatorProps {
   city: UKCity;
@@ -126,6 +127,10 @@ export function SalaryCalculator({
         />
         <SalaryInput value={grossSalary} onChange={setGrossSalary} />
       </div>
+
+      {isExplicitSalary && grossSalary > 0 && (
+        <UserSalaryLandscape city={city} grossSalary={grossSalary} />
+      )}
 
       <MarketInsights city={city} grossSalary={grossSalary} />
 

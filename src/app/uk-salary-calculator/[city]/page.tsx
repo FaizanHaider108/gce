@@ -142,12 +142,12 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
         <SalaryCalculatorLoader city={city} />
       </Suspense>
 
-      <div className="mt-6 space-y-6">
+      <div className="mt-6">
         <TrustComplianceRibbon />
-        <CityProfessionalLandscape city={city} />
       </div>
 
       <RegionalBenchmarksSection city={city}>
+        <CityProfessionalLandscape city={city} />
         <CityEconomicSnapshot city={city} />
         <CityTaxBreakdownSummary city={city} />
         <CityLocalInsight city={city} />

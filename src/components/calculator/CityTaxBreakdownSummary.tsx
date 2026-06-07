@@ -2,7 +2,7 @@ import { calculateUKTax } from "@/lib/calculators/uk/tax-summary";
 import { isScottishRegion, UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
-import { costOfLivingIndexPhrase } from "@/lib/format/col-index";
+import { costOfLivingIndexBudgetPhrase } from "@/lib/format/col-index";
 import { formatGBP } from "@/lib/format/currency";
 import { pickCityContent, TAX_REGION_HEADINGS } from "@/lib/seo/content-variations";
 import type { UKCity } from "@/types/location";
@@ -38,8 +38,7 @@ export function CityTaxBreakdownSummary({ city }: CityTaxBreakdownSummaryProps) 
         {formatGBP(avgSalary)}, professionals in the {city.region} region need
         to factor in localized council tax allocations (Band{" "}
         {metrics.councilTaxBand}, ~{formatGBP(metrics.avgCouncilTax)}/year) and{" "}
-        {costOfLivingIndexPhrase(metrics.costOfLivingIndex)} when budgeting net
-        pay.
+        {costOfLivingIndexBudgetPhrase(metrics.costOfLivingIndex)}.
       </p>
 
       <div className="mt-5 overflow-hidden rounded-xl border border-slate-100">

@@ -1,4 +1,5 @@
 import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
+import { costOfLivingIndexWithBaseline } from "@/lib/format/col-index";
 import { formatGBP } from "@/lib/format/currency";
 import type { UKCity } from "@/types/location";
 import {
@@ -15,7 +16,7 @@ const MAJOR_METRO_INSIGHTS: InsightBuilder[] = [
   (city, m) =>
     `In ${city.cityName}, elevated salary baselines near ${formatGBP(m.avgSalary)} track back to institutional banking corridors, cloud engineering campuses, and management consultancy partnerships that anchor the ${city.region} labour market. Bonus structures, RSU vesting, and pension salary sacrifice are common — making gross headline figures a poor proxy for monthly cash flow without running the full HMRC deduction stack below.`,
   (city, m) =>
-    `${city.cityName} functions as a Tier-1 UK earnings cluster where legal, audit, software engineering, and investment operations teams compress into a single commuting basin. The ${m.costOfLivingIndex} cost-of-living index and ${m.rentPercent}% rent-to-salary pressure are direct consequences of that corporate density — professionals negotiating offers here should benchmark net pay, not gross alone.`,
+    `${city.cityName} functions as a Tier-1 UK earnings cluster where legal, audit, software engineering, and investment operations teams compress into a single commuting basin. At the regional baseline of ${formatGBP(m.avgSalary)}, ${costOfLivingIndexWithBaseline(m.costOfLivingIndex)} and ${m.rentPercent}% rent-to-salary pressure are direct consequences of that corporate density.`,
 ];
 
 const MANUFACTURING_INSIGHTS: InsightBuilder[] = [
@@ -31,9 +32,9 @@ const COASTAL_SERVICE_INSIGHTS: InsightBuilder[] = [
   (city, m) =>
     `${city.cityName}'s labour market leans on coastal tourism seasons, NHS district trusts, council-backed services, and independent retail — producing a median near ${formatGBP(m.avgSalary)} that differs materially from metropolitan fintech curves. Seasonal hiring spikes and part-year contracts make annualised gross figures essential for accurate tax modelling on this page.`,
   (city, m) =>
-    `Smaller municipal economies like ${city.cityName} blend hospitality, marine services, care-sector employers, and public administration into a stable but modest earnings band around ${formatGBP(m.avgSalary)}. Band ${m.councilTaxBand} council tax and a ${m.costOfLivingIndex} COL index mean disposable income hinges on consistent PAYE planning rather than equity windfalls.`,
+    `Smaller municipal economies like ${city.cityName} blend hospitality, marine services, care-sector employers, and public administration into a stable but modest regional baseline around ${formatGBP(m.avgSalary)}. Band ${m.councilTaxBand} council tax and ${costOfLivingIndexWithBaseline(m.costOfLivingIndex)} mean disposable income at the area median hinges on consistent PAYE planning rather than equity windfalls.`,
   (city, m) =>
-    `Local service economies across ${city.region} — including ${city.cityName} — distribute earnings across district nursing, FE colleges, visitor accommodation, and regional logistics spokes. Gross pay near ${formatGBP(m.avgSalary)} supports a different lifestyle calculus than Tier-1 cities; use the calculator below to translate that into defensible monthly net figures before relocating.`,
+    `Local service economies across ${city.region} — including ${city.cityName} — distribute earnings across district nursing, FE colleges, visitor accommodation, and regional logistics spokes. The regional gross baseline of ${formatGBP(m.avgSalary)} supports a different lifestyle calculus than Tier-1 cities at the area median.`,
 ];
 
 const REGIONAL_PROFESSIONAL_INSIGHTS: InsightBuilder[] = [
@@ -69,11 +70,13 @@ export function getCityJobMarketInsight(city: UKCity): string {
     ? `Among roughly ${population.toLocaleString("en-GB")} working-age residents, `
     : "Across the local workforce, ";
 
+  const baseline = formatGBP(metrics.avgSalary);
+
   const tierClosers: Record<CityEconomicTier, string> = {
-    major_metro: `${popClause}senior software engineers, audit managers, and quantitative analysts routinely clear ${formatGBP(metrics.avgSalary)} before bonus — consult the live calculator to stress-test your offer against ${city.region} tax bands.`,
-    manufacturing_hub: `${popClause}maintenance engineers, CNC operators, and logistics coordinators anchor pay near ${formatGBP(metrics.avgSalary)} with structured overtime — model your payslip deductions before accepting a site-transfer package.`,
-    coastal_service: `${popClause}hospitality supervisors, district nurses, and council officers typically cluster around ${formatGBP(metrics.avgSalary)} with lower variance than national metros — essential for accurate monthly budgeting in ${city.cityName}.`,
-    regional_professional: `${popClause}qualified accountants, project surveyors, and operations managers sustain a ${formatGBP(metrics.avgSalary)} median — competitive within ${city.region} but sensitive to pension sacrifice elections.`,
+    major_metro: `${popClause}the regional gross baseline of ${baseline} reflects concentrated technology, financial services, and consulting employers — not individual offer packages entered in the calculator above.`,
+    manufacturing_hub: `${popClause}the ${baseline} area median anchors maintenance engineers, CNC operators, and logistics coordinators with structured overtime — a regional benchmark independent of personal salary inputs.`,
+    coastal_service: `${popClause}hospitality supervisors, district nurses, and council officers cluster around the ${baseline} regional baseline with lower variance than national metros.`,
+    regional_professional: `${popClause}qualified accountants, project surveyors, and operations managers sustain the ${baseline} area median — competitive within ${city.region} at the regional average only.`,
   };
 
   return tierClosers[tier];
