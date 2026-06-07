@@ -5,7 +5,7 @@ import { COMPLIANCE_EMAIL, CORPORATE_EMAIL, getSiteUrl } from "@/lib/site/config
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy Policy for Global Calculator Engine — how we handle data, cookies, analytics, and third-party advertising.",
+    "Privacy Policy for uktaxcalculation — how we handle data, cookies, analytics, and third-party advertising.",
   alternates: {
     canonical: `${getSiteUrl()}/privacy`,
   },
@@ -14,11 +14,11 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <LegalPageLayout
-      title="Privacy Policy for Global Calculator Engine"
+      title="Privacy Policy for uktaxcalculation"
       lastUpdated="June 2026"
     >
       <p>
-        Global Calculator Engine (&quot;GCE&quot;, &quot;we&quot;, &quot;us&quot;)
+        uktaxcalculation (&quot;we&quot;, &quot;us&quot;)
         operates the website at globalcalculatorengine.vercel.app and
         associated UK salary calculator tools. This Privacy Policy explains how
         we collect, use, and protect information when you use our services.
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           Who we are
         </h2>
         <p>
-          Global Calculator Engine is a UK-focused financial technology platform
+          uktaxcalculation is a UK-focused financial technology platform
           providing HMRC-aligned salary estimation tools and professional
           accounting service routes. For privacy enquiries contact{" "}
           <a
@@ -55,8 +55,8 @@ export default function PrivacyPage() {
         </h2>
         <p>
           We do not collect, store, or transmit personal salary figures, tax
-          codes, or National Insurance inputs entered into Global Calculator
-          Engine tools. All salary calculations are processed client-side within
+          codes, or National Insurance inputs entered into uktaxcalculation
+          tools. All salary calculations are processed client-side within
           your browser session or rendered server-side from anonymized regional
           baselines — never linked to your identity.
         </p>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
           Third-party services
         </h2>
         <p>
-          Global Calculator Engine may integrate third-party services including
+          uktaxcalculation may integrate third-party services including
           WhatsApp Business for accountant enquiries and advertising networks.
           These providers operate under their own privacy policies. We do not
           sell personal data to third parties.
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
           Policy updates
         </h2>
         <p>
-          Global Calculator Engine may update this policy to reflect regulatory
+          uktaxcalculation may update this policy to reflect regulatory
           or operational changes. Continued use of our services constitutes
           acceptance of the updated policy.
         </p>

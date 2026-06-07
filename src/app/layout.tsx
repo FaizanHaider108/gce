@@ -4,6 +4,7 @@ import { CookieConsent } from "@/components/legal/CookieConsent";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { buildSiteWideJsonLd } from "@/lib/seo/site-json-ld";
+import { SITE_NAME } from "@/lib/site/config";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,8 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Global Calculator Engine | Free Financial & Tax Tools",
-    template: "%s | Global Calculator Engine",
+    default: `${SITE_NAME} | Free Financial & Tax Tools`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Calculate your exact take-home pay, income tax, and national insurance deductions across UK cities with our 100% accurate, up-to-date programmatic salary engine.",

@@ -1,4 +1,4 @@
-import { getSiteUrl } from "@/lib/site/config";
+import { getSiteUrl, SITE_NAME } from "@/lib/site/config";
 import type { AccountingService } from "@/lib/data/services";
 
 export function buildServiceJsonLd(service: AccountingService) {
@@ -26,14 +26,14 @@ export function buildServiceJsonLd(service: AccountingService) {
       ],
       provider: {
         "@type": "Organization",
-        name: "Global Calculator Engine",
+        name: SITE_NAME,
         url: siteUrl,
       },
     },
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      name: `Global Calculator Engine — ${service.title}`,
+      name: `${SITE_NAME} — ${service.title}`,
       url: pageUrl,
       description: service.shortDescription,
       address: {

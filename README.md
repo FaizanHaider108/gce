@@ -1,4 +1,4 @@
-# Global Calculator Engine (GCE)
+# uktaxcalculation
 
 Programmatic SEO (pSEO) platform for hyper-local salary and tax calculators. MVP targets the United Kingdom with a modular architecture designed to plug in USA, Canada, Australia, and EU datasets later.
 

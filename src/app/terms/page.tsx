@@ -6,7 +6,7 @@ import { CORPORATE_EMAIL, getSiteUrl } from "@/lib/site/config";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "Terms of Service for Global Calculator Engine — disclaimer, intellectual property, and governing law.",
+    "Terms of Service for uktaxcalculation — disclaimer, intellectual property, and governing law.",
   alternates: {
     canonical: `${getSiteUrl()}/terms`,
   },
@@ -14,12 +14,12 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPageLayout title="Terms of Service for Global Calculator Engine">
+    <LegalPageLayout title="Terms of Service for uktaxcalculation">
       <p>
-        These Terms of Service govern your use of Global Calculator Engine
-        (&quot;GCE&quot;) at globalcalculatorengine.vercel.app and all associated
-        UK salary calculators, directory pages, and professional service routes.
-        By accessing GCE you agree to these terms in full.
+        These Terms of Service govern your use of uktaxcalculation at
+        globalcalculatorengine.vercel.app and all associated UK salary
+        calculators, directory pages, and professional service routes. By
+        accessing uktaxcalculation you agree to these terms in full.
       </p>
 
       <section>
@@ -27,7 +27,7 @@ export default function TermsPage() {
           Nature of our services
         </h2>
         <p>
-          Global Calculator Engine provides free HMRC-aligned salary estimation
+          uktaxcalculation provides free HMRC-aligned salary estimation
           tools mapped to {UK_TAX_YEAR} tax thresholds and optional connections
           to qualified UK Chartered Accountants for formal accounting services.
           Calculator outputs are educational estimates — not regulated financial
@@ -40,11 +40,11 @@ export default function TermsPage() {
           Disclaimer of liability
         </h2>
         <p>
-          Salary, Income Tax, and National Insurance figures produced by Global
-          Calculator Engine are for general informational purposes only. While
+          Salary, Income Tax, and National Insurance figures produced by
+          uktaxcalculation are for general informational purposes only. While
           synchronized to published HMRC baselines, individual liabilities vary
           based on tax codes, benefits in kind, student loans, and corporate
-          structures. GCE accepts no liability for decisions made on the basis of
+          structures. uktaxcalculation accepts no liability for decisions made on the basis of
           calculator estimates. Always consult a qualified UK accountant before
           making binding financial decisions.
         </p>
@@ -55,7 +55,7 @@ export default function TermsPage() {
           Acceptable use
         </h2>
         <p>
-          You may not scrape, bulk-harvest, or republish Global Calculator Engine
+          You may not scrape, bulk-harvest, or republish uktaxcalculation
           content without written permission. Automated access that degrades
           service performance or circumvents rate limits is prohibited. City
           calculator pages are intended for individual professional and
@@ -68,9 +68,9 @@ export default function TermsPage() {
           Intellectual property
         </h2>
         <p>
-          The Global Calculator Engine brand, programmatic tax engine, UI
+          The uktaxcalculation brand, programmatic tax engine, UI
           components, localized content frameworks, and schema implementations
-          are the exclusive property of Global Calculator Engine. Unauthorised
+          are the exclusive property of uktaxcalculation. Unauthorised
           reproduction or derivative commercial use is prohibited.
         </p>
       </section>

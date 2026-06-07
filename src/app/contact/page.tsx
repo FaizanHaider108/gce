@@ -9,9 +9,9 @@ import {
 } from "@/lib/site/config";
 
 export const metadata: Metadata = {
-  title: "Contact Global Calculator Engine",
+  title: "Contact uktaxcalculation",
   description:
-    "Contact Global Calculator Engine for UK salary calculator support, chartered accounting services, and HMRC compliance enquiries.",
+    "Contact uktaxcalculation for UK salary calculator support, chartered accounting services, and HMRC compliance enquiries.",
   alternates: {
     canonical: `${getSiteUrl()}/contact`,
   },
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <LegalPageLayout title="Contact Global Calculator Engine">
+    <LegalPageLayout title="Contact uktaxcalculation">
       <p>
-        Global Calculator Engine provides HMRC-aligned salary calculators and
+        uktaxcalculation provides HMRC-aligned salary calculators and
         professional UK accounting services. Reach our team using the channels
         below for calculator support, corporate tax advisory, or partnership
         enquiries.

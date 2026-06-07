@@ -7,7 +7,7 @@ const SECTIONS = [
   {
     id: "personal-allowance",
     title: `How the ${UK_TAX_YEAR} Personal Allowance works`,
-    content: `The UK Personal Allowance for ${UK_TAX_YEAR} is set at £${PERSONAL_ALLOWANCE.toLocaleString("en-GB")}, meaning the first portion of your gross salary is taxed at 0% for Income Tax purposes. Global Calculator Engine applies this threshold before any banded rates are calculated. Once your income exceeds £100,000, the allowance tapers by £1 for every £2 earned above that level, eventually reaching zero at £125,140. Our engine models this taper automatically so high earners see an accurate marginal rate rather than a flat basic-rate estimate.`,
+    content: `The UK Personal Allowance for ${UK_TAX_YEAR} is set at £${PERSONAL_ALLOWANCE.toLocaleString("en-GB")}, meaning the first portion of your gross salary is taxed at 0% for Income Tax purposes. uktaxcalculation applies this threshold before any banded rates are calculated. Once your income exceeds £100,000, the allowance tapers by £1 for every £2 earned above that level, eventually reaching zero at £125,140. Our engine models this taper automatically so high earners see an accurate marginal rate rather than a flat basic-rate estimate.`,
   },
   {
     id: "national-insurance",
@@ -41,7 +41,7 @@ export function HomeCalculationGuide() {
         id="calculation-guide-heading"
         className="text-xl font-semibold text-slate-900 sm:text-2xl"
       >
-        How Global Calculator Engine computes your take-home pay
+        How uktaxcalculation computes your take-home pay
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-slate-500 sm:text-base">
         A transparent breakdown of the {UK_TAX_YEAR} tax framework, National

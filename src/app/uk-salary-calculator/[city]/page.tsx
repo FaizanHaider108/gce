@@ -22,7 +22,7 @@ import {
   getCitySalaryPath,
   getUKCityByRouteId,
 } from "@/lib/data/city-routes";
-import { getSiteUrl } from "@/lib/site/config";
+import { getSiteUrl, SITE_NAME } from "@/lib/site/config";
 import { buildCityFaqData } from "@/lib/seo/city-faq-content";
 import { buildCityFaqJsonLd } from "@/lib/seo/city-json-ld";
 import { buildCitySeoCluster } from "@/lib/seo/city-page-seo";
@@ -82,7 +82,7 @@ export async function generateMetadata({
       type: "website",
       locale: "en_GB",
       url: pageUrl,
-      siteName: "Global Calculator Engine",
+      siteName: SITE_NAME,
     },
     twitter: {
       card: "summary",

@@ -24,9 +24,10 @@
 
 export const CANONICAL_SITE_URL = "https://globalcalculatorengine.vercel.app";
 
+/** Public-facing website brand name */
+export const SITE_NAME = "uktaxcalculation";
 
-
-/** Primary corporate contact for Global Calculator Engine */
+/** Primary corporate contact for uktaxcalculation */
 
 export const CORPORATE_EMAIL = "hello@globalcalculatorengine.com";
 

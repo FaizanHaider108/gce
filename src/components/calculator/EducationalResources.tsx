@@ -53,7 +53,7 @@ export function EducationalResources({ city }: EducationalResourcesProps) {
           href="/guides"
           className="font-semibold text-emerald-600 hover:underline"
         >
-          Browse the full Global Calculator Engine resource hub →
+          Browse the full uktaxcalculation resource hub →
         </Link>
       </p>
     </section>

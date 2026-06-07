@@ -10,7 +10,7 @@ import {
   HOME_DESCRIPTION,
   HOME_TITLE,
 } from "@/lib/seo/home-metadata";
-import { getSiteUrl } from "@/lib/site/config";
+import { getSiteUrl, SITE_NAME } from "@/lib/site/config";
 
 const SITE_URL = getSiteUrl();
 const OG_IMAGE = `${SITE_URL}/web-app-manifest-512x512.png`;
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
     url: SITE_URL,
-    siteName: "Global Calculator Engine",
+    siteName: SITE_NAME,
     locale: "en_GB",
     type: "website",
     images: [
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         url: OG_IMAGE,
         width: 512,
         height: 512,
-        alt: "Global Calculator Engine UK Salary Calculator",
+        alt: "uktaxcalculation UK Salary Calculator",
       },
     ],
   },

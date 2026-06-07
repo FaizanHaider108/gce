@@ -10,7 +10,7 @@ import { UK_NATIONS } from "@/lib/data/uk-nation";
 
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 
-import { CORPORATE_EMAIL } from "@/lib/site/config";
+import { CORPORATE_EMAIL, SITE_NAME } from "@/lib/site/config";
 
 import { Logo } from "./Logo";
 
@@ -233,9 +233,7 @@ export function SiteFooter() {
           <div className="border-t border-slate-100 pt-6 text-center sm:text-left">
 
             <p className="text-xs leading-relaxed text-slate-400">
-
-              © {new Date().getFullYear()} Global Calculator Engine ·{" "}
-
+              © {new Date().getFullYear()} {SITE_NAME} ·{" "}
               <a
 
                 href={`mailto:${CORPORATE_EMAIL}`}

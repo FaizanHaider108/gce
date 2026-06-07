@@ -1,6 +1,6 @@
 {
-  "name": "Global Calculator Engine",
-  "short_name": "globalcalculatorengine",
+  "name": "uktaxcalculation",
+  "short_name": "uktaxcalculation",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

@@ -2,6 +2,7 @@ import {
   COMPLIANCE_EMAIL,
   CORPORATE_EMAIL,
   getSiteUrl,
+  SITE_NAME,
 } from "@/lib/site/config";
 
 export function buildOrganizationJsonLd() {
@@ -10,7 +11,7 @@ export function buildOrganizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Global Calculator Engine",
+    name: SITE_NAME,
     url: siteUrl,
     logo: `${siteUrl}/favicon-96x96.png`,
     email: CORPORATE_EMAIL,
@@ -48,7 +49,7 @@ export function buildWebSiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Global Calculator Engine",
+    name: SITE_NAME,
     url: siteUrl,
     inLanguage: "en-GB",
     potentialAction: {
@@ -69,7 +70,7 @@ export function buildPlatformFinancialServiceJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "FinancialService",
-    name: "Global Calculator Engine",
+    name: SITE_NAME,
     description: "HMRC-aligned UK Salary and Take-Home Pay Calculator",
     url: siteUrl,
     areaServed: {
@@ -92,7 +93,7 @@ export function buildPlatformProfessionalServiceJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: "Global Calculator Engine — HMRC-Aligned Financial Tools",
+    name: `${SITE_NAME} — HMRC-Aligned Financial Tools`,
     url: siteUrl,
     description:
       "YMYL compliant UK salary calculators aligned to HMRC 2026/27 Tax Code Guidelines.",
@@ -123,7 +124,7 @@ export function buildPlatformFinancialProductJsonLd() {
     category: "Tax Calculator",
     provider: {
       "@type": "Organization",
-      name: "Global Calculator Engine",
+      name: SITE_NAME,
       url: siteUrl,
     },
     offers: {

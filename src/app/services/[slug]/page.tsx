@@ -9,7 +9,7 @@ import {
   getAllServiceSlugs,
   getServiceBySlug,
 } from "@/lib/data/services";
-import { getSiteUrl } from "@/lib/site/config";
+import { getSiteUrl, SITE_NAME } from "@/lib/site/config";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -47,7 +47,7 @@ export async function generateMetadata({
       type: "website",
       locale: "en_GB",
       url: pageUrl,
-      siteName: "Global Calculator Engine",
+      siteName: SITE_NAME,
     },
     twitter: {
       card: "summary",

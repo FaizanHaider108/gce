@@ -1,7 +1,7 @@
 import { getCitySalaryPath } from "@/lib/data/city-routes";
 import { getCityCounty } from "@/lib/data/city-location";
 import { buildCityFaqItems } from "@/lib/seo/city-faq-content";
-import { getSiteUrl } from "@/lib/site/config";
+import { getSiteUrl, SITE_NAME } from "@/lib/site/config";
 import type { UKCity } from "@/types/location";
 
 function cityPageUrl(city: UKCity): string {
@@ -25,7 +25,7 @@ export function buildCityDualJsonLd(city: UKCity) {
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: `Global Calculator Engine - ${cityLabel} Edition`,
+      name: `${SITE_NAME} - ${cityLabel} Edition`,
       url: pageUrl,
       operatingSystem: "All",
       applicationCategory: "BusinessApplication",
@@ -78,7 +78,7 @@ export function buildCityDualJsonLd(city: UKCity) {
       category: "Tax Calculator",
       provider: {
         "@type": "Organization",
-        name: "Global Calculator Engine",
+        name: SITE_NAME,
         url: getSiteUrl(),
       },
       offers: {

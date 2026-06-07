@@ -1,5 +1,5 @@
 import { getCitySalaryPath } from "@/lib/data/city-routes";
-import { getSiteUrl } from "@/lib/site/config";
+import { getSiteUrl, SITE_NAME } from "@/lib/site/config";
 import type { UKCity } from "@/types/location";
 
 const PUBLISHED_DATE = "2025-06-01";
@@ -50,7 +50,7 @@ export function buildCityWebPageJsonLd(city: UKCity) {
     dateModified: MODIFIED_DATE,
     isPartOf: {
       "@type": "WebSite",
-      name: "Global Calculator Engine",
+      name: SITE_NAME,
       url: siteUrl,
     },
     breadcrumb: {
