@@ -6,7 +6,7 @@ import { CityEconomicSnapshot } from "@/components/calculator/CityEconomicSnapsh
 import { CityLocalInsight } from "@/components/calculator/CityLocalInsight";
 import { CityTaxBreakdownSummary } from "@/components/calculator/CityTaxBreakdownSummary";
 import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalaryComparison";
-import { RelatedCities } from "@/components/calculator/RelatedCities";
+import { NearbyCities } from "@/components/calculator/NearbyCities";
 import { RelocationCTA } from "@/components/calculator/RelocationCTA";
 import { SalaryCalculatorLoader } from "@/components/calculator/SalaryCalculatorLoader";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
@@ -16,8 +16,8 @@ import {
   getCitySalaryPath,
   getUKCityByRouteId,
 } from "@/lib/data/city-routes";
-import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
 import { getSiteUrl } from "@/lib/site/config";
+import { buildCitySeoCluster } from "@/lib/seo/city-page-seo";
 
 interface PageProps {
   params: Promise<{ city: string }>;
@@ -39,9 +39,9 @@ export async function generateMetadata({
     return { title: "Calculator Not Found" };
   }
 
-  const title = `Salary & Income Tax Calculator for ${city.cityName}`;
-  const metrics = getCityLocalMetrics(city);
-  const description = `Calculate your ${UK_TAX_YEAR} take-home pay in ${city.cityName}, ${city.region}. Avg salary £${metrics.avgSalary.toLocaleString("en-GB")}, rent ${metrics.rentPercent}% of gross, COL index ${metrics.costOfLivingIndex}. Free Income Tax & NI calculator.`;
+  const seo = buildCitySeoCluster(city.cityName, { taxYear: UK_TAX_YEAR });
+  const title = seo.title;
+  const description = seo.description;
   const pageUrl = `${getSiteUrl()}${getCitySalaryPath(city)}`;
 
   return {
@@ -147,7 +147,7 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
         benchmarkCities={benchmarkCities}
       />
       <CityContentGuide city={city} />
-      <RelatedCities city={city} />
+      <NearbyCities city={city} />
 
       <div className="no-print mt-12 w-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
         <h2 className="mb-6 text-2xl font-bold text-slate-900">

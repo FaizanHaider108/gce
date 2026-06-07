@@ -52,9 +52,15 @@ export default function UKCalculatorDirectoryPage() {
           Scottish Income Tax bands where applicable, Class 1 National Insurance
           thresholds, and naturalized regional salary baselines.
         </p>
-        <p className="text-sm text-slate-400">
+        <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-400">
           <Link href="/" className="font-medium text-emerald-600 hover:underline">
             ← Back to home
+          </Link>
+          <Link
+            href="/uk-calculator-directory/regions"
+            className="font-medium text-emerald-600 hover:underline"
+          >
+            Regional sitemap index (all counties) →
           </Link>
         </p>
       </header>

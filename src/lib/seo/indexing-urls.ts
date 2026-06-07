@@ -16,7 +16,7 @@ export function getAllIndexableUrls(): string[] {
     "/privacy",
     "/terms",
     "/uk-calculator-directory",
-    "/uk-calculator-directory",
+    "/uk-calculator-directory/regions",
   ];
 
   const cityPaths = getAllUKCityRouteIds().map(

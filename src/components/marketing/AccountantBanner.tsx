@@ -1,5 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
-import { getSpunCtaHook } from "@/lib/seo/city-page-content";
+import { buildAccountantCtaCopy } from "@/lib/seo/cro-cta-copy";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import type { UKCity } from "@/types/location";
 
@@ -7,6 +7,8 @@ interface AccountantBannerProps {
   city?: UKCity;
   cityName?: string;
   variant?: "default" | "inline";
+  grossSalary?: number;
+  isExplicitSalary?: boolean;
 }
 
 const BULLETS = [
@@ -19,12 +21,16 @@ export function AccountantBanner({
   city,
   cityName,
   variant = "default",
+  grossSalary,
+  isExplicitSalary = false,
 }: AccountantBannerProps) {
   const resolvedCityName = city?.cityName ?? cityName;
-  const locationHint = resolvedCityName ? ` in ${resolvedCityName}` : "";
   const ctaHook = city
-    ? getSpunCtaHook(city)
-    : `From Year-End Accounts to Strategic Tax Planning, we maximise your take-home pay${locationHint} and ensure 100% HMRC compliance.`;
+    ? buildAccountantCtaCopy(city, {
+        userGrossSalary: grossSalary,
+        isExplicitSalary,
+      })
+    : `From Year-End Accounts to Strategic Tax Planning, our chartered UK accountants maximise take-home pay${resolvedCityName ? ` in ${resolvedCityName}` : ""} and ensure 100% HMRC compliance.`;
 
   if (variant === "inline") {
     return (

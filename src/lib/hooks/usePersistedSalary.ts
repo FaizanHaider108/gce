@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const STORAGE_KEY = "gce-gross-salary";
+
+export type SalaryOrigin = "default" | "url" | "storage" | "input";
 
 function parseSalary(value: string | undefined): number | undefined {
   if (!value) return undefined;
@@ -11,17 +13,33 @@ function parseSalary(value: string | undefined): number | undefined {
   return parsed;
 }
 
+export interface PersistedSalaryState {
+  salary: number;
+  setSalary: (value: number) => void;
+  origin: SalaryOrigin;
+  /** True when salary came from URL, storage, or explicit user input — not the cold default. */
+  isExplicitSalary: boolean;
+  hydrated: boolean;
+}
+
 /**
  * @param urlSalary — when set (e.g. from homepage `?salary=`), takes priority over localStorage.
  */
-export function usePersistedSalary(fallback: number, urlSalary?: number) {
-  const [salary, setSalary] = useState(urlSalary ?? fallback);
+export function usePersistedSalary(
+  fallback: number,
+  urlSalary?: number,
+): PersistedSalaryState {
+  const [salary, setSalaryState] = useState(urlSalary ?? fallback);
+  const [origin, setOrigin] = useState<SalaryOrigin>(
+    urlSalary !== undefined ? "url" : "default",
+  );
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const fromUrl = urlSalary;
     if (fromUrl !== undefined && fromUrl >= 0) {
-      setSalary(fromUrl);
+      setSalaryState(fromUrl);
+      setOrigin("url");
       try {
         localStorage.setItem(STORAGE_KEY, String(fromUrl));
       } catch {
@@ -35,10 +53,11 @@ export function usePersistedSalary(fallback: number, urlSalary?: number) {
       const stored = localStorage.getItem(STORAGE_KEY);
       const parsed = parseSalary(stored ?? undefined);
       if (parsed !== undefined) {
-        setSalary(parsed);
+        setSalaryState(parsed);
+        setOrigin("storage");
       }
     } catch {
-      // localStorage unavailable (private browsing, SSR) — use fallback
+      // localStorage unavailable — use fallback
     }
     setHydrated(true);
   }, [urlSalary]);
@@ -52,5 +71,18 @@ export function usePersistedSalary(fallback: number, urlSalary?: number) {
     }
   }, [salary, hydrated]);
 
-  return [salary, setSalary] as const;
+  const setSalary = useCallback((value: number) => {
+    setSalaryState(value);
+    setOrigin("input");
+  }, []);
+
+  const isExplicitSalary = origin !== "default" && salary > 0;
+
+  return {
+    salary,
+    setSalary,
+    origin,
+    isExplicitSalary,
+    hydrated,
+  };
 }

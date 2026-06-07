@@ -20,6 +20,7 @@ import {
 import type { UKCity } from "@/types/location";
 
 const DIRECTORY_HUB = "/uk-calculator-directory";
+const REGIONAL_INDEX = "/uk-calculator-directory/regions";
 
 interface CityDirectoryTabsProps {
   cities: UKCity[];
@@ -148,13 +149,19 @@ export function CityDirectoryTabs({
             </ul>
 
             {scope === "curated" && (
-              <p className="mt-4">
-                <Link
+              <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                <a
                   href={`${DIRECTORY_HUB}#${nationToAnchorId(nation)}`}
                   className="text-sm font-semibold text-emerald-600 hover:underline"
                 >
                   View all {nation} calculators ({grouped[nation].length}) →
-                </Link>
+                </a>
+                <a
+                  href={REGIONAL_INDEX}
+                  className="text-sm font-semibold text-slate-600 hover:underline"
+                >
+                  Regional sitemap index →
+                </a>
               </p>
             )}
           </div>

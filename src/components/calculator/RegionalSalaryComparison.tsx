@@ -32,7 +32,7 @@ export function RegionalSalaryComparison({
   currentCity,
   benchmarkCities,
 }: RegionalSalaryComparisonProps) {
-  const [grossSalary] = usePersistedSalary(DEFAULT_GROSS_SALARY);
+  const { salary: grossSalary } = usePersistedSalary(DEFAULT_GROSS_SALARY);
 
   const currentCityAverage = useMemo(
     () => getCityAverageSalary(currentCity),

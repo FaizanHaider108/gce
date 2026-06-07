@@ -24,7 +24,9 @@ interface HomeSalaryWidgetProps {
 }
 
 export function HomeSalaryWidget({ defaultCity }: HomeSalaryWidgetProps) {
-  const [annualGross, setAnnualGross] = usePersistedSalary(DEFAULT_GROSS_SALARY);
+  const { salary: annualGross, setSalary: setAnnualGross } = usePersistedSalary(
+    DEFAULT_GROSS_SALARY,
+  );
   const [payFrequency, setPayFrequency] = useState<PayFrequency>("annual");
   const [jurisdiction, setJurisdiction] = useState<TaxJurisdiction>("England");
   const [showResults, setShowResults] = useState(true);

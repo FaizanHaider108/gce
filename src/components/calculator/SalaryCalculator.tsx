@@ -14,11 +14,13 @@ import {
 } from "@/lib/calculators/uk";
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
+import { buildCitySeoCluster } from "@/lib/seo/city-page-seo";
 import { getSpunIntro } from "@/lib/seo/city-page-content";
 import type { StudentLoanPlan, TaxYearId } from "@/types/calculator";
 import type { UKCity } from "@/types/location";
 import { FinancialDisclaimer } from "@/components/legal/FinancialDisclaimer";
 import { AccountantBanner } from "@/components/marketing/AccountantBanner";
+import { CityPageMetadataSync } from "@/components/seo/CityPageMetadataSync";
 import { CalculatorOptions } from "./CalculatorOptions";
 import { MarketInsights } from "./MarketInsights";
 import { ResultsTable } from "./ResultsTable";
@@ -35,10 +37,8 @@ export function SalaryCalculator({
   city,
   initialSalary,
 }: SalaryCalculatorProps) {
-  const [grossSalary, setGrossSalary] = usePersistedSalary(
-    initialSalary ?? DEFAULT_GROSS_SALARY,
-    initialSalary,
-  );
+  const { salary: grossSalary, setSalary: setGrossSalary, isExplicitSalary } =
+    usePersistedSalary(initialSalary ?? DEFAULT_GROSS_SALARY, initialSalary);
   const [taxYear, setTaxYear] = useState<TaxYearId>(DEFAULT_TAX_YEAR);
   const [pensionPercent, setPensionPercent] = useState(0);
   const [studentLoan, setStudentLoan] = useState<StudentLoanPlan>("none");
@@ -53,10 +53,26 @@ export function SalaryCalculator({
     [grossSalary, city.region, taxYear, pensionPercent, studentLoan],
   );
 
+  const seoCluster = useMemo(
+    () =>
+      buildCitySeoCluster(city.cityName, {
+        taxYear,
+        grossSalary,
+        isExplicitSalary,
+      }),
+    [city.cityName, taxYear, grossSalary, isExplicitSalary],
+  );
+
   const introCopy = useMemo(() => getSpunIntro(city), [city]);
 
   return (
     <section className="space-y-8">
+      <CityPageMetadataSync
+        city={city}
+        grossSalary={grossSalary}
+        isExplicitSalary={isExplicitSalary}
+      />
+
       <header className="space-y-5">
         <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-700">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
@@ -66,7 +82,7 @@ export function SalaryCalculator({
         </div>
 
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-          Salary &amp; Income Tax Calculator for {city.cityName}
+          {seoCluster.h1}
         </h1>
 
         <p className="max-w-2xl text-base leading-relaxed text-slate-500 sm:text-lg">
@@ -122,7 +138,12 @@ export function SalaryCalculator({
         <div className="flex flex-col gap-6">
           <ResultsTable results={results} />
           <SalaryDonutChart results={results} />
-          <AccountantBanner city={city} variant="inline" />
+          <AccountantBanner
+            city={city}
+            variant="inline"
+            grossSalary={grossSalary}
+            isExplicitSalary={isExplicitSalary}
+          />
         </div>
       </div>
 
