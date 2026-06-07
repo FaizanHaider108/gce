@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
 import { CityEconomicSnapshot } from "@/components/calculator/CityEconomicSnapshot";
+import { RegionalBenchmarksSection } from "@/components/calculator/RegionalBenchmarksSection";
 import { CityLocalInsight } from "@/components/calculator/CityLocalInsight";
 import { CityTaxBreakdownSummary } from "@/components/calculator/CityTaxBreakdownSummary";
 import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalaryComparison";
@@ -137,11 +138,11 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       >
         <SalaryCalculatorLoader city={city} />
       </Suspense>
-      <div className="mt-8 space-y-8">
+      <RegionalBenchmarksSection city={city}>
         <CityEconomicSnapshot city={city} />
         <CityTaxBreakdownSummary city={city} />
         <CityLocalInsight city={city} />
-      </div>
+      </RegionalBenchmarksSection>
       <RegionalSalaryComparison
         currentCity={city}
         benchmarkCities={benchmarkCities}

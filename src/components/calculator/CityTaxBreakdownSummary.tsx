@@ -23,11 +23,14 @@ export function CityTaxBreakdownSummary({ city }: CityTaxBreakdownSummaryProps) 
       className="no-print rounded-xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6"
       aria-labelledby="city-tax-summary-heading"
     >
+      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+        Regional averages only
+      </p>
       <h2
         id="city-tax-summary-heading"
         className="text-lg font-semibold text-slate-900"
       >
-        {heading} — {UK_TAX_YEAR} Baseline
+        {heading} — {UK_TAX_YEAR} Regional Baseline
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-slate-600">
         Working in {city.cityName}? With an average gross salary of{" "}

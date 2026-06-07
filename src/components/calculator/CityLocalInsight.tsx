@@ -19,6 +19,9 @@ export function CityLocalInsight({ city }: CityLocalInsightProps) {
       className="no-print rounded-xl border border-slate-100 bg-slate-50/80 px-5 py-4"
       aria-labelledby="local-insight-heading"
     >
+      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+        Regional averages only
+      </p>
       <h2
         id="local-insight-heading"
         className="text-lg font-semibold text-slate-900"

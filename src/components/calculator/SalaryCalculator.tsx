@@ -15,7 +15,7 @@ import {
 import { formatGBP } from "@/lib/format/currency";
 import { usePersistedSalary } from "@/lib/hooks/usePersistedSalary";
 import { buildCitySeoCluster } from "@/lib/seo/city-page-seo";
-import { getSpunIntro } from "@/lib/seo/city-page-content";
+import { getDynamicIntro } from "@/lib/seo/dynamic-intro";
 import type { StudentLoanPlan, TaxYearId } from "@/types/calculator";
 import type { UKCity } from "@/types/location";
 import { FinancialDisclaimer } from "@/components/legal/FinancialDisclaimer";
@@ -63,7 +63,14 @@ export function SalaryCalculator({
     [city.cityName, taxYear, grossSalary, isExplicitSalary],
   );
 
-  const introCopy = useMemo(() => getSpunIntro(city), [city]);
+  const introCopy = useMemo(
+    () =>
+      getDynamicIntro(city, {
+        grossSalary,
+        isExplicitSalary,
+      }),
+    [city, grossSalary, isExplicitSalary],
+  );
 
   return (
     <section className="space-y-8">

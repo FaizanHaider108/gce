@@ -52,13 +52,15 @@ export default function RootLayout({
       lang="en-GB"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-slate-50 font-sans text-slate-900">
+      <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(siteJsonLd),
           }}
         />
+      </head>
+      <body className="flex min-h-full flex-col bg-slate-50 font-sans text-slate-900">
         <SiteHeader />
         {children}
         <SiteFooter />

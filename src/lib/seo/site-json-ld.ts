@@ -62,8 +62,35 @@ export function buildWebSiteJsonLd() {
   };
 }
 
+/** Platform-level FinancialService — YMYL trust signal for crawlers. */
+export function buildPlatformFinancialServiceJsonLd() {
+  const siteUrl = getSiteUrl();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    name: "Global Calculator Engine",
+    description: "HMRC-aligned UK Salary and Take-Home Pay Calculator",
+    url: siteUrl,
+    areaServed: {
+      "@type": "Country",
+      name: "United Kingdom",
+    },
+    knowsAbout: [
+      "UK Income Tax",
+      "HMRC Tax Compliance",
+      "National Insurance",
+      "Take-Home Pay",
+    ],
+  };
+}
+
 export function buildSiteWideJsonLd() {
-  return [buildOrganizationJsonLd(), buildWebSiteJsonLd()];
+  return [
+    buildOrganizationJsonLd(),
+    buildWebSiteJsonLd(),
+    buildPlatformFinancialServiceJsonLd(),
+  ];
 }
 
 export function buildComplianceOrganizationNote(): string {

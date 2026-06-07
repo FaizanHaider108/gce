@@ -42,12 +42,20 @@ export function CityEconomicSnapshot({ city }: CityEconomicSnapshotProps) {
       className="no-print rounded-xl border border-slate-100 bg-white p-5 shadow-sm sm:p-6"
       aria-labelledby="city-economic-snapshot-heading"
     >
+      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+        Regional averages only
+      </p>
       <h2
         id="city-economic-snapshot-heading"
         className="text-lg font-semibold text-slate-900 sm:text-xl"
       >
-        {city.cityName} Economic Snapshot — Local vs UK National Average
+        {city.cityName} Regional Salary Benchmarks
       </h2>
+
+      <p className="mt-2 text-sm text-slate-500">
+        Area-wide economic modelling at the local average — independent of your
+        calculator input above.
+      </p>
 
       <p className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
         {opener(city, benchmark)}
