@@ -10,6 +10,7 @@ import { ServicesDropdown } from "./ServicesDropdown";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/uk-calculator-directory", label: "UK Calculators" },
+  { href: "/guides", label: "Guides" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ] as const;

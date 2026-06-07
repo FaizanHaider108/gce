@@ -4,6 +4,7 @@ import { getAllUKCityRouteIds } from "@/lib/data/city-routes";
 
 import { getUKCities } from "@/lib/data/load-cities";
 
+import { getAllGuideSlugs, getGuidePath } from "@/lib/data/guide-pillars";
 import { getAllServiceSlugs } from "@/lib/data/services";
 
 import { CANONICAL_SITE_URL, getSiteUrl } from "@/lib/site/config";
@@ -71,6 +72,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
 
       url: `${SITEMAP_BASE_URL}/uk-calculator-directory/regions`,
+
+      lastModified: new Date(),
+
+      changeFrequency: "weekly",
+
+      priority: 0.85,
+
+    },
+
+    {
+
+      url: `${SITEMAP_BASE_URL}/guides`,
 
       lastModified: new Date(),
 
@@ -164,7 +177,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 
 
-  return [...staticPages, ...cityPages, ...servicePages];
+  const guidePages: MetadataRoute.Sitemap = getAllGuideSlugs().map((slug) => ({
+    url: `${SITEMAP_BASE_URL}${getGuidePath(slug)}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.75,
+  }));
+
+  return [...staticPages, ...cityPages, ...servicePages, ...guidePages];
 
 }
 

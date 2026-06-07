@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
 import { CityEconomicSnapshot } from "@/components/calculator/CityEconomicSnapshot";
+import { CityProfessionalLandscape } from "@/components/calculator/CityProfessionalLandscape";
+import { EducationalResources } from "@/components/calculator/EducationalResources";
 import { RegionalBenchmarksSection } from "@/components/calculator/RegionalBenchmarksSection";
 import { CityLocalInsight } from "@/components/calculator/CityLocalInsight";
 import { CityTaxBreakdownSummary } from "@/components/calculator/CityTaxBreakdownSummary";
@@ -10,6 +12,7 @@ import { RegionalSalaryComparison } from "@/components/calculator/RegionalSalary
 import { NearbyCities } from "@/components/calculator/NearbyCities";
 import { RelocationCTA } from "@/components/calculator/RelocationCTA";
 import { SalaryCalculatorLoader } from "@/components/calculator/SalaryCalculatorLoader";
+import { TrustComplianceRibbon } from "@/components/legal/TrustComplianceRibbon";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { getBenchmarkCities } from "@/lib/data/benchmark-cities";
 import {
@@ -138,6 +141,12 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       >
         <SalaryCalculatorLoader city={city} />
       </Suspense>
+
+      <div className="mt-6 space-y-6">
+        <TrustComplianceRibbon />
+        <CityProfessionalLandscape city={city} />
+      </div>
+
       <RegionalBenchmarksSection city={city}>
         <CityEconomicSnapshot city={city} />
         <CityTaxBreakdownSummary city={city} />
@@ -149,6 +158,7 @@ export default async function UKCitySalaryPage({ params }: PageProps) {
       />
       <CityContentGuide city={city} />
       <NearbyCities city={city} />
+      <EducationalResources city={city} />
 
       <div className="no-print mt-12 w-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
         <h2 className="mb-6 text-2xl font-bold text-slate-900">

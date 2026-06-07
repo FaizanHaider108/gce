@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { CORPORATE_EMAIL, getSiteUrl } from "@/lib/site/config";
+import { TRUST_DATA_SOURCES_SENTENCE, TRUST_LAST_REVIEWED } from "@/lib/site/trust-compliance";
 import { LEAD_FINANCIAL_ARCHITECT } from "@/lib/site/trust-profile";
 import { LegalPageLayout } from "@/components/legal/LegalPageLayout";
 
@@ -116,6 +117,44 @@ export default function AboutPage() {
           Corporation Tax filings, Year-End Accounts, payroll operations, and
           strategic HMRC tax planning — delivered by chartered accountants with
           direct experience in UK compliance frameworks.
+        </p>
+      </section>
+
+      <section>
+        <h2 className="mb-2 text-lg font-semibold text-slate-900">
+          Editorial &amp; data accuracy policy
+        </h2>
+        <p>
+          Global Calculator Engine commits to financial precision above growth
+          metrics. Our editorial standard requires every tax threshold, NI band,
+          and regional salary baseline to be validated weekly against active HMRC
+          publications and ONS regional earnings releases. City-page industry
+          narratives are tier-classified — major metros, manufacturing hubs,
+          coastal service economies, and regional professional markets — to
+          eliminate formulaic programmatic footprints.
+        </p>
+        <p className="mt-3">
+          <strong>Last full compliance sweep:</strong> {TRUST_LAST_REVIEWED}.{" "}
+          {TRUST_DATA_SOURCES_SENTENCE}
+        </p>
+      </section>
+
+      <section>
+        <h2 className="mb-2 text-lg font-semibold text-slate-900">
+          Corporate governance &amp; platform ownership
+        </h2>
+        <p>
+          The calculator engine is owned and operated by a cross-functional team
+          combining chartered tax consultants, compliance auditors, and senior
+          full-stack engineers. Product decisions affecting YMYL financial output
+          require dual sign-off from the ACCA / ACA compliance team and the
+          technical validation squad. We publish transparent governance
+          documentation, name responsible experts on every city page, and
+          maintain a public{" "}
+          <Link href="/guides" className="font-medium text-emerald-600 hover:underline">
+            financial resource hub
+          </Link>{" "}
+          to establish topical authority beyond standalone tools.
         </p>
       </section>
 

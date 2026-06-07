@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CitySearchGrid } from "@/components/home/CitySearchGrid";
 import { HomeCalculationGuide } from "@/components/home/HomeCalculationGuide";
+import { HomeEditorialPolicy } from "@/components/home/HomeEditorialPolicy";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeValueCards } from "@/components/home/HomeValueCards";
 import { AccountantBanner } from "@/components/marketing/AccountantBanner";
@@ -58,6 +59,7 @@ export default function HomePage() {
         <HomeValueCards totalCities={cities.length} />
         <CitySearchGrid cities={cities} />
         <HomeCalculationGuide />
+        <HomeEditorialPolicy />
         <AccountantBanner />
       </div>
     </main>

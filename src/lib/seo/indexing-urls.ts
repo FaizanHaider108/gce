@@ -1,4 +1,5 @@
 import { getAllUKCityRouteIds } from "@/lib/data/city-routes";
+import { getAllGuideSlugs, getGuidePath } from "@/lib/data/guide-pillars";
 import { getAllServiceSlugs } from "@/lib/data/services";
 import { getUKCities } from "@/lib/data/load-cities";
 import { getSiteUrl } from "@/lib/site/config";
@@ -17,6 +18,7 @@ export function getAllIndexableUrls(): string[] {
     "/terms",
     "/uk-calculator-directory",
     "/uk-calculator-directory/regions",
+    "/guides",
   ];
 
   const cityPaths = getAllUKCityRouteIds().map(
@@ -25,7 +27,9 @@ export function getAllIndexableUrls(): string[] {
 
   const servicePaths = getAllServiceSlugs().map((slug) => `/services/${slug}`);
 
-  return [...staticPaths, ...cityPaths, ...servicePaths].map(
+  const guidePaths = getAllGuideSlugs().map((slug) => getGuidePath(slug));
+
+  return [...staticPaths, ...cityPaths, ...servicePaths, ...guidePaths].map(
     (path) => `${base}${path}`,
   );
 }

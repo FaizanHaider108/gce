@@ -1,7 +1,9 @@
 import { calculateUKSalary, isScottishRegion, UK_TAX_YEAR } from "@/lib/calculators/uk";
 import { getCityLocalMetrics } from "@/lib/data/city-local-metrics";
 import { getCityAverageSalary } from "@/lib/data/regional-salary";
+import { costOfLivingIndexWithBaseline } from "@/lib/format/col-index";
 import { formatGBP } from "@/lib/format/currency";
+import { getCityJobMarketInsight } from "@/lib/seo/city-industry-insights";
 import {
   COL_OPENER_VARIATIONS,
   COST_OF_LIVING_HEADINGS,
@@ -24,7 +26,7 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
     city.metadata?.costOfLivingIndex ?? DEFAULT_COST_OF_LIVING_INDEX;
   const avgCalc = calculateUKSalary(averageSalary, city.region);
   const isScotland = isScottishRegion(city.region);
-  const population = city.metadata?.population;
+  const jobMarketInsight = getCityJobMarketInsight(city);
 
   const colHeading = pickVariation(city, COST_OF_LIVING_HEADINGS)(city);
   const jobHeading = pickVariation(city, JOB_MARKET_HEADINGS)(city);
@@ -56,18 +58,12 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
             <strong>HMRC statutory guidelines</strong>.
           </p>
           <p>
-            With a cost-of-living index of {costOfLivingIndex} (UK average =
-            100), {city.cityName} has {colContext}. At the local baseline,
-            rent at {formatGBP(metrics.avgRentMonthly)}/month equates to{" "}
+            With {costOfLivingIndexWithBaseline(costOfLivingIndex)},{" "}
+            {city.cityName} has {colContext}. At the regional baseline, rent at{" "}
+            {formatGBP(metrics.avgRentMonthly)}/month equates to{" "}
             {metrics.rentPercent}% of the {formatGBP(metrics.avgSalary)} gross
-            baseline, while Band{" "}
-            {metrics.councilTaxBand} council tax in {city.region} averages{" "}
-            {formatGBP(metrics.avgCouncilTax)} per year.
-          </p>
-          <p>
-            Use the calculator above to model your exact take-home figure —
-            weekly, monthly, and annual — before committing to a job offer or
-            rental agreement in {city.cityName}.
+            benchmark, while Band {metrics.councilTaxBand} council tax in{" "}
+            {city.region} averages {formatGBP(metrics.avgCouncilTax)} per year.
           </p>
         </div>
       </section>
@@ -77,16 +73,7 @@ export function CityContentGuide({ city }: CityContentGuideProps) {
           {jobHeading}
         </h2>
         <p className="mt-4 text-base leading-relaxed text-slate-500">
-          The typical average gross salary here is around{" "}
-          <strong className="font-medium text-slate-900">
-            {formatGBP(averageSalary)}
-          </strong>{" "}
-          based on <strong>official UK regional salary baselines</strong> and
-          current {city.region} labour market data. Earning above this threshold
-          puts you in a strong financial position within the local market.
-          {population
-            ? ` With a working population of roughly ${population.toLocaleString("en-GB")} residents, ${city.cityName} offers a competitive ${city.region} job market across public sector, healthcare, retail, and professional services.`
-            : ` ${city.cityName} sits within a competitive ${city.region} job market spanning public sector, healthcare, retail, and professional services.`}
+          {jobMarketInsight}
         </p>
       </section>
 
