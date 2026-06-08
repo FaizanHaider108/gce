@@ -17,7 +17,7 @@ export function HomeEditorialPolicy() {
       </h2>
       <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-600 sm:text-base">
         <p>
-          Global Calculator Engine is built and maintained by a cross-functional
+          uktaxcalculation is built and maintained by a cross-functional
           squad of financial compliance professionals, chartered accountants, and
           senior system developers. We are not an anonymous utility — our{" "}
           <Link href="/about" className="font-medium text-emerald-600 hover:underline">

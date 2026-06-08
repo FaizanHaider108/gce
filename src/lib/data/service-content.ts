@@ -1,3 +1,5 @@
+import { SITE_NAME } from "@/lib/site/config";
+
 export interface ServiceContentBlock {
   slug: string;
   metaTitle: string;
@@ -15,7 +17,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "self-assessment-tax-returns": {
     slug: "self-assessment-tax-returns",
     metaTitle:
-      "HMRC Self-Assessment Tax Return Filing Services | Global Calculator Engine",
+      `HMRC Self-Assessment Tax Return Filing Services | ${SITE_NAME}`,
     metaDescription:
       "Expert HMRC Self-Assessment filing for sole traders, directors, landlords, and high earners. ACCA-aligned UK accountants handling deductions, deadlines, and penalty mitigation.",
     intro:
@@ -33,7 +35,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "vat-returns": {
     slug: "vat-returns",
     metaTitle:
-      "Making Tax Digital (MTD) VAT Return Services UK | Global Calculator Engine",
+      `Making Tax Digital (MTD) VAT Return Services UK | ${SITE_NAME}`,
     metaDescription:
       "MTD-compliant VAT return preparation, quarterly HMRC filing, and Xero/QuickBooks reconciliation for UK businesses above the £90,000 threshold.",
     intro:
@@ -51,7 +53,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "bookkeeping-bank-reconciliations": {
     slug: "bookkeeping-bank-reconciliations",
     metaTitle:
-      "Professional Bookkeeping & Bank Reconciliation Services UK | Global Calculator Engine",
+      `Professional Bookkeeping & Bank Reconciliation Services UK | ${SITE_NAME}`,
     metaDescription:
       "Cloud bookkeeping, bank reconciliations, and cashflow reporting for UK SMEs, freelancers, and limited companies. Xero and QuickBooks integration with Companies House-ready records.",
     intro:
@@ -69,7 +71,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "year-end-accounts": {
     slug: "year-end-accounts",
     metaTitle:
-      "Year-End Accounts & Companies House Filing Services UK | Global Calculator Engine",
+      `Year-End Accounts & Companies House Filing Services UK | ${SITE_NAME}`,
     metaDescription:
       "Statutory year-end accounts, directors' reports, and CT600 Corporation Tax preparation for UK limited companies. Chartered accountants ensuring Companies House and HMRC compliance.",
     intro:
@@ -87,7 +89,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "ct600-corporation-tax": {
     slug: "ct600-corporation-tax",
     metaTitle:
-      "CT600 Corporation Tax Return Filing Services UK | Global Calculator Engine",
+      `CT600 Corporation Tax Return Filing Services UK | ${SITE_NAME}`,
     metaDescription:
       "Expert CT600 Corporation Tax preparation, iXBRL tagging, and HMRC electronic filing for UK limited companies. Chartered accountants managing payment deadlines and penalty mitigation.",
     intro:
@@ -105,7 +107,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "cis-returns": {
     slug: "cis-returns",
     metaTitle:
-      "CIS Returns & Construction Industry Scheme Services UK | Global Calculator Engine",
+      `CIS Returns & Construction Industry Scheme Services UK | ${SITE_NAME}`,
     metaDescription:
       "Monthly CIS returns, subcontractor verification, and deduction management for UK contractors and construction firms. HMRC-compliant CIS filing with penalty avoidance.",
     intro:
@@ -123,7 +125,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "payroll-services": {
     slug: "payroll-services",
     metaTitle:
-      "UK Payroll Services & RTI HMRC Submissions | Global Calculator Engine",
+      `UK Payroll Services & RTI HMRC Submissions | ${SITE_NAME}`,
     metaDescription:
       "Full-service UK payroll: RTI submissions, payslips, pension auto-enrolment, and HMRC compliance for SMEs, agencies, and growing teams. Chartered payroll specialists.",
     intro:
@@ -141,7 +143,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "management-accounts": {
     slug: "management-accounts",
     metaTitle:
-      "Management Accounts & Financial Reporting Services UK | Global Calculator Engine",
+      `Management Accounts & Financial Reporting Services UK | ${SITE_NAME}`,
     metaDescription:
       "Monthly and quarterly management accounts, KPI dashboards, and cashflow forecasting for UK business owners and finance directors. Xero and QuickBooks integrated reporting.",
     intro:
@@ -159,7 +161,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContentBlock> = {
   "tax-planning": {
     slug: "tax-planning",
     metaTitle:
-      "Strategic UK Tax Planning & HMRC Optimisation Services | Global Calculator Engine",
+      `Strategic UK Tax Planning & HMRC Optimisation Services | ${SITE_NAME}`,
     metaDescription:
       "Legitimate UK tax planning for directors, sole traders, and high earners. Dividend optimisation, pension contributions, R&D credits, and capital gains strategies from chartered advisers.",
     intro:

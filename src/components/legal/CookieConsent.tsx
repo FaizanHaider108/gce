@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SITE_NAME } from "@/lib/site/config";
 
 const STORAGE_KEY = "gce-cookie-consent-v1";
 
@@ -36,7 +37,7 @@ export function CookieConsent() {
     >
       <div className="mx-auto flex max-w-5xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-relaxed text-slate-600">
-          Global Calculator Engine uses essential cookies and analytics to
+          {SITE_NAME} uses essential cookies and analytics to
           improve our UK salary calculators. By continuing, you consent to
           storage as described in our{" "}
           <Link href="/privacy" className="font-medium text-emerald-600 hover:underline">

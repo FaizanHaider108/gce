@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_NAME } from "@/lib/site/config";
 
 interface FinancialDisclaimerProps {
   className?: string;
@@ -13,7 +14,7 @@ export function FinancialDisclaimer({ className = "" }: FinancialDisclaimerProps
     >
       <p className="font-semibold text-amber-900">Disclaimer</p>
       <p className="mt-2">
-        Global Calculator Engine is an estimation utility mapped to projected
+        {SITE_NAME} is an estimation utility mapped to projected
         UK/Scottish tax brackets for the 2026/27 fiscal year. While our
         calculations are synchronized with baseline HMRC data, individual
         financial liabilities vary based on student loans, corporate benefits,

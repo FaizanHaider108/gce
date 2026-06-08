@@ -33,7 +33,7 @@ export default function UKCalculatorDirectoryPage() {
           UK Salary Calculator Directory
         </h1>
         <p className="text-base leading-relaxed text-slate-500">
-          Global Calculator Engine hosts {cities.length} localized HMRC-aligned
+          uktaxcalculation hosts {cities.length} localized HMRC-aligned
           salary calculators spanning{" "}
           <strong className="font-medium text-slate-700">England</strong>,{" "}
           <strong className="font-medium text-slate-700">Scotland</strong>,{" "}
