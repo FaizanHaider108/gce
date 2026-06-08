@@ -6,7 +6,7 @@ import { getSiteUrl } from "@/lib/site/config";
 export const metadata: Metadata = {
   title: "UK Financial Resource Hub — Tax, Salary & Career Guides",
   description:
-    "Editorial guides on UK tax, National Insurance, regional salary benchmarking, cost of living, negotiation, and highest-paying occupations — by uktaxcalculation.",
+    "Editorial guides on UK tax, National Insurance, regional salary benchmarking, cost of living, negotiation, and highest-paying occupations — by Global Calculator Engine.",
   alternates: {
     canonical: `${getSiteUrl()}/guides`,
   },
@@ -20,7 +20,7 @@ export default function GuidesHubPage() {
           UK Financial Resource Hub
         </h1>
         <p className="text-base leading-relaxed text-slate-500">
-          uktaxcalculation is a content-driven financial resource — not
+          Global Calculator Engine is a content-driven financial resource — not
           just a tool collection. These foundational guides connect directly to
           our 254+ city salary calculators for airtight topical authority.
         </p>

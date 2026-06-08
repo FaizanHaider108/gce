@@ -2,6 +2,10 @@ export interface CityMetadata {
   averageSalary?: number;
   costOfLivingIndex?: number;
   population?: number;
+  /** Localized gross annual earnings baseline — derived when omitted. */
+  cityMedianSalary?: number;
+  /** Top local employment industries — derived from economic tier when omitted. */
+  dominantSectors?: string;
 }
 
 export interface UKCity {

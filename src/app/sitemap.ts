@@ -95,6 +95,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
 
+      url: `${SITEMAP_BASE_URL}/blog/uk-tax-guide-2026`,
+
+      lastModified: new Date(),
+
+      changeFrequency: "monthly",
+
+      priority: 0.8,
+
+    },
+
+    {
+
       url: `${SITEMAP_BASE_URL}/about`,
 
       lastModified: new Date(),

@@ -25,7 +25,7 @@ export function HomeHero({ totalCities, defaultCity }: HomeHeroProps) {
           {HOME_H1}
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-slate-500 sm:text-lg">
-          uktaxcalculation delivers hyper-local, HMRC-accurate salary
+          Global Calculator Engine delivers hyper-local, HMRC-accurate salary
           calculators across {totalCities}+ UK cities. Instantly model Income Tax,
           National Insurance, and net pay — built for professionals, relocators,
           and anyone negotiating their next offer.

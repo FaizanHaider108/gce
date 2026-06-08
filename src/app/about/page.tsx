@@ -7,9 +7,9 @@ import { LEAD_FINANCIAL_ARCHITECT } from "@/lib/site/trust-profile";
 import { LegalPageLayout } from "@/components/legal/LegalPageLayout";
 
 export const metadata: Metadata = {
-  title: "About uktaxcalculation | UK Chartered Tax Professionals",
+  title: "About Global Calculator Engine | UK Chartered Tax Professionals",
   description:
-    "About uktaxcalculation — ACCA-aligned UK tax professionals, HMRC 2026/27 salary calculators, and chartered accounting services led by qualified financial architects.",
+    "About Global Calculator Engine — ACCA-aligned UK tax professionals, HMRC 2026/27 salary calculators, and chartered accounting services led by qualified financial architects.",
   alternates: {
     canonical: `${getSiteUrl()}/about`,
   },
@@ -19,9 +19,9 @@ export default function AboutPage() {
   const architect = LEAD_FINANCIAL_ARCHITECT;
 
   return (
-    <LegalPageLayout title="About uktaxcalculation">
+    <LegalPageLayout title="About Global Calculator Engine">
       <p>
-        uktaxcalculation is a UK-focused financial technology platform
+        Global Calculator Engine is a UK-focused financial technology platform
         built to deliver transparent, HMRC-aligned salary and tax estimation
         tools for professionals, relocators, and corporate finance teams across
         every major city and region in the United Kingdom.
@@ -111,7 +111,7 @@ export default function AboutPage() {
           Professional accounting services
         </h2>
         <p>
-          Beyond our free estimation tools, uktaxcalculation connects
+          Beyond our free estimation tools, Global Calculator Engine connects
           businesses and individuals with qualified UK tax professionals and
           corporate specialists. Our service routes cover VAT Returns, CT600
           Corporation Tax filings, Year-End Accounts, payroll operations, and
@@ -125,7 +125,7 @@ export default function AboutPage() {
           Editorial &amp; data accuracy policy
         </h2>
         <p>
-          uktaxcalculation commits to financial precision above growth
+          Global Calculator Engine commits to financial precision above growth
           metrics. Our editorial standard requires every tax threshold, NI band,
           and regional salary baseline to be validated weekly against active HMRC
           publications and ONS regional earnings releases. City-page industry

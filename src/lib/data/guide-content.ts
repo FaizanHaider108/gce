@@ -13,7 +13,7 @@ export const GUIDE_ARTICLES: Record<string, GuideArticle> = {
         heading: "Understanding PAYE Income Tax in 2026/27",
         paragraphs: [
           `UK employees pay Income Tax through Pay As You Earn (PAYE). For the ${UK_TAX_YEAR} tax year, the Personal Allowance remains the foundation of every calculation — earnings below this threshold incur no Income Tax. Above it, England, Wales, and Northern Ireland use standard UK bands (basic 20%, higher 40%, additional 45%), while Scotland applies its own devolved band structure.`,
-          "uktaxcalculation synchronizes every city page against published HMRC thresholds weekly. When you enter a gross salary, the engine computes band-by-band tax, applies Personal Allowance taper for high earners above £100,000, and outputs weekly, monthly, and annual net figures.",
+          "Global Calculator Engine synchronizes every city page against published HMRC thresholds weekly. When you enter a gross salary, the engine computes band-by-band tax, applies Personal Allowance taper for high earners above £100,000, and outputs weekly, monthly, and annual net figures.",
         ],
       },
       {
@@ -31,7 +31,7 @@ export const GUIDE_ARTICLES: Record<string, GuideArticle> = {
       {
         heading: "How Regional Baselines Are Constructed",
         paragraphs: [
-          "uktaxcalculation does not copy stale per-city JSON averages. Instead, each of the 254+ city pages applies a region-tier economic model — Greater London, South East, Mid Tier, and Baseline — with deterministic micro-variance per city name to prevent artificial salary bucketing.",
+          "Global Calculator Engine does not copy stale per-city JSON averages. Instead, each of the 254+ city pages applies a region-tier economic model — Greater London, South East, Mid Tier, and Baseline — with deterministic micro-variance per city name to prevent artificial salary bucketing.",
           "ONS Annual Survey of Hours and Earnings (ASHE) regional datasets inform our tier boundaries. When comparing Manchester against London, always model net pay under the correct tax jurisdiction rather than comparing gross alone.",
         ],
       },

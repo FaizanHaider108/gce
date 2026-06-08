@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import { CityCalculatorHero } from "@/components/calculator/CityCalculatorHero";
 import { CityContentGuide } from "@/components/calculator/CityContentGuide";
 import { CityEconomicSnapshot } from "@/components/calculator/CityEconomicSnapshot";
+import { CityEssentialResources } from "@/components/calculator/CityEssentialResources";
 import { CityPostCalculatorNarrative } from "@/components/calculator/CityPostCalculatorNarrative";
+import { CitySalaryIntentComparison } from "@/components/calculator/CitySalaryIntentComparison";
+import { CityWageBenchmarking } from "@/components/calculator/CityWageBenchmarking";
 import { CityProfessionalLandscape } from "@/components/calculator/CityProfessionalLandscape";
 import { CityServerTaxBreakdown } from "@/components/calculator/CityServerTaxBreakdown";
 import { EducationalResources } from "@/components/calculator/EducationalResources";
@@ -132,6 +135,14 @@ export default async function UKCitySalaryPage({
           grossSalary={salaryState.grossSalary}
           isExplicitSalary={salaryState.isExplicitSalary}
         />
+
+        <CityWageBenchmarking city={city} />
+
+        <CitySalaryIntentComparison
+          city={city}
+          grossSalary={salaryState.grossSalary}
+          isExplicitSalary={salaryState.isExplicitSalary}
+        />
       </section>
 
       <div className="mt-6">
@@ -152,6 +163,7 @@ export default async function UKCitySalaryPage({
       <CityContentGuide city={city} />
       <NearbyCities city={city} />
       <EducationalResources city={city} />
+      <CityEssentialResources city={city} />
 
       <div className="no-print mt-12 w-full rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
         <h2 className="mb-6 text-2xl font-bold text-slate-900">

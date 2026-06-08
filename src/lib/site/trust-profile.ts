@@ -11,5 +11,5 @@ export const LEAD_FINANCIAL_ARCHITECT = {
   firmRegistrationNumber: "ACCA Practice Registration: PRN-UK-482917",
   /** Placeholder LinkedIn verification profile — update before production launch. */
   linkedInUrl: "https://www.linkedin.com/in/sarah-mitchell-fcca-uk-tax",
-  bio: "Sarah leads tax engine validation and HMRC compliance sweeps for uktaxcalculation. She holds Fellowship status with ACCA, specialises in UK Income Tax, Corporation Tax, and Scottish band differentials, and oversees quarterly manual updates against Finance Act revisions.",
+  bio: "Sarah leads tax engine validation and HMRC compliance sweeps for Global Calculator Engine. She holds Fellowship status with ACCA, specialises in UK Income Tax, Corporation Tax, and Scottish band differentials, and oversees quarterly manual updates against Finance Act revisions.",
 } as const;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookOpenIcon } from "lucide-react";
 import { GUIDE_PILLARS, getGuidePath } from "@/lib/data/guide-pillars";
+import { SITE_NAME } from "@/lib/site/config";
 import type { UKCity } from "@/types/location";
 
 interface EducationalResourcesProps {
@@ -53,7 +54,7 @@ export function EducationalResources({ city }: EducationalResourcesProps) {
           href="/guides"
           className="font-semibold text-emerald-600 hover:underline"
         >
-          Browse the full uktaxcalculation resource hub →
+          Browse the full {SITE_NAME} resource hub →
         </Link>
       </p>
     </section>
