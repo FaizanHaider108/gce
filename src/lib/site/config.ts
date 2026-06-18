@@ -27,6 +27,10 @@ export const CANONICAL_SITE_URL = "https://globalcalculatorengine.vercel.app";
 /** Public-facing website brand name */
 export const SITE_NAME = "uktaxcalculation";
 
+/** Google Analytics 4 measurement ID */
+export const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-6JPG3EMK0E";
+
 /** Primary corporate contact for uktaxcalculation */
 
 export const CORPORATE_EMAIL = "hello@globalcalculatorengine.com";
